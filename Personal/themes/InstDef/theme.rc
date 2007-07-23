@@ -1,0 +1,86 @@
+;--- InstDef
+;---   Default minimal theme that comes with LiteStep Open-Source Installer (LOSI)
+;---   Just a very basic theme to see that everything works
+
+OTSMajorVersion 2
+OTSMinorVersion 0
+
+ThemeName		"InstDef"
+ThemeVersion	"0.2"
+ThemeAuthor		"Tobbe"
+
+;--- Colors
+
+ColorDark    a58f65
+ColorLight   d5cab5
+ColorBorder  3d3423
+ColorText    262116
+
+;--- NetLoadModule
+;---   Load all modules needed for the theme
+
+*NetLoadModule jdesk-0.711
+*NetLoadModule xtaskbar-1.1.5
+*NetLoadModule vtray-1.10
+*NetLoadModule popup2-2.1.7
+*NetLoadModule lsxcommand-1.9.3
+*NetLoadModule icondesk-0.68
+
+;--- jDesk
+;---   Set the work area (the area a maximized window will occupy)
+
+jDeskWorkArea "0, 0, 0, -44"
+
+;--- Popup2
+;---   The menu you get when rightclicking the desktop
+;---   Will be very simple without any images
+
+HotlistName             $ThemeName$
+PopupNoBevel
+PopupAutoSeparator
+PopupTitleBgColor       $ColorDark$
+PopupGradientSelEntry   $ColorDark$
+PopupEntryColor         $ColorText$
+PopupEntryBgColor       $ColorLight$
+PopupSelEntryBgColor    $ColorDark$
+
+;--- lsxCommand
+;---   Commandbox used to execute !bangs, run programs, do maths and internet searches
+
+CommandX            0
+CommandY            -40
+CommandWidth        $ResolutionX-199$
+CommandHeight       21
+CommandBorderSize   1
+CommandBGColor      $ColorLight$
+CommandBorderColor  $ColorBorder$
+CommandTextColor    $ColorText$
+
+;--- xTaskbar
+;---   I list of all running programs
+
+xTaskbarX                      0
+xTaskbarY                      -20
+xTaskbarWidth                  $ResolutionX$
+xTaskbarHeight                 21
+xTaskbarUseSolidColors         true
+xTaskbarSolidColors            $ColorLight$ $ColorBorder$ $ColorBorder$
+xTaskbarSolidBevelSize         1
+xTaskbarFontColor              $ColorText$ 
+xTaskbarLeftBorder             1
+xTaskbarTopBorder              1
+xTaskbarRightBorder            1
+xTaskbarMaxButtonWidth         200
+xTaskbarNormalFontLeftBorder   17
+
+;--- vTray
+;---   Systray icons, these are the icons that you normaly see next to the clock in Explorer
+
+vTrayX             -200
+vTrayY             -40
+vTrayWidth         200
+vTrayHeight        21
+vTrayAlwaysOnTop   true
+vTrayBgColor       $ColorLight$
+vTrayBorderColor   $ColorBorder$
+vTrayBorderSize    1

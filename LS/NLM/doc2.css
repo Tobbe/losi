@@ -1,0 +1,334 @@
+body {
+	background-color: #ddd;
+	color: #000000;
+	font-family: verdana, sans-serif;
+	font-size: 9pt;
+	padding: 1em;
+	margin: 0;
+}
+
+div.entry {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 68em;
+	background-color: #fff;
+	border: 1px solid #888;
+	padding: 0;
+	text-align: justify;
+	float: left;
+	margin: 1em;
+}
+
+a:link, a:visited, a:active {
+	color: #00a;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 4px;
+	margin: -4px;
+	z-index: 2;
+}
+a[href]:link, a[href]:visited, a[href]:active {
+	/* hover is faster this way, but ie doesn't understand "transparent" */ 
+	padding: 3px;
+	border: 1px solid transparent;
+}
+a:link:hover, a:visited:hover, a:active:hover {
+	color: #fff;
+	background: #00a;
+	border-color: #000;
+	z-index: 2;
+}
+
+a[name]:active {
+	color: inherit;
+	font-weight: inherit;
+	background: inherit;
+	border: none;
+	padding: 0;
+	margin: 0;
+	text-decoration: inherit;
+}
+
+div.docinfowrapper {
+	width: 5.4em;
+	height: 2.6em;
+	margin: 1.5em;
+	padding: 0;
+	float: right;
+	font-size: .8em;
+	text-align: left;
+}
+div.docinfo {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 5.4em;
+	height: 2.6em;
+	overflow: hidden;
+	margin: 0;
+	padding: .2em;
+	border: 1px solid #eee;
+	color: #eee;
+	background: #777;
+	line-height: 2em;
+}
+div.docinfo:hover {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	position: relative;
+	left: -14.6em; /* 20 - 5.4 */ 
+	width: 20em;
+	height: auto;
+	padding: .2em;
+	z-index: 2;
+	border: 1px solid #000;
+	color: #000;
+	background: #fff;
+}
+div.docinfo h4 {
+	color: inherit;
+	margin: 0;
+	margin-left: .15em;
+	padding: .1em;
+}
+div.docinfo:hover h4 {
+	margin: .4em;
+	margin-top: 0;
+	padding: .1em;
+	border-bottom: 1px solid #000;
+}
+div.docinfo p {
+	margin: .6em;
+}
+div.docinfo dt {
+	float: left;
+	width: 8.5em;
+	color: #000;
+}
+div.docinfo dl {
+	margin: .6em;
+}
+
+div.data {
+	margin-left: 1em;
+}
+
+p.desc {
+	margin: 0;
+}
+p.info {
+	padding-left: 1.5em;
+}
+div.fulldoc {
+	text-align: right;
+}
+div.summary {
+	padding: 1em 5em 1em 5em;
+}
+div.section {
+	padding: 1em 5em 1em 5em;
+}
+dt.definition, dt.command, dt.bang, dt.revt, dt.var {
+	margin: .5em;
+	margin-top: 1.5em;
+	font-family: monospace;
+	font-weight: bold;
+}
+dt.definition-short, dt.command-short, dt.bang-short, dt.var-short {
+	margin: .5em;
+	margin-top: 1.5em;
+    margin-bottom: -1.25em;
+	font-family: monospace;
+	font-weight: bold;
+}
+dd.cmddoc, dd.revd {
+	border-left: 1.5em solid #f6f6f6;
+	/* fix IE's evil creep bug: http://www.positioniseverything.net/explorer/creep.html */ 
+	border-bottom: 1px solid #fff;
+	margin-left: 1.5em;
+	margin-right: 2em;
+	padding: .4em 0 .4em 1em;
+}
+dd.grpdoc {
+	border-left: 1.5em solid #f6f6f6;
+	/* fix IE's evil creep bug: http://www.positioniseverything.net/explorer/creep.html */ 
+	border-bottom: 1px solid #fff;
+	margin-left: 1.5em;
+	margin-right: 2em;
+	margin-top: 1.5em;
+	padding: .4em 0 .4em 1em;
+}
+div.table-caption {
+  font-weight: bold;
+  border: 1px solid #888;
+  color: #008;
+  border-bottom: 0;
+  background: #eee;
+  padding: .25em;
+  font-size: .8em;
+}
+dl.table {
+  margin-top: 0;
+  border: 1px solid #888;
+  background: #f8f8f8;
+  padding: .5em;
+}
+dl.table dt {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 12em;
+  float: left;
+  font-family: monospace;
+  font-weight: bold;
+}
+dl.table dd {
+  margin: .5em;
+  padding-left: 12em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: .25em;
+}
+table.index {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 50em; /* ie renders %s wrong (differently) */
+    font-size: 1em; /* otherwise breaks in html with moz.firebird, but not xml... */
+}
+table[class="index"] {
+	width: 98%; /* for gecko and opera */ 
+}
+table.index th {
+	border-width: 1.2em 0 .2em 0;
+	border-color: #fff;
+	border-style: solid;
+	padding: .3em 0 .3em 1em;
+	background: #f6f6f6;
+	text-align: left;
+}
+table.index td {
+	vertical-align: top;
+	padding-left: 1.5em;
+}
+ul.revision { list-style: none; padding: 0; margin: 0; }
+li.added:first-letter { color: #06a; font-size: 1.6em; }
+li.fixed:first-letter { color: #0a0; font-size: 1.6em; }
+li.changed:first-letter { color: #aa0; font-size: 1.6em; }
+li.removed:first-letter { color: #a00; font-size: 1.6em; }
+div.para {
+	margin: 1em 0 1em 0;
+}
+div.example {
+	margin: .8em -.2em .8em -.2em;
+	border: 1px dashed #00a;
+	padding: .5em;
+}
+h2 {
+	color: #eee;
+	font-size: 2em;
+	margin: -1px;
+	margin-bottom: 0;
+	background: #00a;
+	padding: .5em;
+	border: 1px solid #000;
+}
+
+div.footer {
+	background: #00a;
+	color: #fff;
+	margin: -1px;
+	margin-top: 0;
+	border: 1px solid #000;
+	padding: .8em;
+}
+
+h4 {
+	color: #000;
+	font-size: 1.4em;
+	margin: 1em;
+	border-bottom: 1px solid #000;
+	padding: 1em;
+	padding-bottom: .15em;
+	clear: both;
+}
+
+ul.toc {
+	list-style: none;
+	text-align: center;
+	margin-left: 4em;
+	padding-left: 4em;
+}
+
+ul.toc li {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	margin: .25em;
+	padding: 0;
+	float: left;
+}
+
+ul.toc li a:link,
+ul.toc li a:visited,
+ul.toc li a:active {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 16em;
+	height: 4em;
+	display: block;
+	margin: 0;
+	padding: .5em;
+	text-align: center;
+}
+
+dl.itemlist, blockquote.object, ul.itemlist, ul.commands {
+	margin: 0 0 0 1.5em;
+	padding: 0;
+}
+dl.itemlist dt {
+	float: left;
+}
+dl.itemlist dd, ul.itemlist li, ul.commands li {
+	margin: 0;
+	display: block;
+}
+
+dl.hash { margin-top: 0; color: #000; }
+dl.hash dt { float: left; clear: left; }
+dl.hash dt:after { content: ':'; }
+dl.hash dd { margin-left: 8em; font-family: monospace; }
+small.param {
+	border: 1px solid #000;
+	padding: 1px;
+	margin: .3em;
+	font-size: 70%;
+	font-weight: bold;
+	color: #008;
+	font-family: verdana, sans-serif;
+}
+
+small.oparam {
+	border: 1px solid #888;
+	padding: 1px;
+	margin: .3em;
+	font-size: 70%;
+	font-weight: bold;
+	font-style: italic;
+	color: #88c;
+	font-family: verdana, sans-serif;
+}
+
+span.again small.param {
+	color: #aad;
+	border-color: #aaa;
+	font-style: italic;
+	font-family: verdana, sans-serif;
+}
+span.repeat { color: #888; }
+
+span.type {
+	color: #008;
+}
+span.comment {
+	color: #060;
+}
+span.prefix {
+	color: #888;
+	font-style: italic;
+}

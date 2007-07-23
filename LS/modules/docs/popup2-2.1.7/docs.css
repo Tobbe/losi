@@ -1,0 +1,11 @@
+BODY, TD { font-family: Verdana, Arial, sans-serif; font-size: 100%;}
+TABLE.main {background: #ffffff;}
+TR.item { background: #dddddd; }
+TR.menu {background: #bbbbbb; text-align: right;}
+TR.border {background: #000000; height: 1px;}
+TD.data { font-size: 90%;  }
+.title { font-size: 110%; font-weight: bold; }
+.info { font-size: 80%;  }
+.head { font-size: 110%; font-weight: bold; margin: 15px; }
+.body { font-size: 90%; text-align: justify; margin: 15px; }
+A { text-decoration: none; }

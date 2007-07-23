@@ -1,0 +1,851 @@
+LsxCommand 1.9.2 changelog file:
+================================
+
+   All the step.rc syntax changes are reported in the lsxcommand.html file,
+   so don't worry.  This file is just aimed at having a changelog file so you
+   know which version does what.
+
+   Contact informations :
+   ----------------------
+      This module has been updated by various people, in alphabetical order.
+
+      blkhawk:    blkhawk__AT__blkhawk__DOT__de
+      Eddie:      litestep__AT__litestep__DOT__wuzzle__DOT__org
+      ilmcuts:    ilmcuts__AT__gmx__DOT__net
+      jesus_mjjg: jesus_mjjg__AT__skynet__DOT__be
+      rabidcow:   rabidcow__AT__juno__DOT__com
+      Seg@:       inform-sega__AT__freemail__DOT__ru
+
+      Don't forget that litestep developers usually hide on irc.freenode.net ,
+	  in #litestep or #lsdev.
+
+   Changelog:
+   ==========
+   
+   Version 1.9.3 (Eddie/rabidcow)
+   -------------
+  
+     New Features
+     ````````````
+         - CommandNoTrailingZeros - Prevents the trailing zeros when using 
+	   the calculator.
+	 - CommandCalcPrecision - Sets the precision of the calculator
+	   (Sig Figs) Default: 6 (as per 1.9.2).
+	 - CommandMarginLeft, CommandMarginRight - Sets the margins of the 
+	   edit box. Default: 0.
+
+     Bug fixes
+     `````````
+         - History now works!! 
+	 - File autocompletion fixed.
+	 - The edit box now shows the last character properly when auto-
+	   scrolling.
+	 - History entries are no longer one more than CommandHistoryEntries. 
+
+     Changes
+     ```````
+     	- Microcomplete now stops at the backslash character, as well as at a
+	  space like it did before (so you can microcomplete pathnames).
+	- Made lsxcommand focus the topmost window (which isn't a "tool" 
+	  window) when it is hidden.
+	- If CommandTabFileComplete is enabled, and CommandNoTabMicroComplete 
+	  is set, the Tab key can now also be used to autocomplete files.
+
+
+   Version 1.9.2 (rabidcow)
+   -------------
+
+     New Features
+     ````````````
+         - CommandOn... for everything that had a custom event and Quit.
+
+     Bug fixes
+     `````````
+         - History browsing goes the right way now.
+
+   Version 1.9.1 (rabidcow)
+   -------------
+
+     New Features
+     ````````````
+         - better error messages, unless you turn them off
+         - CommandWrapHistory will make history wrap, like in 1.9.0
+         - pgup/pgdn/ctrl+home/ctrl+end move in history list now
+
+     Bug fixes
+     `````````
+         - CommandAssumeNetAddress should work again
+         - CommandNoWarnOnError should work again (and not setting it)
+         - executing stuff should work better  (not sure how to explain it, I
+           made some bad assumptions about the return values of LSExecute)
+         - you can set a position to 9 in CommandContextMenuOrder and it will
+           not cause a (check settings) in the menu
+         - CommandSearchEngineBrowser should work again
+         - history does not wrap by default
+         - a command consisting of nothing aside from whitespace will not
+           break the history list on restart
+
+     Changes
+     ```````
+         - history is written to the file after every command instead of just
+           on exit (and in !CommandClearHistory)
+
+   Version 1.9.0 (rabidcow)
+   -------------
+
+     Note
+     ````
+         Most of the fixes in 1.8.6 were fixed in parallel or rendered
+         irrelevant by a larger structural change, so 1.8.6 changes may not be
+         exactly present in 1.9.0 (and may be duplicated below).
+         Exceptions are:
+
+         - GetPrivateProfileString change (heavily modified because of the
+           rewritten history list code), although I think that just treated
+           the symptom rather than curing it, the rewrite should've killed it.
+           (hey, I need some excuse now that I've done all that work...)
+         - CommandHideOnEsc
+
+         (VarExpansionEx change was not merged in because MAX_LINE_LENGTH is
+         the default maximum for VarExpansion, so it won't make a difference.)
+
+     New Features
+     ````````````
+         - !CommandSize: Change the size of the command box.
+		   also "!CommandSize home"
+		 - !CommandShowText: Like !CommandSetText, but without setting focus.
+		 - *CommandChar: single-char aliases like ? and =
+		 - !CommandCalculate: perform calculation, default for =
+		 - !CommandSearch: perform search, default for ?
+		 - The default search engine has a check mark next to it in the menu.
+           (assuming that you set the default near the beginning of the file)
+         - Aliases can be organized into categories, and can use <args>
+         - CommandTextAlign left|center|right
+         - you can use "*CommandAlias stop" to end the alias list
+
+     Bug fixes
+     `````````
+         - Removed some sizeof(char) where pointer arithmatic handles it
+           (sizeof(char) == 1 by definition, but still...)
+		 - buffer overflow reading settings, apparently was extra naughty on
+		   purels
+		 - (jesus_mjjg) OnUnfocus should now work when HideOnUnfocus is not
+		   set
+		 - there was a remote possibility that certain OnUnfocus commands
+		   could cause litestep to "stop responding to messages", fixed.
+         - The context menu will show up over the edit box when you press the
+           "app" key.
+
+     Changes
+     ```````
+		 - Stores new entries to history list before $constant$ expansion
+		 - !CommandMove uses more standardishly arguments
+		 - CommandTransparentEditBox is almost obsolete.  Now using flicker-
+		   free method, which doesn't really work on Win95 (not supported by
+		   OS), but works better everywhere else.  Still not perfect
+		   unfortunately, no idea why.
+		 - Docs/XML converted to lsmd-0.3p "unofficial" format ;)
+		   (xslt included to convert back to lsdoc)
+		 - Much cleanup and fixes of evil code.  "atoi(&atom)" indeed...
+		 - Reimplemented search engine and alias lists with hash tables.
+		   These now use common code for a lot of things, so you can have
+		   categorized menus for aliases and load the search engine list
+		   from step.rc (aliases from a file are also possible, but there's
+		   no setting for it yet.)  Both should also run faster, but you
+           almost certainly won't notice.
+		 - Reimplemented history and autocomplete file lists with a cleaner,
+		   clearer code structure.
+		 - Context menu implementation now restricts you to 8192 (each)
+		   history entries, aliases, and search engines, but I think you'd
+		   have to worry about resource usage before then.  (You can have
+		   more, but the context menu won't work right for more than that.)
+		   Also, aliases and search engines are now limited to a maximum of 8
+		   categories deep.  (an arbitrary limit to make the code easier)
+         - added macro to project to help creating those tedious function
+           comment blocks in MSVC6.
+
+   Version 1.8.6 (29.03.2004; jugg/Seg@)
+   -------------
+     Bug fixes
+     `````````
+         - jugg's buffer size bugfix added
+           (no more crash if CommandOnFocus and CommandOnUnfocus actions contain
+           more than 255 characters)
+         - custom cz_LCTokenize function replaced with a call of LS core's
+           LCTokenize (they are similar!)
+         - HistoryInit() rewritten using GetPrivateProfileString() API call.
+           Custom implementation of procs that are available in the Windows
+           kernel is at least strange thing :)
+           Also it would solve a problem with unknown spaces.
+           (Windows think that spaces is a part of comment and left them in
+           WritePrivateProfileString call (i.e. when modules.ini is written on
+           !Quit), but on the next LS start HistoryInit() reads these spaces as
+           a part of command, usually other, since numbers changed :) )
+         - History is now written before eVar expansion. Is there anybody
+           who think that
+           !alert "X:\Documents and Settings\Seg@\Desktop\"
+           is more informative that
+           !alert "$Desktop$" ?
+         - VarExpansion changed to VarExpansionEx.
+           Don't know about fanatics who can type very long strings with
+           very long eVars, but everything can be...
+         - Fixed typos in managing transparent edit boxes
+           (don't know how it works though :) )
+
+     New Features
+     ````````````
+         - CommandHideOnEsc
+
+   Version 1.8.5 (jesus_mjjg/ilmcuts)
+   -------------
+     New Features
+     ````````````
+         - CommandTextBold, CommandTextUnderline and CommandTextItalic.
+         - CommandStretchBackground.
+     
+     Bug fixes
+     `````````
+         - Fixed multiple access violations
+         - Fixed some pointers being used without any prior validation
+
+     Changes
+     ```````
+         - Docs/XML converted to the Litestep "official" format.
+     
+   Version 1.8.4 (ilmcuts/rabidcow)
+   -------------
+     New Features
+     ````````````
+     - CommandHistoryFile
+	   Specifies the file lsxcommand stores its history in. Defaults to
+	   modules.ini.
+
+     Bug Fixes
+     `````````
+	 - Fixed tab completion crashing lsxcommand.
+	 - Fixed a few font issues.
+	 - In certain situations lsxcommand should no longer steal focus from the
+	   foreground app.
+	 - (rabidcow) Fixed some resource leaks.
+
+   Version 1.8.3 (jesus_mjjg)
+   -------------
+     Bug Fixes
+     `````````
+     - If lsxcommand was loaded in a box, CommandStartHidden wouldn't work,
+	   now it does.
+
+     New Features
+     ````````````
+     - CommandOnFocus
+       Will execute a command when you !FocusCommand
+     - CommandOnUnfocus
+       Will execute a command when you un-focus lsxcommand (get out of the
+	   edit box)
+     - Now there is a module version in the about box/ls control panel
+
+   Special Version for lsbox 2.75
+   ------------------------------
+     New Features
+     ````````````
+     - !CommandBoxHook
+       This is used with lsbox:
+       *ModuleHook !CommandBoxHook
+       Please check the LsBox documentation
+
+
+   Version 1.8.2
+   -------------
+     Bug Fixes
+     `````````
+     - Fixed !CommandMove home making LSXCommand invisible
+
+     New Features
+     ````````````
+     - !CommandMove has absolute position support
+       See !CommandMove documentation below.
+
+   Version 1.8.1
+   -------------
+     Bug Fixes
+     `````````
+     - Added CommandMusicPlayer
+     - Fixed newer build compatibility
+     - Fixed AlterScript Run-Twice bug (thanks to Chris Rempel for the fix)
+
+   Version 1.8.0
+   -------------
+     Bug Fixes
+     `````````
+     - Fixed CommandNoWarnOnError
+     - Fixed locality stuff for international users
+
+   Version 1.7.9
+   -------------
+     Bug Fixes
+     `````````
+     - Fixed DarkStep Compatibility
+     - Linked against a fresh lsapi.dll, so this *should* fix problems
+       people had loading LSXCommand 1.7.8.  Drop me a line if not
+
+   Version 1.7.8
+   -------------
+     Documentation Changes
+     `````````````````````
+     - Calculator documentation entirely revamped to reflect all the new
+       and cool features - CHECK IT OUT!
+     - Added lsxcommand.rc to the package - just a list of all the
+       RC commands and !Bang commands.
+     - Documentation reflects new location of the Japanese translation
+
+     Bug Fixes
+     `````````
+     - AutoComplete bug is fixed!  The fix *might* make AutoComplete work
+       not *exactly* as planned, but at least it won't crash any more.
+
+     New Features
+     ````````````
+     - New Timer management
+     - Entirely new calculator code (Mad props to Jonas Sicking for coding
+       this stuff - credit entirely belongs to him for the calculator now)
+
+   Version 1.7.7
+   -------------
+     Documentation Changes
+     `````````````````````
+     - It turns out Mr. Kawamoto isn't a Professor after all ("merely
+       a student" to put it in his words).  Well, at least he's a
+       Ph. D. candidate :)
+     - Kudos section fixed & updated - check out the new entry.
+     - Updated CommandClock section to include new !Bangs supported
+       by LSXCommandClock
+
+     Bug Fixes
+     `````````
+     - Fixed CommandNoWarnOnError bug when entering a path
+     - !CommandMove now automatically calls !FocusCommand *if*
+       it was called without any arguments (ie you want it to move to
+       the current mouse position)
+     - Aliases now properly parse out stuff like the following:
+       *CommandAlias IE "C:\program files\internet explorer\..."
+       Thanks to TAMUKI-TAM for sending the patch to this bug.
+
+     New Features
+     ````````````
+     - LSXCommand is now offered in Japanese.. TAMUKI-TAM is the guy
+       who localized LSXCommand to use Japanese characters and
+       Mr. Kawamoto, as I said before, has translated the readme to
+       Japanese - thanks again!
+     - Added following !Bang commands (see section II.3 for details):
+
+       * !CommandToggleTimer / !CommandClockToggleTimer
+       * !CommandSetText
+
+   Version 1.7.6
+   -------------
+
+     Documentation Changes
+     `````````````````````
+     - Kudos section has a few new entries - check them out!
+     - CommandBorderSize documentation added
+
+     Bug Fixes
+     `````````
+     - Fixed !CommandMove bug
+     - Fixed Working Directory problems
+
+     New Features
+     ````````````
+     - When !CommandMove/!CommandClockMove is called without
+       parameters, it moves to the current cursor position.  I would
+       recommend using CommandHideOnUnfocus with this.
+       Also, if you !CommandMove has the parameter "home", it moves
+       back to the original position found in step.rc
+     - Added following RC Commands:
+
+       * Command + Bottom | Top | Left | Right + BorderSize
+         (ie. CommandTopBorderSize, CommandLeftBorderSize...)
+
+     Notes
+     `````
+     Be *sure* to read the CommandBorderSize documentation if you
+     are interested in using CommandBottom/Top/Left/RightBorderSize
+
+   Version 1.7.5
+   -------------
+   More bug fixes; new features
+
+     Documentation Changes
+     `````````````````````
+     - Fixed Ilkka Nisula's name.
+     - Updated Search Engine list documentation to reflect
+       "categories"
+     - Updated Section II.1 to note that new engines are only added
+       to the master search engine list available on my web site.
+
+     Bug Fixes
+     `````````
+     - Fixed !CommandBrowse* crashes
+
+     New Features
+     ````````````
+     - Added Mike Thrall's code for moving LSXCommand via a !Bang
+       (see below)
+     - Added category feature to Search Engine list (see the end of
+       section II.1 for details)
+     - Added following !Bang Commands:
+
+       * !CommandMove / !CommandClockMove
+
+     - Added following Search Engines (see section II.1 for details)
+
+       * DVDExpress
+       * CodeGuru
+       * ZDNet HotFiles
+
+   Version 1.7.4
+   -------------
+   Bug fixes, bug fixes, bug fixes...
+
+     Documentation Changes
+     `````````````````````
+     - Documentation now reflects change from CommandClock to
+       CommandTime
+
+     Bug Fixes
+     `````````
+     - Fixed AlterScript to work like Killarny's script.dll
+       Meaning, understanding the LoadScript RC Commands
+     - Fixed !CommandBrowseFile & !CommandBrowseFolder crashing bugs
+     - Fixed CommandCommaDelimiter problems (stupid infinite loops)
+     - Fixed the weird LSXCommand/CommandClock problem: if you have
+       the *original* LSXCommand with a CommandClock entry, then
+       you must change this to CommandTime (see Notes for more info)
+
+     New Features
+     ````````````
+     - Added switch WinAmp/Clock mode on mouse click in
+       LSXCommandClock (not in LSXCommand).
+     - Added following RC Commands:
+
+       * CommandAddExternalsToHistory
+
+     - Added following search engines:
+
+       * AudioFindMP3 (MP3 search engine - audiofind.com)
+       * PalaVista    (MP3 metacrawler - palavista.com)
+
+     Notes
+     `````
+     It turns out the problem lies in LSAPI, and not LSXCommand or
+     LSXCommandClock.  In any case, the original CommandClock RC
+     Command (before there ever was a LSXCommandClock) now is named
+     CommandTime.  The LSXCommandClock RC Command "CommandClockString"
+     is still the same.  So, if you have the original LSXCommand still
+     with a CommandClock entry, change it to CommandTime.  NOTE:
+     CommandClockDisappearsOnFocus is still the same.
+
+       Example: CommandClock "#c"  -->  CommandTime "#c"
+
+   Version 1.7.3
+   -------------
+   A couple of features, bug fixes
+
+     Bug Fixes
+     `````````
+     - Fixed File AutoComplete junk characters error
+
+     New Features
+     ````````````
+     - Separate AlterScript module (see section II.11 for details)
+     - Separate clock module (see section II.10 for details)
+     - Added following !Bang Commands:
+
+       * !CommandBrowseFile
+       * !CommandBrowseFolder
+
+   Version 1.7.2
+   -------------
+   Mostly bug fixes & two feature additions
+
+     Documentation Changes
+     `````````````````````
+     - Added section II.9 for Tab File Completion feature
+
+     Bug Fixes
+     `````````
+     - Fixed !CommandHide & !CommandShow problems
+     - Fixed CommandHiddenOnStart problems (again)
+     - Fixed Paste menu item problems
+
+     New Features
+     ````````````
+     - New positioning system (see Notes below)
+     - Added file name tab completion like Re5ource's popups
+       (see section II.9)
+     - Added following RC Commands (see section II.2 for details)
+
+       * CommandSearchEngineBrowser
+       * CommandWinAmpDisappearsOnFocus
+       * CommandHideOnUnfocus
+       * CommandTabFileComplete
+       * CommandOffsetX
+       * CommandOffsetY
+
+     Notes
+     `````
+     In the new positioning system, CommandOffsetX/Y are used to
+     decide from where LSXCommand should compute its position.  The
+     following table lists the combinations of CommandOffsetX/Y and
+     CommandX/Y and what they do:
+
+       CommandOffsetX/Y:
+         0  -  Reference from Left/Top (default)
+         1  -  Reference from Center of Horizontal/Vertical
+         2  -  Reference from Right/Bottom
+
+       CommandX/Y:
+         These values now tell how many pixels away from the point
+         described by CommandOffsetX/Y LSXCommand should be.
+
+     For instance, using the following values will have LSXCommand
+     be placed 2 pixels to the left of horizontal center, at the very
+     bottom of the screen:
+
+       CommandOffsetX 1
+       CommandOffsetY 2
+       CommandX      -2
+       CommandY      -14  (Same as negative of CommandHeight)
+
+     If you leave your settings the way they are, they will work as
+     before.
+
+     To turn on file name tab completion, be sure to turn *on*
+     CommandTabFileComplete and CommandNoTabMicroComplete.  I know
+     this is a bit clunky, but deal with it please... :)  I didn't
+     test it too extensively, but it seems to be working quite
+     well on my system..  Of course, we know what that means...
+
+   Version 1.7.1
+   -------------
+   Just bug fixes and a few features
+
+     Documentation Changes
+     `````````````````````
+     - Added number conversion information to Calculator
+       Functionality section (section II.6)
+     - Added multiple number bases information to Calculator
+       Functionality section (section II.6)
+     - Changed the original lscommand's readme file.  Many
+       people asked about why CommandHideOnStart doesn't work.
+       This is because there is no such thing.. it is
+       CommandHiddenOnStart.  That solves that mess.
+
+     Bug Fixes
+     `````````
+     - Fixed Comma Delimiter problem(s)
+     - Caught up with the Kudos section of this readme. :)
+     - Fixed bug with CommandContextMenuOrder
+     - Fixed Clock that never came back after a command
+     - Fixed any problems with CommandHiddenOnStart with
+       CommandBackground
+
+     New Features
+     ````````````
+     - Calculator supports limited number converion
+     - Calculator supports binary & hexadecimal numbers (see section
+       II.6)
+     - You can now stop any of the History / Alias / Search Engine
+       submenus from coming up by setting them to 9 instead of 0, 1,
+       or 2.
+     - Added following RC Commands (see section II.2 for details)
+
+       * CommandScrollWinAmpTitle
+       * CommandContextMenuStandardItems
+
+     - Added following !Bang Commands (see section II.3 for details)
+
+       * !Command
+       * !CommandShow
+       * !CommandHide
+
+     - Added following search engines (see section II.1 for details)
+
+       * OLGA  - On-Line Guitar Archive
+       * UBL   - Ultimate Band List
+       * CDNow - Search for CDs
+
+     Notes
+     `````
+     CommandScrollWinAmpTitle scrolls the current WinAmp title *if*
+     WinAmp's "Scroll Song Title in Windows Taskbar" preference is
+     on.  Also, you *can* have a clock and the WinAmp scroller - but
+     the WinAmp scroller takes precedence.  Therefore, the WinAmp
+     scroller will show when there is a WinAmp to scroll.  If not,
+     LSXCommand will show a clock (if the clock setting is specified)
+
+   Version 1.7
+   -----------
+   New features...
+
+     Documentation Changes
+     `````````````````````
+     NOTE: This section notifies you about changes to existing
+     documentation.  New documentation is not listed here.  Pay
+     close attention to Section II, since all major features have
+     their own documentation added under this section.
+
+     - Added note about RPN functionality to Calculator section II.6
+     - Added shameless plug <g> for the full engines.list at my web
+       site in section II.4.
+
+     Bug Fixes
+     `````````
+     - Proper handling of border sizes (retheming may be required)
+
+     New Features
+     ````````````
+     - Added following RC Commands (see section II.2 for details)
+
+       * CommandNoAutoComplete
+       * CommandCommaDelimiter
+       * CommandTransparentEditBox
+       * CommandBackground
+       * CommandRPNCalculator
+       * CommandClock
+       * CommandClockDisappearsOnFocus
+
+     Notes
+     `````
+     While doing some theming of LSXCommand myself, I noticed that
+     when I set BorderSize to 0, it still had a border around it.
+     I fixed that kind of stuff in this revision.  NOTE: Some re-
+     theming may be required.
+
+     If you set CommandTransparentEditBox on for whatever reason, you
+     *WILL* see flashing while typing in the command box.  No doubt.
+     I strongly suggest reading section II.2 for more about
+     transparency and backgrounds.
+
+   Version 1.5.3
+   -------------
+   Just a couple of bug fixes in the new command parser from 1.5.2
+   and another feature.
+
+     Bug Fixes
+     `````````
+     - Fixed the junk characters being launched as an Internet
+       Address when CommandAssumeNetAddress is turned on.
+     - Fixed history saving commands that were quoted paths alone
+       multiple times
+     - Fixed multiple explorer windows
+
+     New Features
+     ````````````
+     - Added following RC Commands (see section II.2 for details)
+
+       * CommandSelectAllOnMouseFocus
+       * CommandExplorePaths
+
+   Version 1.5.2
+   -------------
+   More bug fixes - most related to string parsing and memory
+   allocation.  Programmers: forgive me!  I didn't check all the
+   NULL pointers I was supposed to!  I only hope I caught all of
+   them in this release...
+
+   Quote of the release: What was I smoking when I released 1.5.1
+   anyway?
+
+     Bug Fixes
+     `````````
+     - Fixed Calculator () crashing bug
+     - Fixed multiple history menu entries of same command
+     - Fixed times when history menu wouldn't do anything
+     - Fixed No-Argument searching (not possible now)
+     - Fixed case when CommandNewestHistoryItemsOnTop was *not* on
+     - Fixed LSXCommand hiding / showing itself on inappropriate
+       commands from the context menu
+     - Fixed command parsing by rewriting code - woopee!!
+
+     New Features
+     ````````````
+     - Totally re-written command parser  (This is also a bug fix)
+     - Added following engines:
+
+       * IMDB	- Search for movies by title at imdb.com
+
+     Notes
+     `````
+     This section will just comment on the new command parser, since
+     it's not big enough for it's own section.
+
+     The new command parser allows for anything to be quoted.
+     However, do NOT try and use quoted names for aliases and search
+     engines in your configuration files yet - they just aren't
+     implemented.  I want this release to entirely stabilize before
+     adding other features and moving on to other stuff for a while.
+
+     Anyway, back to the parser.  Before, things like this would not
+     run: (Let's say you have an alias of: nt notepad)
+
+       "nt" c:\litestep\step.rc <ENTER>
+       "nt c:\litestep\step.rc" <ENTER>
+
+     The first, now, *will* run.  The second *will NOT* run.  This
+     should be obvious: the first explicitly says nt is a command
+     of its own.  The second says the whole line is a command of its
+     own.  Since there is no command that fits this at all, nothing
+     will happen.
+
+     Also, quoted paths are now allowed.  So, you can now use
+
+       "c:\program files\something"
+
+     to launch files.
+
+     LSXCommand now operates in the following fashion when given a
+     command:
+
+       - Try against Aliases
+       - See if it fits !Bang / Calculator / Search
+       - If not, try to execute the command and parsed arguments
+       - If this does not work, but the command *was* a path,
+         then try the whole line alone.  If it wasn't a path,
+         your AssumeNetAddress setting kicks in and decides whether
+         or not to launch your browser.
+
+
+   Version 1.5.1
+   -------------
+   A QBF: Quick Bug Fix and one feature
+
+     Bug Fixes
+     `````````
+     - Fixed all one word commands.  Seemed to be really broken, eh?
+
+     New Features
+     ````````````
+     - Added following RC Commands (see Section II.2 for details)
+
+       * CommandUnixHistory
+
+
+   Version 1.5
+   -----------
+   Features, features, features:
+
+     Documentation Changes
+     `````````````````````
+     NOTE: This section only relates to changes made to documentation
+     that existed prior to the current version.
+
+     - Added information about how to make engine entries for engines
+       using POST method instead of GET.  (See section II.4)
+
+     Bug Fixes
+     `````````
+     - Fixed memory leak on every autocomplete
+     - Fixed bug where people couldn't edit their engines.list
+       while LSXCommand was loaded.
+     - Fixed bug where, if you don't have CommandClearOnHide or
+       CommandNoClearOnCommand *was* on, the history wasn't in the
+       correct place the next time you used lsxcommand.  (Didn't
+       catch that, did ya?!)
+     - Fixed bug where quoted paths / search phrases were ignored.
+
+     New Features
+     ````````````
+     - Version Resource added for completeness.
+     - Calculator Functionality (see Section II.6 for details)
+     - Tab-MicroComplete (see Section II.5 for details
+     - Context Menu Command Access (see Section II.5 for details)
+     - Quoted Paths and Quoted Search Phrases
+     - Added following RC Commands: (see Section II.2 for details)
+
+       * CommandNoWarnOnError
+       * CommandHistoryMenuEntries
+       * CommandNewestHistoryItemsOnTop
+       * CommandContextMenuAboveBox
+       * CommandContextMenuExecute
+       * CommandContextMenuOrder
+       * CommandClearHistoryOnStartup
+       * CommandAssumeNetAddress
+
+     - Added following !Bang Commands: (see Section II.3 for details)
+
+       * !CommandClearHistory
+       * !CommandShowContextMenu
+
+     - Added following engines:
+
+       * BigBook - Find businesses in all 50 US states
+       * BarnesAndNoble - Find books at Barnes & Nobles
+       * MediaFindMP3 - Use Mediafind for MP3 searching
+       * Reel - Find movies by title
+       * Archieplex - Huge Archie (FTP) database
+       * Filez - Search with Filez.com
+       * Shareware - C|Net Shareware.com
+       * NorthernLight - A real search engine.. :)
+       * OpenText - Another search engine
+       * InfoSpace - ''
+       * GoTo - ''
+       * Pathfinder - ''
+       * MetaCrawler - ''
+       * Top5 - Top 5% of all web sites (so they say..)
+       * A2Z - The Lycos A2Z guide
+       * AskJeeves - The famous ask jeeves
+       * MerckMan - The Merck Manual
+       * APWire - The Associated Press Wire
+       * WhoWhere - E-Mail search
+       * LibraryOfCongress - Search *the* Library
+       * Finger - finger user@hostname
+       * NSLookup - NSLookup...
+       * LettermanTop10 - Search Dave Letterman's Top Ten
+       * Anonymizer - Anonymize yourself!
+
+
+   Version 1.1.1
+   -------------
+   Just one bug fix, but important:
+
+     New Features
+     ````````````
+     - Added following search "engines":
+
+       * Dictionary	- searches Merriam-Webster's Dictionary
+       * Thesaurus	- searches Merriam-Webster's Thesaurus
+       * OTH		- Archie search for MP3s, I think...
+       * FOLDOC		- Free On-Line Dict. Of Computing
+       * Quote		- Quote.Com stock quotes
+       * FileDemon	- Software search of major sites
+
+     Bug Fixes
+     `````````
+     - Bug where you couldn't edit your step.rc as long as
+       lsxcommand.dll was loaded.
+     - Same bug for engines.list
+
+
+   Version 1.1
+   -----------
+   A few bug fixes and a little bit more...
+
+     New Features
+     ````````````
+     - Added Select All on Focus by specifying
+       CommandSelectAllOnFocus in the step.rc
+     - Added 'Aliasing' - this allows you to "bind" a single word to
+       a lengthy command.  For instance, you can specify 'step.rc'
+       to be "notepad c:\litestep\step.rc"
+     - Added following search "engines":
+
+       * UPS		(?UPS 1Z99999999) - UPS shipment tracking
+       * FedEx		(?FedEx 90923012) - FedEx shipment tracking
+       * Airborne	(?Airborne 21039) - Airborne Express tracking
+
+     Bug Fixes
+     `````````
+     - Fixed bug where number of entries reported was wrong
+       (this is an internal code fix - just good bookkeeping)
+     - Added the engines.list file to the archive

@@ -1,0 +1,290 @@
+- To do:
+  - Protection of weird char in *On command (ex: <7)
+  - Check per pixel alpha support
+  - Use getrccoordinate in lsbox hook and use lsbox size for maxsize positioning?
+  - Use real icon routines to avoid magic pink with smooth icons, test:
+	why is creating icons from hbmBuffer making the icons display in half size (16->8), while outline is correct size?
+
+Changelog:
+- Added [Vtray / Vendicator / 2004-03-06, release 1.10]
+  - Added ![Tray]MoveBy bang.
+  - Renamed [Tray]CheckOnCommands to [Tray]DoNotCheckOnCommands so it can be on by default,
+    makes scripting easier.
+
+- Added [VTray / Vendicator / 2003-12-26]
+  - Added configurable mouse commands, including the special command .drag, which starts to
+    drag the tray window in to another position, only to be used with middle/left/right button down.
+
+- Added [VTray / Vendicator / 2003-12-14]
+  - Added an experimental session based icon saving to registry to prevent loosing icons
+    on ls crash/quit, graphics can not be saved though so only blanks will be restored,
+	disabled by default, check [Tray]RememberIcons.
+  - Moved adding of bang commands until window is created.
+
+- Fixed [VTray / Vendicator / 2003-10-19]
+  - Fixed *On commands crash (misnumbered arrays)
+  - "Stole" some changes from systray2 (thanks ilmcuts) including the foreground issue of winamp and wharfborder def. value
+
+- Fixed [VTray / Vendicator / 2003-08-09, release 1.06]
+  - Fixed MultipleConfigReader, which I had previously broken causing hide/flash/on to not work...
+
+- Changed [VTray / Vendicator / 2003-08-09, release 1.05]
+  - Creating real tinted icon and using windows icon drawing functions.
+
+- Fixed [VTray / Vendicator / 2003-08-01]
+  - Fixed a scrolling issue when the size of the tray was enough to fit all icons.
+
+- Fixed [VTray / Vendicator / 2003-08-01]
+  - Fixed error in detecting "prev" argument.
+  - Debug builds autosets LSLogLevel to 4.
+
+- Added [VTray / Vendicator / 2003-07-30, release 1.04]
+  - Added [Tray]IconScrollStep, to define how many icons to move per scroll.
+  - Fixed reverse order of icons after a scroll "next" then "back".
+  - Fixed possible GDI leak and a tooltip problem.
+  - Fixed the icon counting/tooltip deletion, fixing last gdi leak.
+
+- Fixed [VTray / Vendicator / 2003-07-28, release 1.03]
+  - Jugg sent in a fix to get tooltips above all windows.
+
+- Fixed [VTray / Vendicator / 2003-07-26, release 1.02]
+  - Fixed starting auto scroll value.
+  - Scrolling to next cannot hide all icons, nothing will happen on last line.
+  - Using strstr to do a substring search on scroll icon arguments, matching "next" as well as next.
+
+- Fixed [VTray / Vendicator / 2003-07-25, release 1.01]
+  - Fixed wharf loading.
+  - Default wrap count is auto calculated from window size when wharfed.
+
+- Fixed [VTray / Vendicator / 2003-07-24]
+  - Fixed !VTrayScrollIcons, use with small fixed tray windows.
+  - Fixed special flash tinting, default flash tint to normal tint.
+  - Added !VTrayIconCleaning
+
+- Changed [VTray / Vendicator / 2003-07-21]
+  - Using Hover class for mouse overs.
+  - Updated docs.
+
+- Changed [VTray / Vendicator / 2003-07-19]
+  - Moved bitmap/color skinning out to separate class.
+
+- Changed [VTray / Vendicator / 2003-07-16]
+  - Reading settings through prefixed settings reader to allow for settings compatibility.
+  - Broke TrayIcon class down in to a general, reusable Icon class and built TrayIcon on top.
+
+- Changed [VTray / Vendicator / 2003-07-15]
+  - Finished TrayIcon class.
+  - Renamed some functions in vtray to have more consistent naming.
+  - Added #pragma's to get rid of all those annoying C4786 warnings from STL.
+  - Trying to reduce painting by checking update rect when painting icons, only invalidating modified icons.
+  - Increased icon hiding resolution to seconds.
+
+- Changed [VTray / Vendicator / 2003-07-14]
+  - Moved icon handling functions to make TrayIcon a self contained class.
+  - Made the tooltip work as a singleton
+  - Deleted when hiding icon to prevent it from accidentally getting passed to another icon.
+
+- Changed [VTray / Vendicator / 2003-07-12]
+  - Fixed some copy pasate errors regarding hidden/shown list.
+  - Changed show/hide to only include status when scrolling.
+  - Deleting/Recreating tooltips when hiding to try to remove bug with hidden
+    icons tooltip carrying over to another icon.
+
+- Changed [VTray / Vendicator / 2003-07-11]
+  - Switched to stl::list for icon storage
+
+- Changed [VTray / Vendicator / 2003-07-10]
+  - Using CountingBangRunner to store and use on add/del commands
+
+- Changed [VTray / Vendicator / 2003-07-09]
+  - Using GuiWindow class for handling of common functions.
+  - Using MultipleConfigReader for hide/flash reading, separate storage class for each.
+
+[VTray branch started / 2003-07-09]
+
+- Fixed [systray2 / Vendicator / 2003-06-09]
+  - Removed an unnecessary pointer from flashing/hiding icons configs
+
+- Fixed [systray2 / ilmcuts / 2003-05-13]
+  - Fixed alwaysontop state.
+
+- Fixed [systray2 / Vendicator / 2003-04-05]
+  - Added extra checks that NIF_TIP is set on icons in hide/flash checks
+
+- Fixed [systray2 / Vendicator / 2003-02-03]
+  - Made LS the parent window on ontop configs to remove it from tasklists
+
+- Fixed [systray2 / Vendicator / 2003-02-01]
+  - Fixed accidentally running the add command twice when an icon is added (thanks psynapse)
+
+- Fixed [systray2 / Vendicator / 2003-01-31]
+  - Invalidating whole window on icon update again, forgot that the bg needed painting ;)
+  - Fix a missing endpaint() in the iconbuffer creation
+
+- Changed [systray2 / Vendicator / 2003-01-22]
+  - Added a bitmap buffer for each icon that is used when tinting is on
+  - Moved tinting to set icon, so the tinted icon is only updated when icon is,
+    not on all redraws like before, reduces cpu usage with tinting on quite a lot.
+
+- Added [systray2 / Vendicator / 2003-01-18]
+  - Added setting SystrayCheckOnCommands to check the oncommands if using dynamic vars
+  - Fixed so that the evars are exported last now (found that it did the previous size before)
+  - Changed so that systray2 isn't created as child to desktop when ontop
+
+- Fixed [systray2 / Vendicator / 2002-12-20]
+  - Added check for autoadjust with timer cleaning
+
+- Fixed [systray2 / Vendicator / 2002-11-14]
+  - Found a gdi leak from not removing a test region when checking transp.
+
+- Fixed [systray2 / Vendicator / 2002-09-15]
+  - Fixed autosizing always happening in !refresh
+
+- Fixed [systray2 / Ilmcuts / 2002-09-08]
+  - OnNumList2, ignoreTag, and flashTag weren't initialized to NULL in the constructor.
+
+- Changed [systray2 / Vendicator / 2002-08-26]
+  - Removed internal icons counter and using a function check instead for !bang commands
+  - Exported the following evars:
+  $SystrayCurrentIcons$, $SystrayCurrentX$, $SystrayCurrentY$, $SystrayCurrentHeight$, $SystrayCurrentWidth$
+
+- Fixed [systray2 / Vendicator / 2002-08-17]
+  - Fixed update check to only use the title and not icon change, will allow for
+    hiding of zonealarm for instance
+  - Jesus_mjjg's fix temporarily disabled until the reason why systray also sets
+    it self above all windows is determined
+
+- Fixed [systray2 / Vendicator / 2002-08-12]
+  - Fixed a small mem leak (2bytes per flash config read)
+  - Merged icon removal between hidden&shown icons
+  - Tweaked more code to save some cycles here and there
+
+- Fixed [systray2 / Jesus_mjjg / 2002-07-26]
+  - Shouldn't tooltip windows be always on top of any other window ?
+    now they are (but maybe i could make that cleaner)
+
+- Added [systray2 / Vendicator / 2002-07-18]
+  - Added setting "SystrayAlwaysFlashOnMatch", which continues to flash an icon even when
+    icon is activated, this means that it will only stop when the match of the icon stops
+	(ie icon removed, or tooltip doesn't match no more). If used with no tooltip and a
+	flash limit, it the icon will only be able to flash once (since that is always matched).
+
+- Fixed [systray2 / Vendicator / 2002-07-09]
+  - Added an extra #define so that whichever strange os/msvc version can compile this again.
+
+- Changed [systray2 / Vendicator / 2002-07-08]
+  - Changed flash format to:
+	*systrayflash "classname" "title (optional)" flashes/update
+	to be able to specify max flashes, 0 to flash until you click the icon.
+	This means that the icon won't flash anymore until you activate it (even if it's updated again).
+  - Added setting "SystrayFlashInScreensaver", to specify if flashing should
+    occur even when a screensaver is running, the flashing will most likely turn off the screensaver.
+
+- Fixed [systray2 / Vendicator / 2002-07-02]
+  - Rewrote the adjustsize algorithm, previous seemed to fail sometimes when hiding icons
+  - Moved more code around, most settings read through functions, makes editing startup behaviour easier (!refresh, !recycle, startup)
+  - Fixed !refresh some more... sometime tray isn't visible in lsbox, when does this happen?
+  - Fixed a bug in the move code
+  - Added systrayAlign which accepts a string like "right bottom" to define from which corner
+    systray should be placed, defined size might give strange results.
+
+- Added [systray2 / Vendicator / 2002-07-01]
+  - Added output of window classes to log file (lv3) on !systrayinfo for easier config of hiding/flashing
+  - Added scroll flashing on icon update through code from taskbar3,
+    needs window classname, optional tooltip text (case sensitive, check log file).
+  - Added mouse enter / leave !bang running.
+  - Restructured how checks flash&hide checks are made, saves some cycles.
+  - Fixed *Wharfmodule from LSBox, thanks to someone who I lost the mail from for pointing it out.
+  - Started implementation of !refresh... still a little flaky
+  - Ilmcuts noticed that the previous hue code used BGR format, changed to RGB even though a warning
+    from grd was present in the code, but it's checked and doesn't appear to have any problems.
+
+- Fixed [systray2 / Vendicator / 2002-06-17]
+  - On recycle the remove commands were removed before run, fixed.
+
+- Fixed [systray2 / Sci / 2002-06-16]
+  - Stole a one-liner from the geOShell tray service, the right click menu is
+    now closed when it loses focus!
+
+- Updated [systray2 / Vendicator / 2002-06-10]
+  - Did some code cleanup & added some more logging with #ifdef
+  - Fixed saturation misspelling =)
+
+- Updated [systray2 / ilmcuts / 2002-06-09]
+  - the minimum value for systrayIconSize is now 1 instead of 0
+  - fixed warnings about signed/unsigned int conflicts
+  - tweaked wharf/lsbox compatibility (hopefully positive)
+  - misc tweaks (thanks to Maduin for the new ontop code)
+
+- Fixed [systray2 / Vendicator / 2002-06-08]
+  - Fixed wierd systray placement bug that affected some ppl.
+
+- Added [systray2 / Vendicator 2002-06-06]
+  - Added grdTrays icon effects, hue & saturation (grdtray never wanted to work on my comp)
+    Settings:systrayIconHueIntensity systrayIconHueColor systrayIconSaturation.
+
+- Fixed [systray2 / Vendicator / MickeM / 2002-05-31]
+  - MickeM started fixing some memory leaks and I continued..
+  - Icon was set to NULL on update before it tried to delete it... fixed
+
+- Added [systray2 / Vendicator / 2002-05-30]
+  - Checks systray size in timer when "SystrayTimerCleaning" is used.
+  - Killed timer too
+  - Added !SystrayIconInfo, mainly for debugging purposes.
+  - Moved and grouped functions better in the source =)
+
+- Fixed [systray2 / Vendicator / 2002-05-29]
+  - Fixed b0rked lsbox support, thanks to Maestr0 for pointing it out.
+
+- Added [systray2 / Vendicator / 2002-05-28]
+  - Added cleaning of crashed programs on timer, use "SystrayTimerCleaning".
+  - Fixed a routine which didn't handle hidden icons before.
+  - Added log of deleted icons
+
+- Fixed [systray2 / Sci / 2002-05-22]
+  - Multiline tooltips now works (DUN icon)
+
+- Added [systray2 / Vendicator / 2002-05-17]
+  - Implemented icon hiding base on window class name.
+    Format: *systrayhide Window_Class_Name min_inactive_before_hiding
+  - Added SystrayIconTimer, which set how often to do the check for inactive icons
+    defaults to every minute, setting 0 disables check.
+  - Added !SystrayShowIcons to display any hidden icons.
+  - Added some logging, watch out on loglevel 4 =)
+  - Rewrote the systray2kad stuff to skip vector notation...
+  - Todo: Testing
+
+- Problem [systray2 / Vendicator / 2002-05-06]
+  - Works in lsbox and on desktop, but I'm guessing not in a wharf...
+
+- Fixed [systray2 / Vendicator / 2002-05-05]
+  - Added compensation for lsbox position, needed when using autoresize in lsbox.
+  - Entered the systray2kad hacks for command execution on add/del of icons.
+
+- Fixed [systray2 / Vendicator / 2002-05-02]
+  - Added lsbox support, seems to hide if the tray resizes, watch of with autoresize...
+
+- Fixed [systray2 / Vendicator / 2002-04-15]
+  - Now using GetRCCoordinates to get X,Y position
+
+- Fixed [systray2 / Message / 2001-11-26]
+  - Stripped everything out of it except for basic gui, this modulewill not run
+    without a new build
+
+- Fixed [systray2 / Message / 2001-11-21]
+  - Added Windows2000 and WindowxXP support. Seems to work fine when first loaded,
+    but after a recycle w2k loses its volume icon and xp loses all icons (?). A simple fix
+    for w2k is to run trayfix.exe after a recycle, and that will put the volume icon back.
+
+    NOTES:
+    The DUN icon uses 4 icons to display status, when NIM_ADD the icons, they all have the
+    same HWND, but differ in NOTIFYICONDATA.uID. To get around this, we only check to see
+    if an icon already exists by HWND only, and not uID. On NIM_MODIFY, we set the uID
+    of any found icon to the modifying icon's uID or problems occur with the mouse handling.
+
+    UnloadShellServiceObjects needs to be called before LM_SAVESYSTRAY is handled or
+    the DUN/Volume icons get saved also and won't be handled properly when the tray is
+    restarted after a recycle.
+
+    (The tooltip on the DUN icon still doesn't handle well. I think this is our implementation
+    and not MS related.) - Fixed by Sci

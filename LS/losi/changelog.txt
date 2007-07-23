@@ -1,0 +1,65 @@
+Originaly I used the commit log at dev.litestep.com as my changelog, but since
+ls.com is down for an unknown period of time I started this changelog instead
+
+2007-01-05: Fixed a misspelling in LanguageStrings.nsh
+            Added the-golem's new icons
+
+2007-01-15: Added the-golem's EvarConfig
+            Added this file to the installation (in SecCore.nsh)
+
+2007-01-16: Added code to refresh the icon cache so the new icons for the
+            different filetypes show up without having to reboot
+            Added German language strings. Thanks Sk33p.
+
+2007-01-17: Added a whole bunch of !ifdef statements to make it easier to
+            choose what pages to include in the installer. This makes testing
+            of a specific page much easier. I also added a new file for the
+            same reason, Pages.nsh
+            Added a descriptive text to the finnishpage telling the user why
+            he/she needs to reboot/logoff.
+
+2007-01-20: Added a check to stop litestep.exe from starting if the user didn't
+            want to set LS as the shell.
+            Moved this changelog to the losi directory.
+            Fixed the internet adress to LOSI in the .url file.
+            The ioHowLS page now displays the username the user would be
+            installing to if (s)he choose to install LS for the current user
+            only.
+            The default IM evar is hardcoded to MSN/Live Messenger. I think
+            that is better than blank as it used to be.
+            Got rid of the two compiler warnings about unused functions by
+            adding !if 1 = 2 !endif around them. This causes them to be
+            removed from the file when compiling.
+            Made SetShell add the regkey "BrowseNewProcess" when setting LS as
+            the shell. I also made it change "Software\Microsoft\Windows NT\
+            CurrentVersion\IniFileMapping\system.ini\boot". This stops
+            explorer from taking over. So now you can use SetShell.exe to set
+            LS as the shell even if it has never been the shell before.
+            Added some nice headers/comments to evars.rc
+
+2007-01-24: Added pfx's icons.
+            Added the new ThemeSwitcher. pfx noticed a while ago that the
+            version of ThemeSwitcher that was included with the installer
+            would crash if any of the theme.rc files in the ls theme dir
+            had "" as ThemeAuthor, ThemeVersion or ThemeName. I fixed
+            when he noticed it, but forgot to add the fixed version to LOSI.
+            I've also updated the default themeslist.rc to use
+            ThemeSwitcher.exe instead of LSThemeInstaller.exe
+
+2007-01-27: LS wouldn't find the theme when installing to AppData. This is
+            now fixed.
+
+2007-02-25: Changed the license text (but not the actual license)
+
+2007-03-03: Began work on a page where you can choose between a "Normal
+			Install" and an "Advanced Install"
+
+2007-07-14: Made the evar configuration during install remeber your
+			choices when going back and forth between the two evar
+			configuration pages. Thanks to jc for finding and fixing
+			this bug.
+			Updated/Added some language strings to LanguageStrings.nsh.
+			Thanks to jc for those too.
+			Made LOSI print the full/long installation path instead of
+			the short, 8.3 version of it. Thanks to jc for telling me
+			to do it :)

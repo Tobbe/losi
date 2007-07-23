@@ -1,0 +1,472 @@
+-----------------------------------------------------------------------------
+Changes for xTaskbar
+-----------------------------------------------------------------------------
+
+1.1.5 Released on 04-10-2004, Changes by Andymon
+
+Info: Not much features, but much work :P Therefore 1.1 -> 1.1.5
+
+- Added:   xTaskbarAlphaMap BOOL
+           AlphaMap Suppport. Short, but mighty :)
+           
+           ALPHAMAP WON'T WORK WITH HOOKED XTASKBARS, except you use an AlphaMapped xLabel-3.2 Parent!!
+           (xLabel-3.2 is not officially released yet with that feature!!
+            Members of www.ls-universe.info can nevertheless test xLabel-3.2-Beta since some time :P )
+           
+           You can make the MainBG as AlphaMap Image and every Button Image CAN have it's own AlphaMap AND AlphaTransparency,
+           remember the old xTaskbar(ButtonType)AlphaBlend (Alpha).
+           For instance, minimized Buttons can use the same Image as Normal, but with only 50% AlphaTransparency.
+
+- Added:   xTaskbarButtonWrapDirection ".top" or ".bottom" in Horizonal Mode and ".left" or ".right" in Vertical Mode
+           The direction in which new tasks are added in MultiLine Taskbars, before they "Wrap" in "xTaskbarButtonDirection".
+           
+- Added:   xModules (xLabel-3.2, xPopup-1.0) AlphaMap Hooking Support.
+
+- Fixed:   Randomly not fully used xTaskbar for Buttons.
+           ( Working to 100% now, but the last Button sometimes is some visible pixels smaller then the others :P )
+
+1.1 Released on 25-09-2004, Changes by Andymon
+
+- Added:   xTaskbar(EntryType)ButtonTrueTransparent BOOL
+           If set, the MagicPink in the (Entrytype)ButtonImage will "cut out" the MainTaskbarBG.
+           Btw.: This is only useful, if you really use a MainTaskbarBG ;) 
+           
+           Attention: This works only, if you use xTaskbarTransparencyMode TRUE, otherwise InActive!
+
+- Added:   System Colors as Default Values for SolidColor Modes.
+           This allows you to setup a quite nice xTaskbar without great effort. :)
+         
+- Changed: Hover State Images are now like Normal Images, they are NO LONGER painted ON
+           the current StateImage, they REPLACE it now like the others!
+           You can still recognize the current State of the Button via Icon- and/or FontSettings.
+           
+           Attention: You need to define either a value for
+                      "xTaskbarUseHoverButtonSolidColors" (and probably a special "xTaskbarHoverButtonSolidColors")
+                      or for
+                      "xTaskbarHoverButtonImage"
+                      to see any effect. Otherwise it's internally deactivated.
+                      
+                      HoverState overrides All other States.
+           
+- Changed: Grouped State Images are now like Normal Images, they are NO LONGER painted ON
+           the current StateImage, they REPLACE it now like the others!
+           You can still recognize the current State of the Button via Icon- and/or FontSettings.
+           
+           Attention: You need to define either a value for
+                      "xTaskbarUseGroupedButtonSolidColors" (and probably a special "xTaskbarGroupedButtonSolidColors")
+                      or for
+                      "xTaskbarGroupedButtonImage"
+                      to see any effect. Otherwise it's internally deactivated.
+                      
+                      GroupedState overrides All States except Hover.
+
+- Changed: Negative Values for xTaskbarButtonXSpacing and xTaskbarButtonYSpacing are now allowed.
+           Overlapping in xTaskbarDirection, means the next "painted" Button is ALWAYS overlapping the previous!
+
+- Fixed:   BevelColor Default Values are now functional for all states.
+           If they should all be the same, you only need to specify them for "Default" or "Normal".
+
+- Fixed:   Evar "xTaskbarHoverTask" wasn't exported, if No Text AND No Tooltip was used.
+
+- Fixed:   Black AntiAliased IconBorder under WinXP, with Colorized Icons.
+
+- Fixed:   MagicPink AntiAliased IconBorder under WinXP, if Icon was painted without a BG, is changed to a Grey one.
+           This isn't so ugly as the Pink one and sometimes even not noticeable.
+
+- Fixed:   Some issues with HoverTask State.
+
+- Fixed:   Problems with SolidColor Default Values, if no "Normal" SolidColors are used.
+
+- Fixed:   Wrong (EntryType)IconY Default Position, if not a Default 16x16 Icon is used.
+
+- Fixed:   Minor Optimizations.
+   
+1.0.6 Released on 04-09-2004, Changes by Andymon
+
+- Fixed:   Standalone Explorer Folders didn't showed their Icon
+
+- Fixed:   Minimizing of Apps on Click, didn't worked all the time.
+
+1.0.5 Released on 28-08-2004, Changes by Andymon
+
+- Added:   xTaskbarDropDelay INT
+           If set, it specifies the time in ms, how long a Dragged File MUST hover over
+           a TaskButton till he's activated (comes to front).
+           Default is 0 -> instantly.
+           
+- Added:   xTaskbarActionsOnButtonDown BOOL
+           If set, the old activation of actions on ButtonDown is used again, instead of ButtonUp.
+
+- Changed: ButtonActions are now executed on ButtonUp instead of ButtonDown.
+
+- Fixed:   Again the "ever returning" GDILeak with *xTaskbarIcon lines. :|
+
+- Fixed:   Some ButtonAction interferences with Drag'n'Drop Task Repositioning.
+
+1.0.3 Released on 22-08-2004, Changes by Andymon
+
+- Fixed:   Icon Problems: I think, that I have now fixed ALL, so we can stop this :)
+
+- Fixed:   Some internal changes, which might save some CPU Cycles.
+
+1.0.2 Released on 18-08-2004, Changes by Andymon
+
+- Changed: Valid for Tasks Captions, which are "Standard", with separating "-".
+           Grouped Tasks now only Show "SuperEdi (2)" instead of "SuperEdi - [step.rc] - Grouped (2)"
+           The Tooltip still specifies the Actual Active FullCaption!
+
+- Changed: All SubString support now "Standard Wildcards", ...
+           Attention: Before a xTaskbarIgnore worked for "SuperEdi", if you could have set 
+           *xTaskbarIgnore "Super"
+           now you MUST follow the "Standards"
+           *xTaskbarIgnore "Super*" or "?uper*" or ...
+
+- Fixed:   With xTaskbarUseGrouping sometimes a Taskbutton was removed, if only a grouped Task
+           was closed. ( This is a "Blind Fix", i never have seen that problem :) )
+
+- Fixed:   Icon Issues especially with Explorer based Apps.
+
+- Fixed:   Exported Evar "xTaskbarHoverTask" was only correctly exported, if either
+           ShowToolTip or ShowHoverState was used.
+           
+- Fixed:   I'm still trying =)
+           Randomly not fully used Taskbar for Buttons (Hopefully working to 100% now.)
+
+1.0.1 Released on 23-07-2004, Changes by Andymon
+
+- Added:   Grouped Tasks open now a Menu on ".select" for easier selecting of the
+           Grouped Task, which should be "selected". No need to go over the RightClickMenu
+           anymore.
+           
+- Changed: In RightClickMenu of GroupedTasksButtons, the Entry's "Close" the Application 
+           instead of "Selecting" it, as before. For selecting see above.
+
+- Changed: ReadMe, maybe ButtonState Setup is a little more understandable now :)
+
+- Changed: DLL Size reduced about 10% :)
+
+- Fixed:   MouseWheel Problems
+
+- Fixed:   Disappearing CustomIcons (*xTaskbarIcon)
+
+- Fixed:   Randomly not fully used Taskbar for Buttons (Hopefully working to 100% now.)
+
+- Fixed:   Updating Issues for Taskbars without Text ("xTaskbarShowText FALSE")
+
+1.0 Released on 11-07-2004, Changes by Andymon
+
+- Added:   xTaskbarAlphaFade and
+           xTaskbarCustomAlphaFade (stepsize) [(delay)]
+           
+           Simply fades Taskbar in and out on Show/Hide (Win2k/WinXP)
+           "CustomAlphaFade" enables a customizable AlphaFade. First value is the amount of
+           Opacity which is added/removed during each step of the Fade. Optional is the
+           Delay Time between the steps.
+
+- Added:   New xTaskbarDisplay Setting "specific"
+           Taskbar shows only the "Specific Tasks", means the taskbar is empty except
+           the tasks which match the *xTaskbarSpecific (taskbarname) (substring) line!
+
+- Added:   Special Image Settings for Grouped Task Buttons
+
+           1. You can ONLY DEFINE BUTTON IMAGE Settings with the New "Grouped" Prefix,
+              No Special Icon or Font Settings!
+           2. The GroupImage is painted ABOVE the current State Image!!
+           3. New settings are
+              xTaskbarGroupedButtonImage
+              xTaskbarGroupedButtonImageLeftEdge
+              xTaskbarGroupedButtonImageRightEdge
+              xTaskbarGroupedButtonImageTopEdge
+              xTaskbarGroupedButtonImageBottomEdge
+              xTaskbarGroupedButtonImageMode
+              xTaskbarGroupedButtonSaturationIntensity
+              xTaskbarGroupedButtonHueIntensity
+              xTaskbarGroupedButtonHueColor
+              xTaskbarGroupedButtonAlphaBlend
+              
+              xTaskbarGroupedButtonUseSolidColors
+              xTaskbarGroupedButtonSolidColors
+              xTaskbarGroupedButtonSolidColorsBevelSize
+              xTaskbarGroupedButtonSolidGradientColors
+              xTaskbarGroupedButtonSolidGradientVertical
+              
+- Changed: Tooltips now show "... - Grouped(_)" to indicated that this is a Grouped TaskButton 
+
+- Changed: Grouping should catch now All Applications correctly, cause now it uses the Exe-Filename
+           (if found) instead of the Classname for checking, if it's the same Application!
+
+- Changed: To Prevent Lost Buttons: 
+           If you use xTaskbarDisplay, without the Default ("ALL" or "Specific"), the Drag 'n Drop Positioning
+           of Buttons isn't available!
+
+- Fixed:   Available Taskbar is now always used till to the last pixel :)
+
+- Fixed:   Again a Horror GDI Leak with *xTaskbarIcon!
+
+- Fixed:   xTaskbarDisplay had serious problems, if "All" (Default) wasn't used.
+
+- Fixed:   Minimized Windows didn't restore to previous state.
+
+- Fixed:   Some possible Exception Reasons with !xTaskbarSwitch
+
+0.9.9 Released on 04-07-2004, Changes by Andymon
+
+The Bang !xTaskbarAlwaysOnTop unites now all Three previous Bangs for controlling AlwaysOnTop.
+Just add the desired State ("True", "False" or "Toggle") to !xTaskbarAlwaysOnTop.
+
+- Added:   Some kind of Explorer like Drop On Taskbar.
+           If you hover over a TaskButton during Dragging a File, the TaskWindow comes to front
+           to allow you to Drop easily in the Window.
+           You cannot Drop on the TaskButton itself ( or better, it doesn't do anything if you do :) ) 
+
+- Added:   Button States:
+           xTaskbarFontOutLine
+           xTaskbarNormalFontOutLine
+           xTaskbarActiveFontOutLine
+           xTaskbarMinimizedFontOutLine
+           xTaskbarFlashingFontOutLine
+           Makes a special Shadow, an 1 Pixel OutLine around the whole letter.
+           You cannot have a Normal Shadow together with a Outline!
+
+- Added:   Button States:
+           xTaskbarFontOutLineColor
+           xTaskbarNormalFontOutLineColor
+           xTaskbarActiveFontOutLineColor
+           xTaskbarMinimizedFontOutLineColor
+           xTaskbarFlashingFontOutLineColor
+           Defines the Color of the OutLine.
+
+- Added:   Main Taskbar:
+           xTaskbarSolidGradientColors (color) [(color)] [(color)] ...
+           If defined, a Gradient is Painted with the BackgroundColor and the specified
+           Gradient Colors. (NO GRADIENT PAINTED ON BORDER!).
+           
+- Added:   Main Taskbar:
+           xTaskbarSolidGradientVertical
+           If defined, a Gradient is Painted vertical instead of horizontal.
+           
+- Added:   Button States:
+           xTaskbarButtonSolidGradientColors (color) [(color)] [(color)] ...
+           xTaskbarNormalButtonSolidGradientColors (color) [(color)] [(color)] ...
+           xTaskbarActiveButtonSolidGradientColors (color) [(color)] [(color)] ...
+           xTaskbarMinimizedButtonSolidGradientColors (color) [(color)] [(color)] ...
+           xTaskbarFlashingButtonSolidGradientColors (color) [(color)] [(color)] ...
+           xTaskbarHoverButtonSolidGradientColors (color) [(color)] [(color)] ...
+           If defined, a Gradient is Painted with the BackgroundColor and the specified
+           Gradient Colors. (NO GRADIENT PAINTED ON BORDER!).
+
+- Added:   Button States:
+           xTaskbarButtonSolidGradientVertical
+           xTaskbarNormalButtonSolidGradientVertical
+           xTaskbarActiveButtonSolidGradientVertical
+           xTaskbarMinimizedButtonSolidGradientVertical
+           xTaskbarFlashingButtonSolidGradientVertical
+           xTaskbarHoverButtonSolidGradientVertical
+           If defined, a Gradient is Painted vertical instead of horizontal.
+           
+- Added:   Exported Variables: (xTaskbar)CurrentButtonCount
+                               Shows the count of the currently DISPLAYED Tasks in the Taskbar.
+                               (xTaskbar)CurrentLines
+                               Shows the count of the current Lines/Rows in the Taskbar.
+                               (xTaskbar)HoverTask
+                               Shows the WindowTitle of the Task under the Cursor (IN xTaskbar).
+                               
+- Added:   xTaskbarOnLineAdd (action)
+           "action" is executed, if a line has been added.
+           (ONLY with xTaskbarAutoLines! If you call manually !xTaskbarLines you can also call manually
+           the appropriated action :P).
+
+- Added:   xTaskbarOnLineRemove (action)
+           "action" is executed, if a line has been removed.
+           (ONLY with xTaskbarAutoLines! If you call manually !xTaskbarLines you can also call manually
+           the appropriated action :P).
+
+- Added:   xTaskbarFlashInterval (number)
+           Defines the Flash Interval, if a Task is Flashing, Default is same as UpdateInterval.
+
+- Changed: Drag'N'Drop Positioning of TaskTiles
+           Dragged Button will be inserted at DropPosition and the other tiles are moved accordingly.
+           If the Button is moved "up(list)" it's inserted AFTER the DropButton, if moved "down(list)"
+           it's inserted BEFORE the DropButton.
+           
+- Changed: !xTaskbarAlwaysOnTop [TASKBARNAME] (true|on, false|off or toggle|switch)
+           Is now a Multifunction Bang! Just specify additional the desired State.
+
+- Removed: !xTaskbarToggleAlwaysOnTop [TASKBARNAME]
+           Use instead:
+           "!xTaskbarAlwaysOnTop [TASKBARNAME] toggle" or "!xTaskbarAlwaysOnTop [TASKBARNAME] switch"
+           
+- Removed: !xTaskbarPinToDesktop [TASKBARNAME]
+           Use instead:
+           "!xTaskbarAlwaysOnTop [TASKBARNAME] false" or "!xTaskbarAlwaysOnTop [TASKBARNAME] off"
+           
+- Removed: Default Grey Button, if no "ButtomImage" or "ButtonSolidColors" are defined. This allows you to
+           have just a Icon + Text on your Desktop without "Buttons". But because of the Smoothing functions
+           of Icons and Text you shouldn't try this without a Main TaskbarBG! Nevertheless, Without 
+           TransparencyMode set to "True" you can even do that.
+    
+- Fixed:   Solid Painting Settings hadn't used "Default" (or "Normal") Settings as default.
+           So you had to specify ALL for all states.
+
+- Fixed:   Sometimes not updated Button Text.
+
+- Fixed:   Sometimes disappearing Icons (Especially Explorer based Ones)
+
+0.9.8 Released on 24-06-2004, Changes by Andymon
+
+- Added:   xTaskbarUseBigIcon
+           Uses the big 32x32 pixel Icon instead of the 16x16 pixel Icon.
+           
+- Added:   *xTaskbarSpecific "CustomTaskbarname" "SubString from Class or Windowname"
+           If set, matching Apps will only be shown on the specified Taskbar, or you can also
+           say it's a Taskbar specific *TaskbarRemove.
+
+- Changed: Now again by default the 16x16 Icon is used, set the new setting xTaskbarUseBigIcon,
+           if you want to use the 32x32 Icon instead.
+
+- Changed: Some internal optimizations for more speed with Saturation and Hueing.
+
+- Fixed:   Some Apps didn't react on ".close" (Windows Explorer for instance)
+
+- Fixed:   GDI Leak with Colorized Icons
+
+0.9.7 Released on 15-06-2004, Changes by Andymon
+
+It seems, that the current method for Colorizing ICONS is a little bit too CPU consuming
+for my taste. :\ So better check it out for yourself, that you REALLY need Colorized Icons!
+
+- Added:   *xTaskbarIcon "SubString from Class or Windowname" "FULL Path to a (Icon-)File"
+           So you can set a custom icon for all kind of classes or windows.
+
+- Added:   Drag'N'Drop Positioning of TaskTiles
+           Hold Down LeftMouseButton on one Tile and Move the Cursor over another Tile and release
+           the button. The two Tiles switch their Position, Done, nothing more and nothing less!
+           
+- Added:   xTaskbarNoMinimizeOnClick BOOL
+           If set, clicking a selected TaskButton won't minimize the Application!
+           
+- Added:   xTaskbarMaxLines INT
+           Sets the maximum of possible TaskbarLines(Rows), restricts xTaskbarLines and !xTaskbarLines
+           and sets the max value for xTaskbarAutoLines.
+
+- Changed: The use of xTaskbarButtonDirection ".top" or ".bottom" enables the vertical Layout
+           instead of the Relation of Width <-> Height. Because the former solution could produce
+           unwanted effects on some kind of autosizing layouts.
+           
+- Changed: Big Icons should look better than before
+
+- Changed: Internal Maximum IconSize raised to 64 from 32.
+
+- Fixed?:  Some people reported strange bugs, others have none at all (as I).
+           Now some, of the ones with "bugs", reported they are gone with this release,
+           so lets hope best :P
+
+0.9.5 Released on 06-06-2004, Changes by Andymon
+
+- Added:   xTaskbarUseGrouping
+           Just a first approach, so don't expect perfect things. Grouped Tasks access via .menu!
+           All what i can say about this is:
+           "It doesn't crash LS and most of the times it groups alright (same class only)!"
+
+- Added:   !xTaskbarRefresh [TASKBARNAME] <setting> <value>
+           For all who know xLabel(Light) know what's now possible =)
+           [TASKBARNAME], as always, is only needed, if multiple Taskbars or a Custom Name is used
+           
+- Added:   Support for general LS !refresh
+
+- Added:   xTaskbarMinButtonWidth
+           Only really useful in combination with xTaskbarAutoLines!
+
+- Added:   xTaskbarMinButtonHeight
+           Only really useful in combination with xTaskbarAutoLines!
+
+- Added:   xTaskbarAutoLines
+           Automatically takes track of the Size of the TaskButton, to add/remove new Taskbarlines, if
+           the Width/Height would be smaller than defined MinButtonWidth/Height.
+           
+- Added:   xTaskbarUseSolidColors
+           MUST be set to enable "xTaskbarSolidColors" and "xTaskbarSolidBevelSize"
+
+- Added:   xTaskbarSolidColors (Background) [LightBevel] [DarkBevel]
+
+- Added:   xTaskbarSolidBevelSize (number)
+
+- Added:   xTaskbar * ButtonUseSolidColors
+           With all States as optional Prefix, as usual.
+           MUST be set to enable "xTaskbarButtonSolidColors" and "xTaskbarButtonSolidBevelSize"
+
+- Added:   xTaskbarButtonSolidColors (Background) [LightBevel] [DarkBevel]
+           With all States as optional Prefix, as usual.
+
+- Added:   xTaskbarButtonSolidBevelSize (number)
+           With all States as optional Prefix, as usual.
+           
+- Added:   xTaskbarShowHoverState
+           Enables a visually change, if the Mouse hovers over a Button
+           
+           ATTENTION: This is kinda special!
+           1. You MUST enable it in general via the setting "xTaskbarShowHoverState"
+           2. You can ONLY DEFINE BUTTON IMAGE Settings with the New "Hover" Prefix,
+              No Special Icon or Font Settings!
+           3. The HoverImage is painted ABOVE the current State Image!!
+              The purpose is, that you can make a "HoverBorder" or something like that,
+              and you can still recognize the Real State. (Use Magic Pink!)
+           4. New settings are
+              xTaskbarHoverButtonImage
+              xTaskbarHoverButtonImageLeftEdge
+              xTaskbarHoverButtonImageRightEdge
+              xTaskbarHoverButtonImageTopEdge
+              xTaskbarHoverButtonImageBottomEdge
+              xTaskbarHoverButtonImageMode
+              xTaskbarHoverButtonSaturationIntensity
+              xTaskbarHoverButtonHueIntensity
+              xTaskbarHoverButtonHueColor
+              xTaskbarHoverButtonAlphaBlend
+              
+              xTaskbarHoverButtonUseSolidColors
+              xTaskbarHoverButtonSolidColors
+              xTaskbarHoverButtonSolidColorsBevelSize
+           
+- Changed: ReadMe is now complete and understandable!
+
+- Fixed:   xTaskbarActiveImage Painting was somewhat corrupted
+           
+- Fixed:   xTaskbarAlphaTransparency has only worked, if Taskbar was AlwaysOnTop
+           
+
+0.9.2 Released on 03-06-2004, Changes by Andymon
+
+- Added:   xTaskbarButtonDisplay (value) 
+           Defines, which ButtonStates will be shown. (value) can be:
+           "all" -> DEFAULT and except the case you use more than one Taskbar,
+                    you maybe shouldn't change this!
+           "normal", "active", "minimized", "normal+active", "normal+minimized" and "active+minimized"
+		
+- Added:   Bang: !xTaskbarDisplay (value), defines On-The-Fly, which ButtonStates will be shown. Same values as above!
+
+- Added:   xTaskbarLines (number), defines how many Lines (or Rows in vertical Layout) your Taskbar should have.
+
+- Added:   Bang: !xTaskbarLines, defines On-The-Fly how many Lines/Rows your Taskbar should have.
+
+- Added/
+    Fixed: You can now have True Transparent TaskButtons WITHOUT a "xTaskbarImage" as Background!
+           Looks like a sort of Tasks.dll with autosizing TaskTiles ;)
+
+- Changed: "xTaskbarUpdateIntervall" is now "xTaskbarUpdateInterval"
+           Just with ONE 'l' instead of TWO ;)
+           
+- Fixed:   Internal Animations didn't update ButtonSize during Animation
+    
+- Fixed:   Magic Pink in ButtonImages was Black <-> Problem with AlphaBlend Feature
+           Attention: You cannot mix Magic Pink with AlphaBlend Feature in one ButtonState!
+                      AlphaBlend now restricted to Win2000/XP.
+           
+- Fixed:   !xTaskbarMoveBy, !xTaskbarResizeBy and !xTaskbarRepositionBy were broken
+
+- Fixed:   !xTaskbarLsBoxHook was broken
+
+- Fixed:   !xTaskbarSwitch hadn't worked with Custom TaskbarNames
+
+
+Initial 0.9 Released on 01-06-2004, Created by Andymon
+

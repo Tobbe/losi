@@ -1,0 +1,360 @@
+VTray 1.10
+by Vendicator (http://vendicator.shellfront.org | vendicator@mail.com)
+
+VTray is a rewrite of the indiestep Systray2.
+That code base had grown too large and was too hard to maintain,
+which is why this module has been built using classes.
+Also the cleaner code has allowed for easier addition of new
+features, such as the icon scrolling.
+Loads as a normal desktop module, in Wharf or LsBox.
+
+
+Loading the module:
+	Extract the vtray.dll file to either your LiteStep dir, or
+	the modules directory of the theme which you are currently
+	using. Add a LoadModule line to configure LiteStep to load
+	the module such as:
+
+	LoadModule	"$LiteStepDir$vtray.dll"
+	If the module is located in the LiteStep directory, Or
+
+	LoadModule	"$ModulesDir$vtray.dll"
+	if the module is in the modules dir of the theme.
+
+	Also you should make sure that there is no conflict with another
+	tray module, so comment out any LoadModule lines for Systray2 by
+	placing a ; in front of the line.
+	Eg:	;LoadModule	"$LiteStepDir$Systray2.dll"
+
+
+Step.rc Settings:
+	By default VTray looks for settings such as VTrayX, VTrayWidth,
+	but in order to make an upgrade easier a special setting has been
+	added to order VTray to look for the old Systray2 settings.
+	In the documentation this will be represented as [Tray]X, which means
+	SystrayX, if the settings compability flag is set, otherwise VTrayX.
+
+	VTraySettingsCompatibility
+	Define the settings prefix [Tray] as Systray, as opposed to VTray,
+	so VTray will instead look for SystrayX, SystrayWidth etc.
+
+
+Size & Placement:
+	[Tray]X
+	Int, default: 0
+	Horizontal position of the tray window.
+
+	[Tray]Y
+	Int, default: 0
+	Vertical position of the tray window.
+
+	[Tray]Width
+	Int, default: 64
+	Width of the tray window.
+
+	[Tray]Height
+	Int, default: 64
+	Height of the tray window.
+
+Window & bitmaps:
+	[Tray]AlwaysOnTop
+	Bool, default: false
+	With this option the tray window will be placed on top of all other windows.
+
+	[Tray]Hidden
+	Bool, default: false
+	Specifies if the tray window should be hidden on startup.
+
+	[Tray]HideIfEmpty
+	Bool, default: false
+	Tells the tray to hide it's window when there are no (visible) icons.
+
+	[Tray]Align
+	String, default: ""
+	Tries to align the tray window, so that a position setting does not
+	need to be relative to the top/left corner (eg. right down).	
+
+	[Tray]Bitmap
+	String, default: ""
+	Defines the background bitmap of the tray window.
+
+	[Tray]BitmapTiled
+	Bool, default: false
+	Specifies if the bitmap should be tiled to cover the tray window,
+	otherwise the bitmap will be stretched.
+
+	[Tray]BgColor
+	Color, default: FFFFFF
+	Background color of the tray window, if not using a bitmap.
+
+	[Tray]BorderColor
+	Color, default: 000000
+	Color of the border around the tray window, if not using a bitmap.
+
+	[Tray]BorderSize
+	Int, default: 0
+	Specifies the default borders around the tray window. These will not be
+	included in the stretch/tile of the bitmap, will be colored differently
+	when using colors, and allows for dragging the window.
+
+	[Tray]BorderTop
+	Int, default: [Tray]BorderSize
+	Explicitly set the top border size.
+
+	[Tray]BorderLeft
+	Int, default: [Tray]BorderSize
+	Explicitly set the left border size.
+
+	[Tray]BorderBottom
+	Int, default: [Tray]BorderSize
+	Explicitly set the bottom border size.
+
+	[Tray]BorderRight
+	Int, default: [Tray]BorderSize
+	Explicitly set the right border size.
+
+	[Tray]BorderDrag
+	Bool, default: false
+	Setting this will allow the tray window to be dragged using the borders.
+
+	[Tray]Snap
+	Bool, default: false
+	With this setting the tray window will snap to the edges of the desktop.
+
+	[Tray]SnapDistance
+	Int, default: 10
+	The distance from the edges of the desktop that will trigger the dragged
+	tray window to snap to it.
+
+Icons:
+	[Tray]IconSize
+	Int, default: 16 (1-...)
+	The size of the icons displayed in the tray window.
+
+	[Tray]IconSpacingX
+	Int, default: 1 (0-...)
+	The horizontal space between icons.
+
+	[Tray]IconSpacingY
+	Int, default: 1 (0-...)
+	The vertical space between icons.	
+
+	[Tray]Direction
+	String, default: right (left, up, down, right)
+	Specifies in which direction new icons are added.
+
+	[Tray]WrapCount
+	Int, default: 0 (0-...)
+	Defines how many icons can be in one row/column before VTray
+	starts placing icons in a new one. VTray tries to auto calculate
+	this value when loaded in wharf.
+
+	[Tray]WrapDirection
+	String, default, vertical: left, horizontal: up (left, up, down, right)
+	Specifies in which direction new columns/rows are added for each wrap,
+	note that one of WrapDirection or Direction must be vertical (up/down),
+	while the other is horizontal (left/right).
+
+	[Tray]IconScrollStep
+	Int, default: 0
+	Defines how many icons to move per scroll, 0 means VTray moves a full row.
+
+	[Tray]IconHueColor
+	Color, default: 800080
+	The color that all icons should be tinted with.
+
+	[Tray]IconHueIntensity
+	Int, default: 0 (0-255)
+	How strongly the hue color should be applied to the icons.	
+
+	[Tray]IconSaturation
+	Int, default: 255 (0-255)
+	How much powerful the colors of the icons should be.
+
+	[Tray]IconFlashHueColor
+	Color, default: [Tray]IconHueColor
+	The color that the flashing icons should be tinted with.
+
+	[Tray]IconFlashHueIntensity
+	Int, default: [Tray]IconHueIntensity (0-255)
+	How strongly the hue color should be applied to the flashing icons.
+
+	[Tray]IconFlashSaturation
+	Int, default: [Tray]IconSaturation (0-255)
+	How much powerful the colors of the flashing icons should be.	
+
+	[Tray]OnAdd
+	!Bang, default: !None
+	The !bang that VTray executes each time an icon is added/shown.
+
+	[Tray]OnDel
+	!Bang, default: !None
+	The !bang that VTray executes each time an icon is removed/hidden.
+
+	[Tray]On
+	String, format: *[Tray]On (Int)Nr (!bang)"!bangcommand"
+	Use this to specify a special command to run when the current
+	number of icons in tray is (Int)Nr. Note that VTray doesn't contain
+	any logic here, so entering <5 for instance will not work.
+
+	[Tray]DoNotCheckOnCommands
+	Bool, default: false
+	VTray will check the current setting of the OnAdd/OnDel commands
+	before they are executed, this setting will prevent that (don't know why you'd want to tho).
+
+	[Tray]RememberIcons
+	Bool, default: false
+	VTray will save the icon information to registry to try to pick
+	them up if LiteStep crashes, still in experimental state.
+
+Icon Hiding & Flashing:
+	[Tray]Hide
+	String, format: *[Tray]Hide (String)"classname" (String)"title(optional)" (Int)MinutesUntilHide
+	Configure VTray to hide the specified icon after (Int)MinutesUntilHide.
+
+	[Tray]Flash
+	String, format: *[Tray]Flash (String)"classname" (String)"title(optional)" (Int)Flashes
+	Configure VTray to flash when it discovers an icon matching the specified classname/title.
+
+	[Tray]IconTimer
+	Int, default: 10, (value: 1-600)
+	How often in seconds VTray should check icon hiding/flashing/cleaning.
+
+	[Tray]TimerCleaning
+	Bool, default: false
+	VTray will look for invalid tray windows (eg. crashed apps) and remove
+	them on each timer click.
+	
+	[Tray]ScrollFlash
+	Bool, default: false
+	Set if VTray should flash the scroll lock for flashing icons.
+
+	[Tray]ScrollFlashInterval
+	Int, default: 500 (value: 100-10000)
+	Specify how quickly VTray should flash the scroll lock light in milliseconds.
+
+	[Tray]FlashInScreensaver
+	Bool, default: false
+	The flashing of the scroll lock is done by sending simulated keystrokes
+	of the scroll lock button to windows, this will stop a running screensaver.
+	
+	[Tray]AlwaysFlashOnMatch
+	Bool, default: false
+	With this setting an icon is always concidered flashing as long
+	as it matches it's configuration (doesn't stop on mouseover).
+
+Events:
+	[Tray]OnMouseEnter
+	!Bang, default: !None
+	Command to be executed when mouse enters tray window.
+
+	[Tray]OnMouseLeave
+	!Bang, default: !None
+	Command to be executed when mouse leaves tray window.
+	
+	[Tray]OnLeftDbl
+	!Bang, default: !None
+	Command to be executed when left double clicking the window.
+
+	[Tray]OnLeftDown
+	!Bang or .drag, default: .drag
+	Command to be executed when pressing left mouse button,
+	defaults to starting to drag the window.
+
+	[Tray]OnLeftUp
+	!Bang, default: !None
+	Command to be executed when releasing left mouse button over window.
+
+	[Tray]OnRightDbl
+	!Bang, default: !None
+	Command to be executed when right double clicking the window.
+
+	[Tray]OnRightDown
+	!Bang or .drag, default: !None
+	Command to be executed when pressing right mouse button.
+
+	[Tray]OnRightUp
+	!Bang, default: !None
+	Command to be executed when releasing right mouse button over window
+
+	[Tray]OnMiddleDbl
+	!Bang, default: !None
+	Command to be executed when middle double clicking the window.
+
+	[Tray]OnMiddleDown
+	!Bang or .drag, default: !None
+	Command to be executed when pressing middle mouse button.
+
+	[Tray]OnMiddleUp
+	!Bang, default: !None
+	Command to be executed when releasing middle mouse button over window
+
+Exported Variables:
+	Note that you will need to define dummy variables if you include these
+	in scripts/rc files, since when LiteStep reads these files VTray has
+	not yet added them, causing LS to think the variables are undefined.
+	
+	$[Tray]CurrentIcons$
+	The number of visible icons in the tray window.
+
+	$[Tray]CurrentX
+	The horizontal position of the tray window.
+
+	$[Tray]CurrentY
+	The vertical position of the tray window.
+
+	$[Tray]CurrentWidth
+	The width of the tray window.
+
+	$[Tray]CurrentHeight
+	The height of the tray window.
+
+
+Bangs:
+	![Tray]IconInfo
+	Tells VTray to print icon information to the litestep log file.
+	Use this if you want to configure the hiding/flashing of icons.
+
+	![Tray]ShowIcons
+	Shows all hidden icons.
+
+	![Tray]ScrollIcons "back/next"
+	"Scrolls" icons so you are to be able to access all icons in a
+	fixed sized tray window. Without a parameter VTray cycles through
+	the icons available. Note that the params are case sensitive
+	(matching next not NEXT).
+
+	![Tray]Hide
+	Hides the tray window.
+
+	![Tray]Show
+	Shows the tray window.
+
+	![Tray]Toggle
+	Toggles the visibility of the tray window.	
+
+	![Tray]OnTop "on/off"
+	Set the on top status of the tray window.
+
+	![Tray]Move x y
+	Tells the tray window to move to the specified location.
+
+	![Tray]MoveBy x y
+	Teels the tray window to move by a specified amount to
+	x left(-)/right(+) y up(-)/down(+), ie ![Tray]MoveBy 10 10 moves
+	the tray window 10 pixels to the right and 10 down.
+
+	![Tray]Size width height
+	Tell the tray window to resize to the given size.
+
+	![Tray]Hook
+	Use this bang to hook the tray window to lsbox.	
+
+	![Tray]DisableFlash
+	Disables the scroll lock flashing.
+
+	![Tray]EnableFlash
+	Enables the scroll lock flashing.
+
+	![Tray]IconCleaning
+	Orders VTray to remove any invalid icons (crashed program etc).

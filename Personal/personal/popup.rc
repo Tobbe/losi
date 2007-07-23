@@ -1,0 +1,98 @@
+;------------------------------------------------------------------------------
+;   sample popup config file: edit according to preference
+;------------------------------------------------------------------------------
+
+*Popup ".:LITESTEP:." !New !Popup              ;DO NOT DELETE THIS LINE
+
+*Popup  "file manager"          "$FileManager$"
+*Popup  "text editor"           "$TxtEditor$"
+*Popup  !Separator
+;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+*Popup "litestep" Folder
+   *Popup  "litestep folder"   !execute ["$FileManager$" /e,"$LiteStepDir$"]
+   *Popup  "themes folder"     !execute ["$FileManager$" /e,"$ThemesDir$"]
+   *Popup  !Separator
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+   *Popup  "about"             !About
+   *Popup  "recycle"           !Recycle
+   *popup  "reload"            !Reload
+   *Popup  "quit"              !execute ["$FileManager$" /e,"$LiteStepDir$"][!Quit]
+   *Popup  !Separator
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+   *Popup "change themes" Folder
+	*Popup  "install theme"         !execute ["$LiteStepDir$utilities\ThemeSwitcher.exe"]
+	*Popup  "refresh list"          !execute ["$LiteStepDir$utilities\ThemeSwitcher.exe" "/refresh"] [!recycle]
+	*Popup  !Separator
+;     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+	include "$ThemesDir$themeslist.rc"
+   *Popup ~Folder
+
+   *Popup  "utilities"         !PopupFolder:"$LitestepDir$utilities\*.exe"
+
+   *Popup  "edit config" Folder
+	*Popup  "step.rc"       !execute ["$TxtEditor$" "$LiteStepDir$step.rc"]
+	*Popup  "theme.rc"      !execute ["$TxtEditor$" "$ThemeDir$theme.rc"]
+;      *Popup  "modules.ini"   !execute ["$TxtEditor$" "$LitestepDir$modules.ini"]
+	*Popup  !Separator
+;     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+	*Popup  "personal files" !PopupFolder:"$PersonalDir$"
+   *Popup ~Folder
+
+;   *Popup  "litestep docs"     !PopupFolder:"$LitestepDir$lsdocs\*.html"
+   *Popup  "module docs"       !PopupFolder:"$ModulesDir$docs\|$LitestepDir$NLM\*.html"
+*Popup ~Folder
+
+IF Win9x
+  *Popup  "programs"            !DynamicFolder:"$Programs$"
+ELSE
+  *Popup  "programs"            !DynamicFolder:"$Programs$|$CommonPrograms$"
+;  *Popup  "admin tools"         !DynamicFolder:"$AdminToolsDir$"
+ENDIF
+
+IF QuickLaunch
+  *Popup  "quicklaunch"         "!DynamicFolder:$QuickLaunch$*.lnk"
+ENDIF
+
+*Popup "system" Folder
+
+;   *Popup "shells" Folder
+;       *Popup  "explorer"      !execute ["$LiteStepDir$utilities\SetShell.exe" "explorer.exe"]
+;       *Popup  "blackbox"      !execute ["$LiteStepDir$utilities\SetShell.exe" "d:\blackbox\blackbox.exe"]
+;   *Popup ~Folder
+
+   *Popup  "my computer"       !PopupMyComputer
+   *Popup  "control panel"     !PopupControlPanel
+   *Popup  !Separator
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+   *Popup  "run..."            !Run
+   *Popup  "recycle bin"       !execute ["$FileManager$" "$bitbucket$"]
+   IF Win9x
+   *Popup  "system.ini"      "system.ini"
+   ENDIF
+   *Popup  "regedit"           regedit
+*Popup ~Folder
+
+*Popup  "tasks"                 !PopupTasks
+
+*Popup "manage windows" Folder
+   *Popup  "tile horizontal"   !TileWindowsH
+   *Popup  "tile vertical"     !TileWindowsV
+   *Popup  "cascade"           !CascadeWindows
+   *Popup  "minimize all"      !MinimizeWindows
+   *Popup  "restore all"       !RestoreWindows
+*Popup ~Folder
+
+;*Popup  "recent files"          !PopupRecentDocuments
+
+*Popup  !Separator
+;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+*Popup  "logoff"                 !LogOff
+IF WinXP
+  *Popup  "switch user"          !SwitchUser
+ENDIF
+*Popup  "shutdown"               !ShutDown
+*Popup  "recycle"                !recycle
+
+*Popup ~New                     ;DO NOT DELETE THIS LINE

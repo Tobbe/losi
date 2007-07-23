@@ -1,0 +1,17 @@
+Hi to all,
+If someone is searching for the Help File.
+
+It's still in the Zip-Archive you (or NetLoadModule) have downloaded!
+Since it's a chm-File NetloadModule doesn't recognize it and therefore
+don't installs it in here.
+
+So simply go to your "Archive-Folder" mostly (if not changed)
+$LitestepDir$Modules/Archive/ 
+open the xLabel Zip-File and extract the CHM-File 
+"xLabel_ReadMe.chm"
+manually to a folder of your choice.
+
+Done!
+
+Andymon
+LS-Universe Team

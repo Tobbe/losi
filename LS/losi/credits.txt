@@ -1,0 +1,27 @@
+First I would like to thank all who have helped develop LS and all its modules.
+
+Then I think Syl deserves a big "Thank You" as he was the one who got me in to
+writing a LiteStep installer.
+
+fractal.design also deserves a big Thank You. He corrected my English in many
+places, fixed the sweet graphics used in the installer, and generaly made me
+keep working on this installer
+
+pfx also deserves to be mentioned as he made one of the icon sets included with
+the installer
+
+One of the biggest motivators has been the-golem. His continous interest
+in the installer has really kept me going. He has also made all the default
+icons in the installer. He has also written the EvarConfig util. So all in
+all it's safe to say that this installer would not be here if it wasn't
+for him. Thank you the-golem!
+
+And last but not least I would like to thank all my alpha and beta testers:
+wols
+Syl
+TucknDar
+the-golem
+fractal.design
+and many more, you know who you are!
+
+//LOSI developer Tobbe Lundberg

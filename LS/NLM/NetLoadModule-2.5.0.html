@@ -1,0 +1,356 @@
+﻿<html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><link type="text/css" href="doc2.css" rel="StyleSheet"><title>NetLoadModule 2.5.0</title></head><body><div class="entry"><div class="docinfowrapper"><div class="docinfo"><h4>LSMD Document</h4><p><dl><dt>lsmd version:</dt><dd>0.3p</dd><dt>file version:</dt><dd>1.6.0</dd></dl>
+                by <a href="mailto:rabidcow@rcow.net">
+    RabidCow
+    </a></p></div></div><h2 class="module">NetLoadModule 2.5.0</h2><div class="summary"><p>netloadmodule-2.5.0<br>by <a href="mailto:rabidcow@rcow.net">
+
+      RabidCow
+      </a><br>Category:  network metamodule</p><p class="desc">
+        NetLoadModule allows you to load modules that may not necessarily be installed. If the module is not installed, it can be automatically downloaded and installed before being loaded.
+      <br><ul class="link"><li>download: <a href="http://rcow.net/litestep/modules/netloadmodule-2.5.0.zip">Download</a></li><li>source: <a href="http://rcow.net/litestep/modules/netloadmodule-2.5.0-source.zip">Source Code</a></li><li>required: <a href="http://www.winimage.com/zLibDll/">zlib1.dll (included with .24.7)</a></li></ul></p></div><div>
+<h4 class="section"><a name="toc">Table of Contents</a></h4><div><ul class="toc"><li><a href="#oper">Operation</a></li><li><a href="#theme">Theme Specific</a></li><li><a href="#user">User Specific</a></li><li><a href="#bangs">Bang Commands</a></li><li><a href="#balance">Load Balancing</a></li><li><a href="#issues">Known Problems</a></li><li><a href="#changes">History</a></li><li><a href="#index">Index</a></li></ul></div>
+
+<h4 class="section"><a name="oper">Operation</a></h4><div class="section"><div class="para">When NetLoadModule first starts, it loads the list of <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt> files and
+          checks if all of the modules exist.  If they do, they are then all loaded, in order, and LiteStep continues
+          loading.</div><div class="para">If one or more of the modules does not exist, NetLoadModule will display a dialog box containing
+          a list of them.  Any descriptions given will be displayed next to the modules.  The user can select the
+          location of modules that exist, but not where NetLoadModule expected through a context menu (this is slightly
+          hidden because it is an advanced feature) and then has a choice as to whether or not to download and install
+          these modules.</div><div class="para">NetLoadModule then downloads and installs the modules in order, first looking for the archive in
+          the <tt class="xref"><a href="#netloadmodulezippath">NetLoadModuleZipPath</a></tt>, then the <tt class="xref"><a href="#star_netloadmodulesite">*NetLoadModuleSite</a></tt> lines, then the primary site
+          listed with the module.</div><div class="para">If a module archive is found that contains more than one dll file and the theme does not specify
+          which to load, the user is presented a list of the dlls and asked which is the module to load.  There is a
+          button to open the documentation to make this decision easier.  NetLoadModule cannot decide automatically
+          because there is no easy way to guess which file is the module, and which other dll files are required.</div><div class="para">If any modules fail to install, the list is presented to the user again, otherwise NetLoadModule
+          loads all its modules in order and LiteStep continues to load as normal.</div><dl> </dl></div>
+<h4 class="section"><a name="theme">Theme Specific</a></h4><div class="section"><dl><dt class="definition"><a name="star_netloadmodule">*NetLoadModule</a> <small class="param">STRING</small> <span class="repeat"> <small class="oparam">OPTION</small><span class="again"> <small class="oparam">OPTION</small></span>...</span> <small class="oparam">URL</small> <small class="oparam">STRING</small></dt><dd class="cmddoc"><div class="para">This specifies a module to be loaded, instead of using a <tt class="code">LoadModule</tt> line for that module.
+          The module name should include the name and version number, but does not need to include a path or
+          extension.  This name uniquely identifies this version of this module and is used to determine if the
+          correct version is installed, and where to get it if it is not.</div><div class="para">Two flags are allowed immediately after the module name: <tt class="code">threaded</tt>
+
+          and <tt class="code">load</tt>.  <tt class="code">threaded</tt> only works with litestep .24.7 beta 4
+          or newer and works the same as the respective flag with the <tt class="code">LoadModule</tt> command, except that
+          it will load the modules sequencially instead of in parallel.</div><div class="para"><tt class="code">load</tt> will allow a theme to specify which dll file to load if there are more than one in
+          the archive.  (so the end user doesn't have to deal with the "Multiple DLL" dialog)  This can also be
+          used if a module doesn't like being renamed, as it will force the module to be installed in a subdirectory.
+          <tt class="code">load</tt> has no effect if the module is already installed.</div><div class="para">If you are a themer who is actually taking the time to read documentation, <strong>load is
+          very important.</strong>  If you don't use it where you should, there will be users who choose the wrong dll
+          (and who can blame them?) and don't understand why they're getting a "can't find module" error.
+          Trust me, I've seen it.
+          <strong>USE LOAD.</strong></div><div class="example">
+
+            <pre class="code">*NetLoadModule ckhotspots-2.3 load ckhotspots.dll "http://site/file.zip"
+*NetLoadModule geekamp-1.9.666 threaded "" Full of ampy goodness.
+</pre>
+          </div><div class="para">If the optional URL is given, this is tried AFTER any <tt class="xref"><a href="#star_netloadmodulesite">*NetLoadModuleSite</a></tt> sites, in this
+          case nothing additional is appended, this is the complete URL to the archive.</div><div class="para">The description may be displayed to the user to describe what this module is used for, it doesn't affect
+          how it is loaded in any way.</div><div class="para">The URL may be included in quotes, use "" if you want to leave it out and add a description. The
+          description should not be in quotes unless you want them to show up.</div><div class="example">If you are loading RabidVWM v1.0 beta 3:
+<pre class="code">
+LoadModule $ModuleDir$rabidvwm.dll
+</pre>
+You can load it with NetLoadModule:
+<pre class="code">
+*NetLoadModule rabidvwm-1.0-beta_3
+
+</pre>
+or
+<pre class="code">
+*NetLoadModule rabidvwm-1.0-beta_3 "" the box with stuff that you click on
+</pre>
+          </div></dd><dt class="definition"><a name="star_netinstallmodule">*NetInstallModule</a> <small class="param">STRING</small> <span class="repeat"> <small class="oparam">OPTION</small><span class="again"> <small class="oparam">OPTION</small></span>...</span> <small class="oparam">URL</small> <small class="oparam">STRING</small></dt><dd class="cmddoc"><div class="para">This will download and install a module but not load it.  Syntax is the same as for
+          <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt>.</div><div class="example">Use this to avoid extra download prompts while your
+		  theme is in use:
+
+<pre class="code">*NetInstallModule textedit-2.5
+<tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt> textedit-2.5</pre>
+Without the <tt class="code">*NetInstallModule</tt> line, the first use of
+<tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt> would prompt the user for download.
+		  </div><div class="para">The same flags as for <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt> are used, but all except for <tt class="code">load</tt> are
+          ignored.  <tt class="code">load</tt> will cause the module to be installed and set up correctly so that that dll will be used
+          when NLM tries to load it later.</div></dd><dt class="definition"><a name="star_netloadmodulesite">*NetLoadModuleSite</a> <small class="param">URL</small> <small class="oparam">STRING</small> <span class="repeat"> <small class="oparam">OPTION</small><span class="again"> <small class="oparam">OPTION</small></span>...</span></dt><dd class="cmddoc"><div class="para">This specifies a site to download any missing modules from.  The module name will be appended to the end
+          of the URL and the suffix will then be appended to the end of that.  If no suffix is given,
+          "<tt class="code">.zip</tt>" is used.</div><div class="para">At least one download site should be specified by the theme itself, additional sites can be specified by
+          the user.  (In the case of a distro, one download site should be specified by the distro rather than each
+          theme.)</div><div class="example">ShellFront's module archive would be:
+
+<pre class="code">
+*NetLoadModuleSite "http://modules.shellfront.org/"
+</pre>
+or, if you wanted to include the suffix:
+<pre class="code">
+*NetLoadModuleSite "http://modules.shellfront.org/" ".zip"
+</pre>
+although that's not necessary in this case.</div></dd><dt class="command"><a name="netloadmoduletestmessage">NetLoadModuleTestMessage</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">This tells NetLoadModule to always display the download module dialog, even if all the modules can be
+          found.  All <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt>s will be listed, not just the modules that can't be found.</div><div class="para">This will also affect <tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt> et al.</div></dd><dt class="command"><a name="netloadmoduleonload">NetLoadModuleOnLoad</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">The given action will be executed after NetLoadModule has completed
+		  loading all the modules listed by <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt> successfully.</div><div class="example">
+
+            <pre class="code">NetLoadModuleOnLoad !alert "I'm so thrilled that this worked!"
+</pre>
+          </div><div class="para">This can be used to make NetLoadModule unload itself when it's done, but that's
+          kind of rude.  Even if you never use NLM's bang commands, it will prevent the
+          user from using <tt class="xref"><a href="#bang_netinstallmodule">!NetInstallModule</a></tt>, etc from a command box.</div></dd><dt class="command"><a name="netloadmoduleonfail">NetLoadModuleOnFail</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">The given action will be executed if any module specified by <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt>
+          could not be installed, after all existing modules were loaded.</div><div class="para">The intended use is to load a theme switcher or something to provide the user with some
+          sort of "emergency" interface to avoid getting stuck with a blank screen or otherwise
+          partially functional theme.</div><div class="example">
+
+            <pre class="code">NetLoadModuleOnFail !alert "Oops, something ain't right here..." "Sucker!"
+</pre>
+          </div></dd><dt class="var"><a name="pathtomodule">$PathToModule$</a></dt><dd class="cmddoc"><div class="para">For each module loaded or installed, NetLoadModule will define a variable containing the
+          full path to the module.  This variable will be named <tt class="code">PathTo</tt> followed by the name
+          of the module up to the first hyphen(<tt class="code">-</tt>).
+          </div><div class="example"><pre class="code">*NetInstallModule ckvwm-1.40
+*WharfModule 6 20 140 22 "$PathTockvwm$"
+</pre></div><div class="para">Note that these variables will be wiped out by <tt class="code">!reload</tt>, as will any dynamically
+          assigned $vars$.  You may want to save them with mzScript or something each time LiteStep starts.
+          A workaround for this is planned but not yet implemented.  And then it was forgotten.  Someday, perhaps.
+          </div><div class="para">Always quote your paths!</div></dd> </dl></div>
+
+<h4 class="section"><a name="user">User Specific</a></h4><div class="section"><dl><dt class="definition"><a name="star_netloadmodulesite">*NetLoadModuleSite</a> <small class="param">URL</small> <small class="oparam">STRING</small> <span class="repeat"> <small class="oparam">OPTION</small><span class="again"> <small class="oparam">OPTION</small></span>...</span></dt><dd class="cmddoc"><div class="para">This specifies a site to download any missing modules from.  The module name will be appended to the end
+          of the URL and the suffix will then be appended to the end of that.  If no suffix is given,
+          "<tt class="code">.zip</tt>" is used.</div><div class="para">At least one download site should be specified by the theme itself, additional sites can be specified by
+          the user.  (In the case of a distro, one download site should be specified by the distro rather than each
+          theme.)</div><div class="example">ShellFront's module archive would be:
+
+<pre class="code">
+*NetLoadModuleSite "http://modules.shellfront.org/"
+</pre>
+or, if you wanted to include the suffix:
+<pre class="code">
+*NetLoadModuleSite "http://modules.shellfront.org/" ".zip"
+</pre>
+although that's not necessary in this case.</div></dd><dt class="command"><a name="netloadmodulepath">NetLoadModulePath</a> <small class="param">FOLDER</small></dt><dd class="cmddoc"><div class="para">This sets the path where NetLoadModule looks for modules, and where it will install them to. This
+          defaults to $LiteStepDir$modules\.  This directory must already exist.</div><div class="para">If a module has an alias, NetLoadModule does not look for it in the module path, only at the location
+          specified in the <span class="xref"><a title="NetLoadModuleAliasFile" href="#netloadmodulealiasfile">alias file</a></span>.</div></dd><dt class="command"><a name="netloadmoduledocpath">NetLoadModuleDocPath</a> <small class="param">FOLDER</small></dt><dd class="cmddoc"><div class="para">This sets the path where NetLoadModule will install any documentation included with modules that it
+          installs.  The default is $LiteStepDir$modules\docs\.  If the folder does not exist, it will be created.</div></dd><dt class="command"><a name="netloadmodulezippath">NetLoadModuleZipPath</a> <small class="param">FOLDER</small></dt><dd class="cmddoc"><div class="para">This sets the path where NetLoadModule saves the zip files that it downloads.  The default is to not 
+          save them.  NetLoadModule will also look for archives here before downloading them, so if you just delete
+          the module, it will be installed from the local copy.  If the folder does not exist, it will be created.</div></dd><dt class="command"><a name="netloadmodulealiasfile">NetLoadModuleAliasFile</a> <small class="param">FILE</small></dt><dd class="cmddoc"><div class="para">This specifies the file where NetLoadModule loads/saves paths for modules that are not simply in the
+          <tt class="xref"><a href="#netloadmodulepath">NetLoadModulePath</a></tt>.  This file is formatted like an ini file, entries are of the form
+          <tt class="code">module-name=path\to.dll</tt>, which can include litestep $variables$, under a
+          <tt class="code">[NetLoadModule]</tt> section.  The default is <tt class="code">$LiteStepDir$modules.ini</tt>.</div><div class="para">Entries are automatically added when a module is installed in a subfolder because its archive contained
+          multiple dlls.</div><div class="para">Entries can be added manually with "Select file..." in the module download context menu.</div><div class="para">You should never have to worry about lines in the alias file, I've documented this merely for
+          completeness, and so you can easily correct things if something goes wrong.  (I expect deleting improper
+          lines will be enough.)  DO NOT include your alias file with a theme, it will be specific to your system.</div><div class="example">Example entry added by NetLoadModule when installing <tt class="code">ckHotspots 2.2</tt>:<pre class="code">
+
+ckhotspots-2.2=$litestepdir$modules\ckhotspots-2.2\ckHotspots.dll</pre>
+          </div></dd><dt class="command"><a name="netloadmodulealwaysusefolders">NetLoadModuleAlwaysUseFolders</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Always install modules and documentation into subdirectories.  This way you can set
+          <tt class="xref"><a href="#netloadmoduledocpath">NetLoadModuleDocPath</a></tt> to the same place as <tt class="xref"><a href="#netloadmodulepath">NetLoadModulePath</a></tt> and
+          have modules kept together with their docs.</div><div class="para">Unfortunately a number of themes will break with this setting, requiring you to fix
+          paths to modules.  Themes that only load modules through <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt>,
+          <tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt>, or with <tt class="xref"><a title="PathToModule" href="#pathtomodule">$PathToModule$</a></tt>
+
+          will not be affected.</div></dd><dt class="command"><a name="netloadmodulenodownloadstep">NetLoadModuleNoDownloadStep</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">This will prevent NetLoadModule from downloading anything from any remote sites, perhaps
+          useful if the machine does not have internet access.  Any URLs that begin with
+          "<tt class="code">file://</tt>" will still be used.</div></dd><dt class="command"><a name="netloadmodulenoinstallstep">NetLoadModuleNoInstallStep</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">This will prevent NetLoadModule from installing any modules.  If you don't also set
+          <tt class="xref"><a href="#netloadmodulenodownloadstep">NetLoadModuleNoDownloadStep</a></tt>, it may still download modules and save the zip
+          file in the <tt class="xref"><a href="#netloadmodulezippath">NetLoadModuleZipPath</a></tt>.</div><div class="para">This may be useful in combination with <tt class="xref"><a href="#netloadmodulenoloadstep">NetLoadModuleNoLoadStep</a></tt> if you
+          want to only download the required modules to install them later.</div></dd><dt class="command"><a name="netloadmodulenoloadstep">NetLoadModuleNoLoadStep</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">This will prevent NetLoadModule from actually loading any modules.  Modules will still
+          be downloaded and installed unless you also disable those steps.</div><div class="example">Download the zips for all the modules required for the current theme, possibly
+          using an alternate copy of LiteStep:
+
+<pre class="code">RealLiteStepDir "C:\LiteStep\"
+ModulesDir "$RealLiteStepDir$modules\"
+PersonalDir "$AppData$\LiteStep\personal\"
+ThemesDir "$AppData$\LiteStep\themes\"
+LoadModule "$RealLiteStepDir$NLM\NetLoadModule2.dll"
+<tt class="xref"><a href="#netloadmodulenoinstallstep">NetLoadModuleNoInstallStep</a></tt>
+NetLoadModuleNoLoadStep
+<tt class="xref"><a href="#netloadmodulezippath">NetLoadModuleZipPath</a></tt> "$ModulesDir$Archive\"
+<tt class="xref"><a href="#netloadmodulealiasfile">NetLoadModuleAliasFile</a></tt> "$RealLiteStepDir$NLM\NetLoadModule.ini"
+include "$ThemesDir$themeselect.rc"
+include "$PersonalDir$personal.rc"
+include "$ThemeDir$theme.rc"</pre></div></dd> </dl></div>
+<h4 class="section"><a name="bangs">Bang Commands</a></h4><div class="section"><dl><dt class="bang"><a name="bang_netreloadmodule">!NetReloadModule</a> <small class="param">STRING</small> <span class="repeat"> <small class="oparam">OPTION</small><span class="again"> <small class="oparam">OPTION</small></span>...</span> <small class="oparam">URL</small> <small class="oparam">STRING</small></dt><dd class="cmddoc"><div class="para">This will load or reload a module after startup, downloading and installing if necessary.
+          Syntax is the same as for <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt>
+
+          </div><div class="para">You should use this instead of <tt class="code">!ReloadModule</tt> so you don't have to worry about
+          the path even if you know the module will be installed.  (Note that
+          <tt class="code">!ReloadModule "<span class="xref"><a title="PathToModule" href="#pathtomodule">$PathToModule$</a></span>"</tt> might be better
+          if you never use <tt class="code">!Reload</tt>, it doesn't require the version.)</div><div class="para">Use <tt class="xref"><a href="#star_netinstallmodule">*NetInstallModule</a></tt> if you want to install a module at startup but load
+          load it later.</div><div class="para">
+
+            <tt class="code">!NetReloadModule .</tt> will reload NetLoadModule itself and, consequently, all
+          modules with a <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt> line.  This will only work with litestep .24.7 beta 4
+          and above.  All flags and options are ignored.</div><div class="para">The module is guaranteed to be reloaded by the time the bang command is done unless it's used
+          within a <tt class="xref"><a href="#bang_netloadmodulebatch">!NetLoadModuleBatch</a></tt> block.</div></dd><dt class="bang"><a name="bang_netunloadmodule">!NetUnloadModule</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">This will unload a module given only the name-version string.</div><div class="para">You should use this instead of <tt class="code">!UnloadModule</tt> so you don't have to worry about
+          the path even if you know the module will be installed.  (Note that
+          <tt class="code">!UnloadModule "<span class="xref"><a title="PathToModule" href="#pathtomodule">$PathToModule$</a></span>"</tt> might be better
+          if you never use <tt class="code">!Reload</tt>, it doesn't require the version.)</div><div class="para">
+
+            <tt class="code">!NetUnloadModule .</tt> will unload NetLoadModule itself.  (That's a period for the
+          module name.)  This will only work for litestep .24.7 beta 4 and above.</div><div class="para">There is no guarantee that the module will be unloaded by the time the bang command is done.
+          This may change with future versions of LiteStep, but if you are unloading NetLoadModule itself
+          then this will never be guaranteed.</div></dd><dt class="bang"><a name="bang_netinstallmodule">!NetInstallModule</a> <small class="param">STRING</small> <span class="repeat"> <small class="oparam">OPTION</small><span class="again"> <small class="oparam">OPTION</small></span>...</span> <small class="oparam">URL</small> <small class="oparam">STRING</small></dt><dd class="cmddoc"><div class="para">This will download and install a module after startup.
+          It's exactly the same as <tt class="xref"><a href="#star_netinstallmodule">*NetInstallModule</a></tt>.</div><div class="para">The module is guaranteed to be installed by the time the bang command is done unless it's used
+          within a <tt class="xref"><a href="#bang_netloadmodulebatch">!NetLoadModuleBatch</a></tt> block.</div></dd><dt class="bang"><a name="bang_netuninstallmodule">!NetUninstallModule</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">This will unload and delete the specified module, its documentation, and
+          any cached copy stored in the <tt class="xref"><a href="#netloadmodulezippath">NetLoadModuleZipPath</a></tt>.
+          The next load or install for this module will have to re-download it.</div><div class="para">This may not currently uninstall a loaded module completely.</div></dd><dt class="bang"><a name="bang_netloadmodulebatch">!NetLoadModuleBatch</a> <small class="param">OPTION</small></dt><dd class="cmddoc"><div class="para">This takes one parameter, which can be either <tt class="code">begin</tt> or <tt class="code">end</tt>.
+          It allows you to batch up <tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt>s and <tt class="xref"><a href="#bang_netinstallmodule">!NetInstallModule</a></tt>s
+          so that you only get one download request for the entire group.</div><div class="example">
+
+            <pre class="code">!NetLoadModuleBatch begin
+!NetReloadModule layercut-1.72
+!NetReloadModule lsbox-2.95
+!NetInstallModule lscolor-1.4 "" We're not actually loading this.
+!NetLoadModuleBatch end</pre>
+          </div><div class="para">All modules will be installed and (re)loaded by the time <tt class="code">!NetLoadModuleBatch end</tt>
+          completes.  (ie, you can use bang commands for a netloaded module on the same line immediately
+          following <tt class="code">!NetLoadModuleBatch end</tt>.)</div></dd><dt class="bang"><a name="bang_netifmodule">!NetIfModule</a> <small class="oparam">STRING</small> <small class="param">STRING</small> <small class="param">STRING</small> <span class="repeat"> <small class="param">STRING</small><span class="again"> <small class="param">STRING</small></span>...</span></dt><dd class="cmddoc"><div class="para">This allows you to query the module database.  You can ask whether a specific modules is
+          <tt class="code">installed</tt>, <tt class="code">loaded</tt>, or loaded and <tt class="code">threaded</tt>.
+          The test can be preceded with an optional <tt class="code">not</tt>.</div><div class="example">
+
+            <pre class="code">!NetIfModule not loaded monkey-0.7 !NetReloadModule monkey-0.7
+!NetIfModule installed xlabel-3.4.8 !alert "Cake! :D"
+</pre>
+          </div><div class="para">I understand that this may not be as flexible as some people would like and I'm trying to
+          think of a way to properly enhance it.  It's a little difficult since there isn't really a database of
+          installed modules anywhere...</div></dd> </dl></div>
+<h4 class="section"><a name="balance">Load Balancing</a></h4><div class="section"><div class="para">The <tt class="xref"><a href="#star_netloadmodulesite">*NetLoadModuleSite</a></tt> command now supports some load balancing options which may
+          never be used. You can't omit the suffix for sites if you use these.</div><dl><dt class="command"><a name="order">order</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">This enforces a strict order between sites.  The order in which the actual
+            <tt class="xref"><a href="#star_netloadmodulesite">*NetLoadModuleSite</a></tt> lines occur is completely ignored.</div><div class="para">The default order is 100, sites with a lower order will be tried before those with a higher order.
+            Multiple sites may have the same order, such sites will have no enforced order between them.</div><div class="example">
+
+              <pre class="code">*NetLoadModuleSite http://a.site/ .zip order 1
+*NetLoadModuleSite http://b.site/ .zip order 2 weight 90
+*NetLoadModuleSite http://c.site/ .zip order 2 weight 10
+*NetLoadModuleSite http://d.site/ .zip order 3
+</pre>
+            </div><div class="para">One use for this might be if you have a server on a local network that you always want to check before
+            going out to the internet.</div></dd><dt class="command"><a name="weight">weight</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">This sets a relative amount of traffic that a site should recieve.  The default weight is 10000,
+            sites with a lower weight will be chosen first less often than those with a higher weight.</div><div class="example">If you run a site that can only handle a small amount of traffic, you can recommend that people
+            use:
+<pre class="code">*NetLoadModuleSite "http://whatever/" ".zip" weight 100
+</pre>
+            and get about 1/100th of the traffic that unweighted sites get.  (unless you are the only site with the
+            file, of course)
+            </div></dd> </dl></div>
+<h4 class="section"><a name="issues">Known Problems</a></h4><div class="section"><div class="para">Recycling while any of NetLoadModule's dialogs are up may cause crashes.  Please close all of
+          them first.  I hope to fix this sometime, but it's kinda hairy.</div><div class="para">Download managers such as GetRight may intercept NetLoadModule's downloads and cause it to fail.
+          Either turn off automatic url grabbing for your <tt class="xref"><a href="#star_netloadmodulesite">*NetLoadModuleSite</a></tt>s, or disable it
+          altogether for IE if you don't use it as your web browser.</div><dl> </dl></div>
+
+<h4 class="section"><a name="changes">History</a></h4><div class="section"><dl>
+<dt class="revt">2005-12-17  version 2.5.0</dt><dd class="revd"><ul class="revision">
+<li class="changed">
+      ● Loads fewer dlls at startup, so you don't have all of system32 in memory unless you need it</li>
+<li class="added">
+      ● pulls out .chm files as documentation</li>
+<li class="added">
+      ● <tt class="xref"><a href="#bang_netifmodule">!NetIfModule</a></tt>, because it's cool.  You can ask if modules are loaded/installed.</li>
+
+<li class="removed">
+      ● took <tt class="code">nopump</tt> out of documentation because it's being removed from the core</li>
+<li class="added">
+      ● considers a download to have failed if it results in a 0-byte file</li>
+<li class="changed">
+      ● linked against zlib1.dll, version 1.2.3</li>
+<li class="fixed">
+      ● If you run out of memory, it won't crash as badly.  Then again, you probably have bigger worries should that happen.</li></ul></dd>
+
+<dt class="revt">2003-10-27  version 2.4.3</dt><dd class="revd"><ul class="revision">
+<li class="fixed">
+      ● Using <tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt> while already loading modules would do bad things.
+        You can now load/install multiple sets of modules simultaneously.</li>
+<li class="added">
+      ● <tt class="xref"><a href="#netloadmodulealwaysusefolders">NetLoadModuleAlwaysUseFolders</a></tt> (long, I know...) added to always install
+        modules and documentation in subfolders.</li>
+<li class="fixed">
+
+      ● Fixed an issue with dlls in subfolders inside zips when they require an alias.
+        (eg, dynamp-0.50 and vtray-1.06 with <tt class="xref"><a href="#netloadmodulealwaysusefolders">NetLoadModuleAlwaysUseFolders</a></tt>)</li>
+<li class="fixed">
+      ● Modules would fail to load if there was an incorrect alias stored even if they
+        were properly installed.  Works now.</li>
+<li class="changed">
+      ● Everything in the <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt> line except for the url is now case insensitive.</li>
+<li class="added">
+
+      ● If a module can't be installed, it will now have an error message next to it indicating the reason.</li>
+<li class="fixed">
+      ● NLM actually checks zip files after they are downloaded before downloading the next.</li>
+<li class="added">
+      ● <tt class="xref"><a title="PathToModule" href="#pathtomodule">$PathToModule$</a></tt> variables added</li>
+<li class="added">
+      ● <tt class="xref"><a href="#netloadmodulenoloadstep">NetLoadModuleNoLoadStep</a></tt>, <tt class="xref"><a href="#netloadmodulenoinstallstep">NetLoadModuleNoInstallStep</a></tt>,
+        <tt class="xref"><a href="#netloadmodulenodownloadstep">NetLoadModuleNoDownloadStep</a></tt> added to allow strange hacks</li>
+
+<li class="changed">
+      ● added <tt class="code">*.xml</tt>, <tt class="code">*.lsmd</tt>, and <tt class="code">*.xsl</tt> as file
+        types that are recognized as documentation.</li></ul></dd>
+<dt class="revt">2003-10-05  version 2.4.2</dt><dd class="revd"><ul class="revision">
+<li class="fixed">
+      ● Multiple <tt class="xref"><a href="#star_netloadmodulesite">*NetLoadModuleSite</a></tt>s would cause it to choose one at random and ignore the
+        rest.  This has been fixed.</li></ul></dd>
+
+<dt class="revt">2003-09-26  version 2.4.1</dt><dd class="revd"><ul class="revision">
+<li class="fixed">
+      ● recompiled hash tables with fixed makehash.  Now <tt class="code">threaded</tt>, <tt class="code">nopump</tt>,
+        <tt class="code">load</tt>, <tt class="code">weight</tt>, <tt class="code">order</tt>, <tt class="code">begin</tt>, <tt class="code">end</tt> should
+        actually be recognized.</li>
+
+<li class="added">
+      ● added a few error messages for incorrect keywords</li>
+<li class="changed">
+      ● moved error messages from string table to message table so FormatMessage() can use them directly</li></ul></dd>
+<dt class="revt">2003-09-17  version 2.4.0</dt><dd class="revd"><ul class="revision">
+<li class="fixed">
+      ● works with LiteStep .24.7 (but not beta 1, 2, or 3)</li>
+<li class="fixed">
+      ● clicking "Download" again after the first try fails no longer causes NLM to crash</li>
+
+<li class="added">
+      ● 
+          <tt class="xref"><a href="#star_netinstallmodule">*NetInstallModule</a></tt> will install a module at startup but not load it</li>
+<li class="added">
+      ● 
+          <tt class="xref"><a href="#bang_netreloadmodule">!NetReloadModule</a></tt>, <tt class="xref"><a href="#bang_netunloadmodule">!NetUnloadModule</a></tt>, <tt class="xref"><a href="#bang_netinstallmodule">!NetInstallModule</a></tt>, <tt class="xref"><a href="#bang_netloadmodulebatch">!NetLoadModuleBatch</a></tt> for loading/unloading after startup</li>
+
+<li class="added">
+      ● 
+          <tt class="xref"><a href="#netloadmoduleonload">NetLoadModuleOnLoad</a></tt>, <tt class="xref"><a href="#netloadmoduleonfail">NetLoadModuleOnFail</a></tt> so you can, eg, start a theme switcher if something fails to install</li>
+<li class="changed">
+      ● using external zlib.dll (shares lsapi's copy in .24.7)</li>
+<li class="changed">
+      ● "primary" site is now used LAST, so authors don't get tons of bandwidth usage</li>
+
+<li class="added">
+      ● new site load balancing with <tt class="xref"><a href="#weight">weight</a></tt> and <tt class="xref"><a href="#order">order</a></tt>
+        </li>
+<li class="added">
+      ● 
+          <tt class="code">threaded</tt>, <tt class="code">nopump</tt>, and <tt class="code">load</tt> flags added to <tt class="xref"><a href="#star_netloadmodule">*NetLoadModule</a></tt>
+
+        </li>
+<li class="fixed">
+      ● fixed a small memory leak in the installer</li>
+<li class="added">
+      ● 
+          <tt class="xref"><a href="#bang_netuninstallmodule">!NetUninstallModule</a></tt> does the inverse of <tt class="xref"><a href="#bang_netinstallmodule">!NetInstallModule</a></tt>
+        </li></ul></dd>
+<dt class="revt">2002-11-21  version 2.03</dt><dd class="revd"><ul class="revision">
+
+<li class="fixed">
+      ● will now load with win95</li>
+<li class="added">
+      ● added simple load balancing - will start with a site at random from those listed instead of the first one</li></ul></dd>
+<dt class="revt">2002-05-08  version 2.02</dt><dd class="revd"><ul class="revision">
+<li class="changed">
+      ● cleaned up the source for release</li>
+<li class="fixed">
+      ● fixed some memory leaks</li>
+
+<li class="added">
+      ● added progress bar during download</li></ul></dd>
+<dt class="revt">2002-04-27  version 2.01</dt><dd class="revd"><ul class="revision">
+<li class="fixed">
+      ● fixed bug which caused all modules to be installed in a subdirectory, even if there was only one dll in the archive</li>
+<li class="fixed">
+      ● fixed bug which prevented files in subdirectories in archives from being installed</li></ul></dd>
+<dt class="revt">2002-04-25  version 2.0</dt><dd class="revd"><ul class="revision">initial release of NetLoadModule2
+<li class="changed">
+
+      ● improved appearance</li>
+<li class="added">
+      ● provided mechanism to properly install modules with multiple dlls in their archive</li>
+<li class="added">
+      ● properly install html documentation and multiple doc files</li></ul></dd></dl></div>
+<h4 class="section"><a name="index">Index</a></h4><div class="section"><table class="index"><colgroup width="1*"></colgroup><tbody><tr><th colspan="3">Configuration</th></tr><tr><td><a href="#star_netloadmodule">*NetLoadModule</a><br><a href="#netloadmodulealiasfile">NetLoadModuleAliasFile</a><br><a href="#netloadmodulealwaysusefolders">NetLoadModuleAlwaysUseFolders</a><br><a href="#netloadmoduledocpath">NetLoadModuleDocPath</a><br><a href="#star_netinstallmodule">*NetInstallModule</a><br><a href="#netloadmodulenodownloadstep">NetLoadModuleNoDownloadStep</a><br></td><td><a href="#netloadmodulenoinstallstep">NetLoadModuleNoInstallStep</a><br><a href="#netloadmodulenoloadstep">NetLoadModuleNoLoadStep</a><br><a href="#netloadmoduleonfail">NetLoadModuleOnFail</a><br><a href="#netloadmoduleonload">NetLoadModuleOnLoad</a><br><a href="#order">order</a><br></td><td><a href="#netloadmodulepath">NetLoadModulePath</a><br><a href="#star_netloadmodulesite">*NetLoadModuleSite</a><br><a href="#netloadmoduletestmessage">NetLoadModuleTestMessage</a><br><a href="#weight">weight</a><br><a href="#netloadmodulezippath">NetLoadModuleZipPath</a><br></td></tr><tr><th colspan="3">Bang Commands</th></tr><tr><td><a href="#bang_netifmodule">!NetIfModule</a><br><a href="#bang_netinstallmodule">!NetInstallModule</a><br></td><td><a href="#bang_netloadmodulebatch">!NetLoadModuleBatch</a><br><a href="#bang_netreloadmodule">!NetReloadModule</a><br></td><td><a href="#bang_netuninstallmodule">!NetUninstallModule</a><br><a href="#bang_netunloadmodule">!NetUnloadModule</a><br></td></tr><tr><th colspan="3">Variables</th></tr><tr><td><a href="#pathtomodule">$PathToModule$</a><br></td><td></td><td></td></tr></tbody></table></div><br><br><br><div class="footer">Copyright © 2003 - 2005 Joshua Seagoe</div></div></div></body></html>

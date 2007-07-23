@@ -1,0 +1,60 @@
+2.1.7 2004-3-19 (Nathan E. Moore)
+- Added support for dropshadows (windows XP only)(PopupMenu.h, PopupMenu.cpp,
+  	PopupMaker.cpp)
+- Changed _DllMainCRTStartup to DllMain to fix a warning (Popup.h, Popup.cpp)
+- Change a integer to a unsigned integer to fix a warning (Popup.cpp)
+- (2004-03-26 rabidcow) popups taller than the screen will again make sure the
+  top is onscreen rather than the bottom, as in 2.1.5 and before
+2.1.6 2003-12-06 (RabidCow)
+- !popup now accepts "pin" and "close", can use % and center-based coords,
+  and order no longer matters
+  (!popup 100 200 right center = !popup center y=200 right 100)
+- default alignment for popping up under the mouse cursor works better
+  it will no longer get the alignment wrong for specified coords, and 
+  it will flip exactly when the popup would start to go offscreen rather
+  than 100 pixels away from the top left corner.
+- added build type: bPopup
+- changed PinnedPopupNotOnTop to PopupPinnedNotOnTop and bPopupPinnedNotOnTop
+
+2.1.5 2003-11-29 (ilmcuts)
+- Added new setting "PopupFocusFix" which defaults to "true".
+  Use "PopupFocusFix FALSE" to disable Brian Todoroff's focus fix (it conflicts
+  with xmouse for example)
+
+2.1.4 2003-11-11 (RabidCow)
+- the default position is now one pixel off instead of directly under
+  the mouse, and it tries to flip to the other side when you're near
+  the bottom-right corner instead of just pushing over.
+- submenus will try to stay on the same monitor as their parent
+
+2.1.3 2003-11-11 (RabidCow)
+- updated version number
+- using LSGetMonitorInfo and LSMonitorFromWindow instead of user32
+  equivalents that are apparently not available on NT4
+
+2.1.2, 2003-11-02 (Erik Christiansson, aka Sci)
+- Added support for cascaded context menus
+
+2.1.1, 2003-10-29 (mugendai, Seg@)
+- Fixed missing icons in menus(bug in 2.1).
+- You can now ctrl-click popup folder entries with more than one folder in them,
+  and get the second folders menu. I.E. All Users and Current User on programs.
+- Filtering a folder popup menu(like with Quick Launch) no longer breaks the context menu.
+- Certain popup folders(I.E. ControlPanel) wouldn't display the entries properly on some
+  Unicode languages(I.E. Russian), now fixed thanx to Seg@
+
+2.1, 2003-10-18 (verbalshadow, ilmcuts)
+- New RC commands below, PopupNewAmpRemote must be in RC to use the other Commands.
+
+	PopupNewAmpRemote
+	PopupOnAmpPlay  "!foo_Play"
+	PopupOnAmpPause "!foo_Pause"
+	PopupOnAmpPrev  "!foo_Prev"
+	PopupOnAmpNext  "!foo_Next"
+	PopupOnAmpStop  "!foo_Stop"
+- Maduins GDI Leak fix (LSML)
+
+2.0, 2003-09-07 (all coders ever involved in 0.24.6)
+- Initial release as a non-core module
+- Includes Brian Todoroff's focus fixes
+- Fixed text offset when auto-resizing

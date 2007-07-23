@@ -1,0 +1,11 @@
+ShowDesk 0.1
+
+Does the old Show Desktop as per explorer. Only hides/shows windows
+on the current pane of the VWM.
+
+Put a command in your popus or whatever:
+
+*Popup "ShowDesk" !ShowDesk
+
+Cool, cherz
+-(e)

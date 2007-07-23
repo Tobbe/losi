@@ -1,0 +1,433 @@
+IconDesk.dll 0.68                                  IconDesk.txt
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+General
+¯¯¯¯¯¯¯
+IconDesk is a Litestep module that displays icons on the
+desktop, much like in Explorer.
+
+
+Bangs
+¯¯¯¯¯
+!IconDeskShow <group>
+Shows the specified icon group.
+
+!IconDeskHide <group>
+Hides the specified icon group.
+
+!IconDeskToggle <group>
+Toggles the visibility of the specified icon group.
+
+!IconDeskUpdate <group>
+Updates the specified group. If the group is omitted all groups
+are updated.
+
+
+RC-commands
+¯¯¯¯¯¯¯¯¯¯¯
+IconDesk is configured much in the same way as Maduin's Label.
+Begin with specifying a list of groups to add (a group [of
+icons] is basicly a folder to display). You can have as many of
+these lines as you like.
+
+IconDeskGroups name1[,name2[,name3]]
+
+You can then specify individual settings for each group. If you
+want to set the icon size for a group you add a line like this.
+
+IconDesk<name>Size 32
+
+Where <name> is the name of the group. The following settings
+are available:
+
+Visible <bool>
+Determines whether or not the group is visible. Defaults to
+true.
+
+X <int>
+Y <int>
+Position on the desktop to start drawing the icons. Negative
+coordinates are supported. Both defaults to 0.
+
+Size <int>
+Size of the icons, in pixels. Defaults to 32.
+
+SpacingX <int>
+SpacingY <int>
+Distance between the icons. Not that the distance is calculated
+between the rectangles formed by both the icons and the text.
+Defaults to 0, both ways.
+
+Direction [right|left|down|up]
+The direction to draw the icons in. Defaults to right.
+
+WrapDirection [right|left|down|up]
+Direction to wrap the icons in. Defaults to down. Note: If
+Direction is set to right or left, WrapDirection must be up or
+down and vice versa.
+
+WrapCount <int>
+Number of icons to display before wrapping to the next line
+or column. Defaults to 10.
+
+Font <string>
+FontSize <int>
+FontItalic <bool>
+FontBold <bool>
+FontColor <colour>
+Font used to display the filenames. Defaults to Arial, size 14,
+white, neither bold nor italic.
+
+TextAlign [right|left|center]
+Text alignment. Defaults to center.
+
+TextPosition [right|left|top|bottom]
+The text position relative to the icon. Defaults to bottom.
+
+TextSpacing <int>
+Distance between the icon and the text. Defaults to 5.
+
+TextWidth <int>
+TextHeight <int>
+Size of the box where the text is drawn. Defaults to 64x28.
+
+TextBackground <color>
+If set, this color will be used to paint a box behind the text.
+Default: blank (no box is painted).
+
+TextShadowDepth <int>
+If set, a text shadow will be drawn the specified number of
+pixels below and to the right of the normal text. Negative
+numbers will place the shadow above and to the left of the
+normal text. Defaults to 0.
+
+TextShadowColor <color>
+The color of the text shadow. Defaults to 80 80 80.
+
+TextOutline <bool>
+If set to true an outline will be drawn around the text.
+Defaults to false.
+
+TextOutlineColor <color>
+Specifies the color of the text outline. Defaults to 40 40 40.
+
+HideExtension <bool>
+If set to true the extensions of the files will not be
+displayed. Defaults to true.
+
+ShowHidden <bool>
+If true, files with the hidden and system attributes will
+displayed. Defaults to false.
+
+FoldersFirst <bool>
+If true, all folders will be placed before all files. Defaults
+to true.
+
+NonFilesystemFirst <bool>
+If true, all nonfilesystem folders (My Computer, Recycle Bin,
+etc.) will be placed before everything else. Defaults to true.
+
+HideText <bool>
+If true, no text labels will be drawn. Note that this affects
+the spacing of the icons. Defaults to false.
+
+Tooltips <bool>
+If true, tooltips with the title of the icon will be displayed.
+Defaults to true.
+
+Saturation <int>
+Icon saturation. 255 will result in the normal icon and 0 in a
+monochrome image. Defaults to 255 (= effect deactivated).
+
+HueColor <color>
+HueIntensity <int>
+Color and intensity of the hue effect. The intensity should be
+a number between 0 and 255. 0 will give no effect and 255 will
+result in the icon being completely covered in the specified
+color. Defaults to 128 128 128 (medium gray) and 0 (= effect
+deactivated).
+
+LinkOverlay <bool>
+ShareOverlay <bool>
+If set link and share overlays will be displayed respectively.
+Both defaults to true.
+
+LinkOverlayIcon <file>[,<index>]
+ShareOverlayIcon <file>[,<index>]
+Specifies an icon to use as link and share overlay
+respectively. If left out the system default icon will be used.
+
+*IconDesk<group>Folder <string>
+Specifies a folder to display. You can have as many of these
+lines as you want. If no lines are present .desktop will be
+displayed. This can be either a normal directory, a CLSID
+($drives$, $controlpanel$, etc) or ".desktop" (sans quotes).
+
+*IconDesk<group>Mouse <event> <modifiers> <command>
+Specifies a command to execute upon a certain mouse event. You
+can have as many of these lines as you want. The event
+parameter defines what mouse event the command should be
+executed at, possible values are Left, Middle or Right directly
+followed by Up, Down or Dbl. The modifiers parameter is a
+combination of Ctrl, Alt, Shift, Win, Apps and .none separated
+by a +. The command is either a bang command, a file or an
+internal command. Internal commands are .context to open the
+context menu, .properties to show the file properties and .open
+to execute the file.
+LeftDbl .none defaults to .open, LeftDbl Alt defaults to
+.properties and RightUp .none defaults to .context.
+
+*IconDesk<group>Hide <pattern>
+Any icon that matches the pattern by either its title or its
+filename will be hidden. You can have as many of these lines
+as you want. For pattern syntax, see the section 'Pattern
+matching'.
+
+*IconDesk<group>First <pattern>
+*IconDesk<group>Last <pattern>
+Any icon matching these patterns by either its title or its
+filename will be placed first/last in the icon list. You can
+have as many of these lines as you want. For pattern syntax,
+see the section 'Pattern matching'.
+
+
+Pattern matching
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+IconDesk is using the built in pattern matching functions of
+Litestep. This provides a limited regular expression support.
+Supported matching methods are:
+ * Matching any number of characters
+ ? Matching one character
+ [SET] Matching any character in the set
+ [!SET] or [^SET] Matching any characters not in the set
+A set is composed of characters or ranges; a range looks like
+character hyphen character (as in 0-9 or A-Z). The set
+[A-Za-z123] will match any character in the alphabet as well
+as a 1, 2 or 3.
+To suppress the special syntactic significance of any of
+[]*?!^-\, and match the character exactly, precede it with a \.
+
+
+Changes
+¯¯¯¯¯¯¯
+Date         Ver    Changes
+14 dec 2003  0.68   Fixed drive icons.
+                    Sorting is now done on filenames instead of
+                    titles for filesystem objects (fixes drive
+                    sorting).
+                    Added support for link and share overlays,
+                    use LinkOverlay and ShareOverlay settings
+                    to disable them and LinkOverlayIcon and
+                    ShareOverlayIcon to specify another icon
+                    then the default.
+                    Fixed a few problems with user defined
+                    mouse actions.
+
+23 nov 2003  0.67   Fixed folders with dots in their names not
+                    being treated properly.
+                    Fixed problem with folders and executables
+                    with the same name.
+                    Fixed problem with folders not opening on
+                    some systems.
+                    Fixed default group appearing with some
+                    configurations.
+                    Added setting NonFilesystemFirst to display
+                    special folders first.
+                    Implemented custom settings interface,
+                    separated most of the module core from the
+                    Litestep API.
+                    Creating a HICON for tinted icons for
+                    cleaner code.
+                    Based more of the code on STL, did some
+                    more cleaning and restructuring.
+                    Disabled selection rects since I couldn't
+                    get them to work properly.
+
+02 nov 2003  0.66   Cascaded context menues are working again,
+                    better then ever. The menu doesn't need to
+                    be clicked to expand.
+                    Added text outlines.
+                    Added icon hiding by pattern.
+                    Added basic sorting customisation by
+                    pattern.
+                    Fixed the redraw/flicker problem to some
+                    extent.
+                    Added new internal command .properties to
+                    display the file properties window. Double
+                    clicking with ALT pressed defaults to
+                    display the properties window.
+                    Using the Litestep logging functions with
+                    dynamic binding to support PureLS.
+                    The default folder was changed from C:\ to
+                    the desktop (.desktop).
+                    Fine tuned the icon extraction routine.
+                    A few minor bugfixes and cleanups.
+                    Fixed a typo in the readme.
+
+26 oct 2003  0.65   New way to config mouse events, support for
+                    keyboard modifiers.
+                    Reverted to old context menu code, the new
+                    code had large problems with stability.
+
+26 oct 2003  0.64   Loading icons for file types that doesn't
+                    specify an icon index does not crash LS.
+
+25 oct 2003  0.63   The icon text can now be placed on any side
+                    of the icon.
+                    Added support for text alignment.
+                    Fixed a problem with icon extraction from
+                    .lnk files pointing to files other then
+                    .exe/.ico/.cur/.ani-files.
+                    Improved the ugly hack used to fix the My
+                    Documents icons.
+                    Importing the shell notification functions
+                    by function ordinals to support non-XP
+                    systems.
+                    Reverted to a custom implementation of
+                    StrRetToBuf to support non-XP systems.
+
+19 oct 2003  0.62   Cascaded context menues (such as the Send
+                    To menu) are now working.
+                    Improved the update notification code.
+                    Solved problem with icon duplication.
+                    More code cleaning.
+
+19 oct 2003  0.61   Hopefully fixed the white trails drawing
+                    problem.
+                    My Documents is now displayed with the
+                    correct icon.
+                    If !IconDeskUpdate is called without any
+                    arguments all groups are updated.
+                    Cleaned the code some more.
+                    A sample configuration file is included.
+
+18 oct 2003  0.6    New icon extraction procedure, icon sizes
+                    above 32 by 32 pixels are new supported.
+                    The title of My Documents is now displayed
+                    corectly.
+                    New update method, catches notifications
+                    from the OS when a folder is updated. This
+                    method also supports special folders such
+                    as the desktop and My Documents. No timer
+                    is used anymore and IconDeskUpdateInterval
+                    is thus removed.
+                    Support for multiple IconDeskGroups lines.
+                    Source code cleaned up a bit.
+                    Compiled with VC7 against a newer build of
+                    STLport.
+
+13 jul 2003  0.55   !IconDeskUpdate didn't cause redrawing.
+                    Fixed a GDI leak (thanks to jesus_mjjg for
+                    pointing it out).
+                    Quoted paths are now working.
+                    Added support for negative coordinates.
+                    Added tooltips (disable w/ Tooltips false).
+                    If the desktop window isn't found, the
+                    module waits for 500 ms and then looks
+                    again.
+
+22 jun 2003  0.52   Reverted to old icon extraction mechanism.
+                    Now using IShellFolder to enum the files,
+                    in other words special folders such as My
+                    Computer and the desktop are now supported.
+                    Fixed the bug where you could still click
+                    the areas where the icons where when they
+                    were hidden.
+
+11 may 2003  0.5    Add ability to hide icon texts.
+                    Added customisation of mouse events.
+                    Improved icon extraction a bit, still not
+                    working very well with icon sizes above 32.
+                    Converted to STL lists and implemented
+                    sorting, still no customisation.
+                    Added ability to merge folders.
+                    Attribute changes in monitored folders are
+                    now detected.
+                    Added icon effects (hue & saturation) from
+                    systray2.
+                    Changed default text color to white.
+                    Changed default shadow color to a darker
+                    gray (80 80 80).
+
+26 apr 2003  0.41   If no groups are specified, a group called
+                    "Default" will be created.
+                    All positions and distances are now
+                    calculated on the rectangles formed by both
+                    the icon and the text.
+                    Added support for text shadows.
+
+25 apr 2003  0.4    IconDesk is no longer a part of desktop2,
+                    it's a regular module. It now works with
+                    jDesk as well.
+                    I decided that IconDesktop was too long,
+                    the module is now called IconDesk.
+                    Added support for multiple folders.
+                    Readded IconDeskUpdateInterval.
+                    Added !IconDeskUpdate.
+                    Reworked the settings system, all settings
+                    have new names.
+                    Increased the default of UpdateInterval to
+                    1000 milliseconds.
+
+24 apr 2003  0.35   Code cleanup
+                    Added DesktopIconVisible
+                    Added !DesktopIconShow
+                    Added !DesktopIconHide
+                    Added !DesktopIconToggle
+                    Added DesktopIconFoldersFirst
+                    Added DesktopIconShowHidden
+                    Removed DesktopIconUpdateInterval
+
+24 apr 2003  0.3    First public release
+
+
+To-do-list
+¯¯¯¯¯¯¯¯¯¯
+ * Better customisation, ideas?
+ * Sorting customisation.
+ * In-module browsing.
+ * Keyboard navigation.
+ * Manual adding of icons (*IconDesk<group>Add?).
+ * Drag'n'Drop support (creating shortcuts etc).
+ * A windowed mode with support for always on top, background
+   images, scrolling, etc.
+ * Autosizing textboxes, vertical alignment.
+ * Customising the context menus.
+
+
+Known bugs/faults
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+1. Does not work with jDesk nor Desktop2 threaded.
+
+2. Icon effects (saturation and hue) destroys the transparency
+   channel.
+
+
+Feedback
+¯¯¯¯¯¯¯¯
+If you have a bug report, feature request, or any kind of
+feedback, feel free to email it to me at erik@alphafish.com.
+For more info and other LiteStep modules and programs, check
+out www.alphafish.com
+
+
+Sourcecode
+¯¯¯¯¯¯¯¯¯¯
+The sourcecode for this module is distributed under the GNU
+Public License. If you didn't get the sourcecode with this
+module, you can download it from www.alphafish.com
+
+
+Credits
+¯¯¯¯¯¯¯
+All the people behind STLport, a great library. All the authors
+of popup2, I've borrowed some code from it (namely the context
+menu handling). grd, who originally wrote the icon effects code
+that I borrowed from systray2. Thanks for ides for improvment
+goes to: allelimo, Phil Varcoe, Gregory Weaver, rabidcow,
+Christian Buffin (jesus_mjjg), Paradox, fractal.design, Phil
+Stopford, sryo, David Consuegra, Deedstyger, uggi, Anders
+Jakobsson (Milk), Scathe, Daniel Kerr and many others.
+
+_______________________________________________________________
+Erik Christiansson, aka Sci                  erik@alphafish.com

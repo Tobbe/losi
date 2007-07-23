@@ -1,0 +1,1441 @@
+
+<html>
+<head>
+<link type="text/css" href="docs.css" rel="stylesheet">
+<title>
+ LiteStep b24.6
+</title>
+</head>
+<body
+bgcolor="#dddddd" text="Black" link="#3D007A" alink="#3D007A" vlink="#3D007A">
+<center>
+<table
+    width="100%"
+    border="0"
+    text="#FFFFFF"
+    link="#3D007A"
+    alink="#3D007A"
+    vlink="#3D007A"
+    marginwidth="5"
+    marginheight="5"
+    topmargin="5"
+    leftmargin="5"
+>
+<tr class="border">
+<td>
+<table
+    width="100%"
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    class="main"
+>
+<tr>
+<td>
+<table
+    width="100%"
+    border="0"
+    cellpadding="10"
+    cellspacing="0"
+>
+<tr>
+<td>
+
+    <div class="title">
+       LiteStep v. 0.24.6 documentation<p>
+    </div>
+    <span class="info">
+       written by the LiteStep Documentation Effort, August 2000<br>
+    </span>
+</td>
+<td align="right" valign="middle">
+       <img src="logo.gif" width="64" height="64">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr class="border">
+ <td>
+ </td>
+</tr>
+<tr>
+ <td>
+<div class="head">What does popup2.dll do?</div>
+<div class="body">
+Popup2.dll provides the user with a menu system comparable to the
+Explorer Start Menu, with the added advantage of being completely
+customizable with respect to appearance and content. The Popup menu
+can be used to execute LiteStep !Bang commands, as well as Windows
+components such as the Control Panel and external applications. Extended
+Popup features include the ability to show the date and time, display
+the contents of any folder on your system, keyboard navigation,
+and act as a remote control for controlling WinAmp.
+</p>
+<p>
+To Configure the Popup for KeyBoard Navigation, simply place an ampersand,
+"&amp;" into the Popup Name.  Once the Popup menu is displayed, simply press
+the key that is underlined.
+</p>
+<p>
+By default, the Popup is accessed by right-clicking on the desktop, however
+it can also be displayed through the use of hotkeys, shortcuts, or any
+other method of executing a !Bang command.
+</div>
+<div class="head">Example Configuration for popup2.dll</div>
+<div class="body">
+For a single popup reffered to by !Popup you could use a configuration
+like this:
+</p>
+<font size="-1">
+*Popup "Programs" !DynamicFolder:$Programs$<br />
+*Popup "Editors" Folder<br />
+&nbsp; &nbsp; &nbsp; &nbsp;*Popup &amp;NotePad c:\windows\notepad.exe<br />
+&nbsp; &nbsp; &nbsp; &nbsp;*Popup &amp;MetaPad .icon=C:\metapad.exe,1 c:\metapad.exe<br />
+*Popup ~Folder<br />
+*Popup "Active Apps" !PopupTasks
+</font>
+<br /><br />
+If you wanted to configure multiple popups you would use a configuration
+simliar to this:
+<br /><br />
+*Popup "Programs" !New !PopupPrograms<br />
+IF Win9x<br />
+*Popup "Programs" !DynamicFolder:$Programs$<br />
+ENDIF<br />
+IF WinNT<br />
+*Popup "Programs" !DynamicFolder:$Programs$|$CommonPrograms$<br />
+*Popup "AdminTools" !DynamicFolder:$AdminToolsDir$<br />
+ENDIF<br />
+*Popup ~New<br />
+<br />
+*Popup "Stuff" !New !PopupStuff<br />
+*Popup "Tasks" !PopupTasks<br />
+*Popup "Desktops" !PopupDesktops<br />
+*Popup ~New<br />
+<p>
+<b>Note</b>: No matter what you configure, the first *Popup will always be
+assigned !Popup.
+</div>
+<div class="head">Step.RC Syntax for popup2.dll</div>
+<div class="body">
+Popup2 is the first and only module that uses the Color Settings
+configured in the Appearance tab of the Windows Display Properties section
+in the Control Panel. The default values for all of the [Color] Settings
+in Popup2 are taken from the current Windows color scheme. The Popup
+colors can be changed by specifying your own colors in the Step.RC or by
+using images that will override the colors. There is no need to edit the
+Windows color scheme to change the color of your Popup - simply use the
+[COLOR] or [IMAGE.BMP] commands described below.
+</div>
+     <div class="body">
+      <table width="95%" align="center" border="0" cellpadding="0" cellspacing="0">
+       <tr class="border">
+        <td>
+         <table align="center" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <center>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               HotlistName <a href="misc.html#string">[STRING]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Puts <a href="misc.html#string">[Name]</a> at the top of the Popup menu.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTitleAlignment [Left/Center/Right]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Allows you to specify where you want your HotlistName to appear in the
+              title bar of the popup.
+              <p>
+              <b>Default</b>: Left
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTitleHeight <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the Height of the Popup Title so that it may differ from the Height
+              of the rest of the Popup Entries.
+              <p>
+              <b>Default</b>: Submenu Height
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTitleColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the font color of the Popup titlebar.
+              <p>
+              <b>Default</b>: Window Text
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTitleBgColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the background color of the Popup titlebar.
+              <p>
+              <b>Default</b>: Active Caption
+              </p>
+              <p>
+              <b>Note</b>: If PopupTitlePix is specified, PopupTitleBgColor is ignored.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupGradientTitle <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the gradient background color of the Popup titlebar.
+              <p>
+              <b>Default</b>: Active Caption
+              </p>
+              <p>
+              <b>Note</b>: If PopupTitlePix is specified, PopupGradientTitle is ignored.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the font color of the Popup Folders.
+              <p>
+              <b>Default</b>: Window Text
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelFolderColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the font color of the Popup Folder that is currently selected.
+              <p>
+              <b>Default</b>: Window Text
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderBgColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the background color of the Popup Folder.
+              <p>
+              <b>Default</b>: Active Caption
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelFolderBgColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderPix  <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelFolderPix  <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupGradientFolder <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupArrowImage <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Allows you to specify the icon you want to be used when a Popup Folder is
+              found.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               NoPopupFolderIcon <a href="misc.html#bool">[BOOL]</a> <br />
+               <b>Build 2001-12-09 and later:</b><br />PopupNoFolderArrow <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The Popup will not draw the arrow icon to indicate that a Popup
+              entry is a folder.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelArrowImage <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Allows you to specify a different icon for when a folder is selected than
+              when it is just normally displayed
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupEntryAlignment [Left/Center/Right]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Allows you to specify what kind of text alignment you would like for your
+              popup menu.
+              <p>
+              <b>Default</b>: Left
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupEntryColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the font color of the text on a Popup entry.
+              <p>
+              <b>Default</b>: Menu Text
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupEntryBgColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the background color of a Popup entry.
+              <p>
+              <b>Default</b>: Button Face
+              </p>
+              <p>
+              <b>Note</b>: If PopupEntryPix is specified, PopupEntryBgColor is ignored.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelEntryColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the font color of the text a Popup entry when the mouse is over it.
+              <p>
+              <b>Default</b>: Highlight Text
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelEntryBgColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the background color of a Popup entry when the mouse is over
+              it.
+              <p>
+              <b>Default</b>: Highlight
+              </p>
+              <p>
+              <b>Note</b>: If PopupSelEntryPix is specified, PopupSelEntryBgColor is
+              ignored.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupGradientEntry <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the gradient background color of a typical Popup entry.
+              This sets the gradient color for both typical and selected entries.
+              <p>
+              <b>Default</b>: Button Face
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupBevelLightColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the light (top-left) <a href="misc.html">bevel</a> of the Popup menu.
+              <p>
+              <b>Default</b>: 3D Highlight
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupBevelDarkColor <a href="misc.html#color">[COLOR]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the dark (bottom-right) <a href="misc.html">bevel</a> of the Popup
+              menu.
+              <p>
+              <b>Default</b>: 3D Shadow
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               NoPopupMenuBevel <a href="misc.html#bool">[BOOL]</a><br />
+               <b>Build 2001-12-09 and later:</b><br />PopupNoMenuBevel <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Removes the bevel around the outer edge of the Popup menu and disables PopupBevelLightColor and
+              PopupBevelDarkColor settings.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               NoPopupBevel <a href="misc.html#bool">[BOOL]</a> <br />
+               <b>Build 2001-12-09 and later:</b><br />PopupNoBevel <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Removes the bevel
+              between individual Popup entries.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupEntryFontFace [FONT]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will set the font for the text in the Popup menu.
+              <p>
+              <b>Default</b>:
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFontFace [FONT]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will set the font for the text in the Popup titlebar.
+              <p>
+              <b>Default</b>:
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFontHeight <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will set the font size in pixels, not points.
+              <p>
+              <b>Default</b>: 16
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelEntryFontFace [FONT]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              <p>
+              <b>Requires build 2002-05-14 or later.</b>
+              </p>
+              Sets the font for text in selected Popup entries.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelEntryFontHeight <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              <p>
+              <b>Requires build 2002-05-14 or later.</b>
+              </p>
+              Sets the font size, in pixels, for text in selected Popup entries.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderFontFace [FONT]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will set the font for the text in the Popup where there are folders.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderFontHeight <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will set the font size in pixels, not points, for the font used on PopupFolders.
+              <p>
+              <b>Default</b>: 16
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               Popup[Entry|SelEntry|Folder|SelFolder|Title][Bold|Italic|Underline]
+              </code>
+             </td>
+             <td class="data" width="40%">
+             <p>
+             <b>Requires build 2002-05-19 or later.</b>
+             </p>
+              Sets font style options.
+              <p>SelFolder settings default to SelEntry.</p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               Popup[Title|Entry|SelEntry|Folder|SelFolder][ShadowDepth|ShadowColor]
+              </code>
+             </td>
+             <td class="data" width="40%">
+             <p>
+             <b>Requires build 2002-05-20 or later.</b>
+             </p>
+              Sets font shadow options.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupGradientSel[Entry|Folder]
+              </code>
+             </td>
+             <td class="data" width="40%">
+             <p>
+             <b>Requires build 2002-06-08 or later.</b>
+             </p>
+              Sets selected entry/folder gradient settings.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSubMenuHeight <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will set the size of each Popup entry (title, typical, and selected).
+              <p>
+              <b>Default</b>: 20
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTitlePix <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the image that will show in your Popup titlebar.
+              <p>
+              <b>Note</b>: This will ignore PopupTitleBgColor.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupEntryPix <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the image that will show in a typical Popup entry.
+              <p>
+              <b>Note</b>: This will ignore PopupEntryBgColor.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSelEntryPix <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the image that will show in a Popup entry when the mouse is over it.
+              <p>
+              <b>Note</b>: This will ignore PopupSelEntryBgColor.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupBottomPix <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the image that will show at the bottom of each Popup menu and sub-menu.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupBLT {0, 1, 2}
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the way image files are displayed.
+              <p>
+              &nbsp;&nbsp;&nbsp;0 is normal<br />
+              &nbsp;&nbsp;&nbsp;1 is stretched<br />
+              &nbsp;&nbsp;&nbsp;2 is tiled
+              </p>
+              <p>
+              <b>Default</b>: 0
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupPaintMode [PAINT MODE]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              <p>
+              <b>Requires build 2002-05-15 or later.</b>
+              </p>
+              Sets the way image files are displayed.
+              <ul>
+                <li> tile
+                <li> stretch
+                <li> plain
+              </ul>
+              <p>
+              <b>Default</b>: plain
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupBorder[Left|Right|Top|Bottom] <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              <p>
+              <b>Requires build 2002-05-15 or later.</b>
+              </p>
+              Sets borders that will not be altered when tiling/stretching.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupSeparatorPix <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Allows you to assign a bitmap image to be used for all !Separator lines.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               NoPopupTransparent <a href="misc.html#bool">[BOOL]</a> <br />
+               <b>Build 2001-12-09 and later:</b><br />PopupNotTransparent <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Makes sure that text is drawn, even if there is no image behind it.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupAdaptiveWidth <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The Popup will automatically adjust the width of each Popup sub-menu to
+              accommodate the longest entry in the menu.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               MaxPopupWidth <a href="misc.html#number">[NUMBER]</a><br />
+               <b>Build 2001-12-09 and later:</b><br />PopupMaxWidth <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the maximum width the Popup can be.
+              <p>
+              <b>Default</b>: 500
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               MinPopupWidth <a href="misc.html#number">[NUMBER]</a> <br />
+               <b>Build 2001-12-09 and later:</b><br />PopupMinWidth <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the minimum width the Popup can be.
+              <p>
+              <b>Default</b>: 128
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupOverlapX <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Determines how much a sub-menu will overlap its parent menu.
+              <p>
+              <b>Default</b>: 5
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupOverlapY <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Determines how much a sub-menu will be above or below the parent window.
+              <p>
+              <b>Default</b>: 20
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTextOffset <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the number of pixels the text will start from the left side of the
+              Popup menu.
+              <p>
+              <b>Default</b>: 5
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupMenuDelay <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This changes the amount of time it takes between putting your mouse over
+              a folder and when the sub-menu appears.
+              <p>
+              <b>Default</b>: 100
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderHoverOpen <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              <p>
+              <b>Requires build 2002-11-17 or later.</b>
+              </p>
+              If set to false, folders must be clicked to unfold sub-menus.
+              <p>
+              <b>Default</b>: true
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupNoTitles <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The Popup menu will not draw any titlebars for sub-menus. If
+              PopupTitlePix has been defined, it will not be shown on sub-menus.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupIcons <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The Popup will draw icons to the left of the text for each Popup entry.
+              <p>
+              <b>Note</b>: You can explicity set the icon to be used by utilizing .icon=
+              </p>
+              <p>
+              <b>Build 2002-12-15 and later:</b><br />
+              Supports ".none".</br>
+              Supports generic icon file associations. <br />
+              &nbsp;Syntax: *.extension<br />
+              &nbsp;Example: *Popup .icon=*.txt "Text Editor" "notepad.exe"
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupIconsOnRight <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The Popup will draw icons to the right of the text for each Popup entry.
+              <p>
+              <b>Note</b>: You can explicity set the icon to be used by utilizing .icon=
+              </p>
+              <p>
+              <b>Build 2002-12-15 and later:</b><br />
+              Supports ".none".</br>
+              Supports generic icon file associations. <br />
+              &nbsp;Syntax: *.extension<br />
+              &nbsp;Example: *Popup .icon=*.txt "Text Editor" "notepad.exe"
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupDefaultIcon <a href="misc.html#icon">[Icon]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the default icon to show when there is no registered icon for a
+              Popup entry.<br />
+              <p>
+              <b>Build 2002-12-15 and later:</b><br />
+              Supports ".none".</br>
+              Supports generic icon file associations. <br />
+              &nbsp;Syntax: *.extension<br />
+              &nbsp;Example: *Popup .icon=*.txt "Text Editor" "notepad.exe"
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupFolderIcon <a href="misc.html#icon">[Icon]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              <p>
+              <b>Requires build 2002-11-29 or later.</b>
+              </p>
+              Defines the default folder icon. Supports .ico files and
+              extraction:<br />
+              PopupFolderIcon c:\win2k\explorer.exe,2
+              <p>
+              <b>Build 2002-12-15 and later:</b><br />
+              Supports ".none".</br>
+              Supports generic icon file associations. <br />
+              &nbsp;Syntax: *.extension<br />
+              &nbsp;Example: *Popup .icon=*.txt "Text Editor" "notepad.exe"
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupIconSpacing <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Sets the distance between an Icon and the text in your popup entries.
+              <p>
+              <b>Note</b>: PopupIcons must be set to true.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupIconSize <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              With this setting you can adjust the size of all of your icons in your
+              popup menu.
+              <p>
+              <b>Note</b>: PopupIcons must be set to true.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupDateTimeAlign {0,1,2,4}
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will change the way the date/time is aligned in the Popup.
+              <p>
+              &nbsp;&nbsp;&nbsp;0 is left aligned<br />
+              &nbsp;&nbsp;&nbsp;1 is centered horizontally<br />
+              &nbsp;&nbsp;&nbsp;2 is right aligned<br />
+              &nbsp;&nbsp;&nbsp;4 is centered vertically
+              </p>
+              <p>
+              <b>Default</b>: 2
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupAutoSeparator <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              A separating line will be automatically inserted between
+              folders and the files in the Popup menu.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupShowExtension <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Show filename extensions.
+              <p>
+              Default: false
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTasksWindowCaption <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              !Popuptasks will use the real window captions in the Tasks sub-menu.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupScrollSpeed <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will adjust the Popup scrolling speed if the Popup appears off of the screen.
+              Higher values increase the scrolling speed.
+              <p>
+              <b>Default</b>: 1
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTitleBold <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Displays the HotListName will be shown in <b>BOLD</b>.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupEntryFontHeight <a href="misc.html#number">[NUMBER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The Popup Font size can be defined to Entry's independent of the Title.
+              <p>
+              <b>Default</b>: 16
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               NoPopupCloseButton <a href="misc.html#bool">[BOOL]</a> <br />
+               <b>Build 2001-12-09 and later:</b><br />PopupNoCloseButton <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Popup will not draw a close button on a pinned menu item.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PinnedPopupNotOnTop <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Makes a pinned Popup item will act like a
+              normal window by not being always on top of other windows.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               NoPopupTitleText <a href="misc.html#bool">[BOOL]</a> <br />
+               <b>Build 2001-12-09 and later:</b><br />PopupNoTitleText <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Prevents the display of the Title Text on sub-menus while
+              still displaying the title graphic.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupTasksStartPinned <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This will keep the display of !PopupTasks on the screen until you close it
+              by clicking on the "X" in the upper right corner.
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               PopupUseDropShadows <a href="misc.html#bool">[BOOL]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Draws Popups with a drop shadow. This only works in Windows XP.
+             </td>
+            </tr>
+          </center>
+         </table>
+        </td>
+       </tr>
+      </table>
+     </div>
+<div class="head">!Bang Commands for popup2.dll</div>
+<div class="body">
+The !Bang Commands for Popup2.dll are not like !Bang commands for
+other modules. The ONLY commands that you can execute outside of a
+Popup Menu is !Popup and !PopupTasks. All other Popup !Bang commands
+should be preceded with the *Popup command. Since the syntax for each of
+these !Bang commands may be slightly different, examples are provided below.
+</div>
+     <div class="body">
+      <table width="95%" align="center" border="0" cellpadding="0" cellspacing="0">
+       <tr class="border">
+        <td>
+         <table align="center" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <center>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !Popup
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This causes the Popup menu to appear and is the only !Bang command
+              not used within the *Popup Section of the Step.RC.
+              <p>
+              By default, the Popup menu appears wherever the mouse
+              cursor currently sits.  Optionally, co-ordinates can be included in the
+              !Popup command to specify exactly where the Popup menu should appear.
+              </p>
+              <p>
+              <b>Example</b>: !Popup x=-20 y=50
+              </p>
+              <p>
+              You can also specify alignment with <code>center</code>, <code>left</code>,
+              <code>right</code>, <code>top</code>, <code>bottom</code>.  You can add
+              <code>pin</code> to make the menu start pinned, or <code>close</code> to
+              close the popup instead of showing it.  (even if pinned)
+              </p>
+              <p>
+              <b>Example</b>: !Popup center 50% 50% pin
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupFolder:<a href="misc.html#folder">[FOLDER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This creates a static subfolder that displays the contents of the specified
+              drive or directory. The contents of the directory are loaded at startup,
+              and can only be updated by !Recycling LiteStep.
+              <p>
+              <b>Note</b>: You can limit the content for a PopupFolder by using pattern
+              matching.  If the PopupFolder contains another folder, that folder must
+              match your pattern in order to be displayed.
+              </p>
+              <p>
+              <b>Example</b>: *Popup "My Documents" !PopupFolder:"C:\My Docuemnts\*.doc"
+              </p>
+              <p>
+              Multiple directories can be placed in the same PopupFolder by using the
+              pipe character, "|", to separate them.
+              </p>
+              <p>
+              <b>Build 2002-12-05 and later:</b><br />
+              Subfolders with the same name will be merged as well.
+              </p>
+              <p>
+              <b>Example</b>: *Popup "LiteStep" !PopupFolder:"C:\LiteStep\"|$ModuleDir$
+              </p>
+              <p>
+                <b>Build 2002-04-30 and later:</b><br />
+                You can create a Popup straight from a directory (i.e., the first
+                Popup level is a directory).<br />
+                *Popup "Caption" !new !PopupStuff !PopupFolder:$dir$
+                </p>
+              <p>
+              <b>Note</b>: By right-clicking on the folder, or any sub-menu, you can open
+              the context menu for the directory.  This is similar to the functionality
+              in the Start Menu of Windows Explorer.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupDynamicfolder:<a href="misc.html#folder">[FOLDER]</a><br />!Dynamicfolder:<a href="misc.html#folder">[FOLDER]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              This creates a dynamic subfolder with the contents of the specified
+              drive or directory. Dynamic folders differ from static folders in that
+              the Popup folder will automatically update when the directory is updated,
+              meaning that a !Recycle is not necessary to see changes.
+              <p>
+              <b>Note</b>: You can limit the content for a DynamicPopupFolder by using
+              pattern matching.  If the DynamicPopupFolder contains another folder,
+              that folder must match your pattern in order to be displayed.
+              </p>
+              <p>
+              <b>Example</b>: *Popup "My Documents" !PopupFolder:"C:\My Docuemnts\*.doc"
+              </p>
+              <p>
+              Multiple directories can be placed in the same PopupDynamicFolder by
+              using the pipe character, "|", to separate them.
+              </p>
+              <p>
+              <b>Build 2002-12-05 and later:</b><br />
+              Subfolders with the same name will be merged as well.
+              </p>
+              <p>
+              <b>Example</b>: *Popup "C Drive" !PopupDynamicFolder:$Programs$|"C:\"
+              </p>
+              <p>
+              <b>Build 2002-12-09 and later:</b><br />
+              !PopupDynamicFolder may be used anywhere, as a regular bang.<br />
+              Syntax: !PopupDynamicFolder &lt;path&gt; &lt;regular positioning parameters (see !Popup, above)&gt;
+              </p>
+              <p>
+              <b>Note</b>: By right-clicking on the folder, or any sub-menu, you can
+              open the context menu for the directory.  This is similar to the
+              functionality in the Start Menu of Windows Explorer.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupImage <a href="misc.html#image">[IMAGE.BMP]</a>
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Inserts a "dummy" image as a popup entry.  This image has no
+              functionality other than acting as a separator in the popup
+              menu.
+              <p>
+              <b>Example</b>: *Popup !PopupImage separator.bmp
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !Separator
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Inserts a horizontal line as a popup item using the PopupBevel
+              Colors you have specified in the Step.RC.
+              <p>
+              <b>Example</b>: *Popup !Separator
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupTasks
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu containing all the currently running tasks.
+              <p>
+              <b>Example</b>: *Popup "Task List" !PopupTasks
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupRun
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a run box inside the Popup menu that can run !Bang commands as well as
+              executables.
+              <p>
+              <b>Example</b>: *Popup "Execute:" !PopupRun
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !RemoteAmp <a href="misc.html#image">[IMAGE.BMP]</a><br />
+               <b>Build 2002-05-15 and later:</b><br /> !RemoteAmp <a href="misc.html#image">[IMAGE.BMP]</a> [marginleft] [marginright] [margintop] [marginbottom] [spacing]
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a WinAmp control as a popup entry, based on the image you specify.
+              The image should have previous, play, pause, stop, and next buttons, from left
+              to right.
+              <p>
+              <b>Example</b>: *Popup !RemoteAmp remoteamp.bmp
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !DateTime
+              </code>
+             </td>
+             <td class="data" width="40%">
+              The syntax for this command is a little strange, so here's an example:
+              <p>
+              <b>Example</b>: *Popup "%H:%M.%S" !DateTime
+              </p>
+              <p>
+              This will display the current hour, minute, and second as a popup
+              entry. <a href="datetime.html">Click here</a> to see all the
+              codes for date and time entries.
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupMyComputer
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu containing the contents of the Windows "My Computer"
+              folder. If you right-click on this sub-menu you will get the explorer
+              context menu for My Computer.
+              <p>
+              <b>Example</b>: *Popup "My Computer" !PopupMyComputer
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupNetwork
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu containing entries for all networked computers found
+              in the Windows "Network Neighbourhood" folder. If you right-click on this
+              sub-menu you will get the context menu for Network Neighborhood.
+              <p>
+              <b>Example</b>: *Popup "Network" !PopupNetwork
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupControlPanel
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu containing all the items in the Windows "Control Panel"
+              folder. If you right-click on the sub-menu you will open the Control Panel
+              context menu.
+              <p>
+              <b>Example</b>: *Popup "Control Panel" !PopupControlPanel
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupPrinters
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu listing all available printers in the Windows
+              "Printers" folder. If you right-click on the sub-menu you will open the
+              Printers context menu.
+              <p>
+              <b>Example</b>: *Popup "Printers" !PopupPrinters
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupRecycleBin
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu that lists all of the items in your Recycle Bin.
+              <p>
+              <b>Example</b>: *Popup "Garbage" !PopupRecycleBin
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupRecentDocuments
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu that lists all of the documents you have recently
+              viewed.
+              <p>
+              <b>Example</b>: *Popup "Recent Docs" !PopupRecentDocuments
+              </p>
+             </td>
+            </tr>
+            <tr class="item">
+             <td align="center" class="data">
+              <code>
+               !PopupDesktops
+              </code>
+             </td>
+             <td class="data" width="40%">
+              Creates a sub-menu that shows you the VWM name specified by the
+              VWMDeskNameN.
+              <p>
+              <b>Example</b>: *Popup "Desktops" !PopupDesktops
+              </p>
+             </td>
+            </tr>
+          </center>
+         </table>
+        </td>
+       </tr>
+      </table>
+     </div>
+    </td>
+   </tr>
+   </table>
+  </td>
+ </tr>
+ </table>
+</body>
+</html>

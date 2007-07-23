@@ -1,0 +1,952 @@
+<html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><link type="text/css" href="doc2.css" rel="StyleSheet"><title>lsxcommand 1.9.3</title></head><body><div class="entry"><div class="docinfowrapper"><div class="docinfo"><h4>LSMD Document</h4><p><dl><dt>lsmd version:</dt><dd>0.3p</dd><dt>file version:</dt><dd>1.4.0</dd></dl>
+                by blkhawk, Eddie, ilmcuts, jesus_mjjg, rabidcow, Seg@, and Visigoth</p></div></div><h2 class="module">lsxcommand 1.9.3</h2><div class="summary"><p>lsxcommand-1.9.3<br>by blkhawk, Eddie, ilmcuts, jesus_mjjg, rabidcow, Seg@, and Visigoth<br>Category: console</p><p class="desc">
+				
+		The lsxcommand LoadModule is a text box that sits on your desktop.
+		It will let you type !bangs, folder names, documents, apps, urls,
+		etc and execute them.  You can also use it as a calculator, a clock,
+		do searches from it, display the currently playing winamp song,
+		and pick winning lottery numbers. 
+				
+			</p></div><div><h4 class="section"><a name="toc">Table of Contents</a></h4><div><ul class="toc"><li><a href="#prelogue">Introduction</a></li><li><a href="#pos">Position</a></li><li><a href="#vis">Appearance: Back and Border</a></li><li><a href="#text">Appearance: Text</a></li><li><a href="#hist">Command History</a></li><li><a href="#menu">Context Menu</a></li><li><a href="#calc">Calculator</a></li><li><a href="#search">Internet Searches</a></li><li><a href="#engines">The engines.list File</a></li><li><a href="#clock">Clock</a></li><li><a href="#audio">Audio Player</a></li><li><a href="#behave">Misc. Behavior</a></li><li><a href="#control">Bang Commands</a></li><li><a href="#changes">History</a></li><li><a href="#index">Index</a></li></ul></div><h4 class="section"><a name="prelogue">Introduction</a></h4><div class="section"><div class="para">
+		if you specify a border width and you dont have <tt class="xref"><a href="#commandnotmoveable">CommandNotMoveable</a></tt> set,
+		you can drag it around by the border. there is a problem that some people
+		are having where the mouse cursor is not set back to a normal cursor after
+		it is off the text box. to fix this, use <tt class="xref"><a href="#commandnocursorchange">CommandNoCursorChange</a></tt> to stop 
+		lsxcommand from changing the cursor.
+				</div><div class="para">
+		just a tip: lots of programs names work in lsxcommand.. you can type stuff
+		like '<tt class="code">notepad</tt>', '<tt class="code">icq</tt>', '<tt class="code">netscape</tt>', to start some programs instead of the 
+		full path. the history is working great.
+				</div><div class="para">
+						<strong>Note</strong>:  I have tried to copy most of the old
+          text readme here, but some pieces may well be missing.  Visigoth
+          wrote most of that,  so most of the "I"s in here will
+          be him.  Just so ya know. -- rabidcow
+          
+					</div><dl> </dl></div><h4 class="section"><a name="pos">Position</a></h4><div class="section"><div class="para">Settings and bang commands for basic window positioning.</div><dl><dt class="command"><a name="commandx">CommandX</a> <small class="param">COORD</small></dt><dd class="cmddoc"><div class="para">Initial x position on the primary monitor or containing box.</div><div class="para">See also: <tt class="xref"><a href="#commandoffsetx">CommandOffsetX</a></tt>, <tt class="xref"><a href="#bang_commandmove">!CommandMove</a></tt>
+						</div></dd><dt class="command"><a name="commandy">CommandY</a> <small class="param">COORD</small></dt><dd class="cmddoc"><div class="para">Initial y position on the primary monitor or containing box.</div><div class="para">See also: <tt class="xref"><a href="#commandoffsety">CommandOffsetY</a></tt>, <tt class="xref"><a href="#bang_commandmove">!CommandMove</a></tt>
+						</div></dd><dt class="command"><a name="commandwidth">CommandWidth</a> <small class="param">COORD</small></dt><dd class="cmddoc"><div class="para">Initial width in pixels.</div><div class="para">See also: <tt class="xref"><a href="#bang_commandsize">!CommandSize</a></tt>
+						</div></dd><dt class="command"><a name="commandheight">CommandHeight</a> <small class="param">COORD</small></dt><dd class="cmddoc"><div class="para">Initial height in pixels.</div><div class="para">See also: <tt class="xref"><a href="#bang_commandsize">!CommandSize</a></tt>
+						</div></dd><dt class="command"><a name="commandnotalwaysontop">CommandNotAlwaysOnTop</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">lsxcommand normally tries to stay above regular windows.
+			Set this to true to make it try to stay below? float? instead.</div></dd><dt class="command"><a name="commandhiddenonstart">CommandHiddenOnStart</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Normally the command box is visible at startup, set this to true
+						to make it start hidden.</div><div class="para">See also: <tt class="xref"><a href="#commandwaitforbox">CommandWaitForBox</a></tt>
+						</div></dd><dt class="command"><a name="commandoffsetx">CommandOffsetX</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	This value determines which point on its window LSXCommand should use as a reference
+		    	for the <tt class="xref"><a href="#commandx">CommandX</a></tt> value.</div><div class="para">
+							<pre class="code">   0: left
+   1: horizontal center
+   2: right</pre>
+						</div></dd><dt class="command"><a name="commandoffsety">CommandOffsetY</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	This value determines which point on its window LSXCommand should use as a reference
+		    	for the <tt class="xref"><a href="#commandy">CommandY</a></tt> value.</div><div class="para">
+							<pre class="code">   0: top
+   1: vertical middle
+   2: bottom</pre>
+						</div></dd><dt class="command"><a name="commandwaitforbox">CommandWaitForBox</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    	LsxCommand will not appear until he is loaded in
+		    	 a box with the <tt class="xref"><a href="#bang_commandboxhook">!CommandBoxHook</a></tt>.
+		    	Please check lsbox documentation.
+		    </div></dd><dt class="bang"><a name="bang_commandmove">!CommandMove</a> <small class="param">COORD</small> <small class="param">COORD</small></dt><dd class="cmddoc"><div class="para">
+              Moves the command window to the specified position.  This
+              can now accept all regular position forms (eg, "<tt class="code">-106c</tt>")
+              as well as relative positions by using the suffix "<tt class="code">r</tt>".
+              (This syntax is new as of 1.9.0, if you were using the old "default
+              relative with parens for absolute" syntax, you'll have to change it.)
+              
+							
+						</div><div class="example">
+            Move the command box 100 pixels down:
+            <pre class="code">!CommandMove 0r 100r
+            </pre>
+            Move the command box to 30% across the screen without changing its y position:
+            <pre class="code">!CommandMove 30% 0r
+            </pre>
+						</div><div class="para">
+	    	  When <tt class="code">!CommandMove</tt> is called without parameters, it moves to the current mouse cursor
+	    	  position.</div><div class="para">
+	    	  If <tt class="code">!CommandMove</tt> is called with "<tt class="code">home</tt>" as its parameter, it moves back to the
+	    	  original position it received from step.rc
+	      </div></dd><dt class="bang"><a name="bang_commandsize">!CommandSize</a> <small class="param">COORD</small> <small class="param">COORD</small></dt><dd class="cmddoc"><div class="para">
+            Resizes the command window to the specified size.  You can use
+            percents and relative values here as well.
+            </div><div class="para">
+	    	  If <tt class="code">!CommandSize</tt> is called with "<tt class="code">home</tt>" as its parameter,
+	    	  it resizes back to the original size it received from step.rc
+            </div></dd><dt class="bang"><a name="bang_commandshow">!CommandShow</a></dt><dd class="cmddoc"><div class="para">
+	    	Makes the LSXCommand box visible.
+	    	</div><div class="para">
+							<strong>Note</strong>: It does *not* give LSXCommand focus.
+			 To do this, use <tt class="xref"><a href="#bang_focuscommand">!FocusCommand</a></tt>
+	    	- this command gives focus to LSXCommand, and if it's not visible, it shows it also.
+  	        </div></dd><dt class="bang"><a name="bang_commandhide">!CommandHide</a></dt><dd class="cmddoc"><div class="para">
+	    	  Just hides LSXCommand. Nothing really special.
+	    	  
+						</div></dd><dt class="bang"><a name="bang_togglecommand">!ToggleCommand</a></dt><dd class="cmddoc"><div class="para">
+	    	  Shows the command box if it was hidden, hides it if it
+	    	  was visible.
+	      </div></dd><dt class="bang"><a name="bang_commandboxhook">!CommandBoxHook</a></dt><dd class="cmddoc"><div class="para">
+	    	  This is used with lsbox: <tt class="code">*ModuleHook !CommandBoxHook</tt>
+	    	  Please, check LsBox documentation
+  	        </div><div class="para">
+  	          Technical details:  The exact syntax used by lsxcommand is:
+  	          <tt class="code">!CommandBoxHook &lt;here be dragons&gt; &lt;hwnd, in decimal&gt;</tt>
+  	          (it ignores the box file that lsbox gives it.)
+  	          If you don't understand that, you probably don't need to.
+  	        </div><div class="para">
+  	          See also: <tt class="xref"><a href="#commandwaitforbox">CommandWaitForBox</a></tt>
+						</div></dd> </dl></div><h4 class="section"><a name="vis">Appearance: Back and Border</a></h4><div class="section"><div class="para">Settings that control how the border and background of the command box look.</div><dl><dt class="command"><a name="commandbevelborder">CommandBevelBorder</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		      Use bevels instead of solid, single color borders.
+		    </div></dd><dt class="command"><a name="commandbordersize">CommandBorderSize</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	Width in pixels of the border.</div><div class="para">
+		    	If you want to have different sized borders on each side, use
+		    	<tt class="xref"><a href="#commandtopbordersize">CommandTopBorderSize</a></tt>,
+		    	<tt class="xref"><a href="#commandbottombordersize">CommandBottomBorderSize</a></tt>,
+		    	<tt class="xref"><a href="#commandleftbordersize">CommandLeftBorderSize</a></tt>, and
+		    	<tt class="xref"><a href="#commandrightbordersize">CommandRightBorderSize</a></tt>.
+		    </div></dd><dt class="command"><a name="commandbottombordersize">CommandBottomBorderSize</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	Height in pixels of the bottom border, overrides <tt class="xref"><a href="#commandbordersize">CommandBorderSize</a></tt> for that border.
+		    </div></dd><dt class="command"><a name="commandtopbordersize">CommandTopBorderSize</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	Height in pixels of the top border, overrides <tt class="xref"><a href="#commandbordersize">CommandBorderSize</a></tt> for that border.
+		    </div></dd><dt class="command"><a name="commandleftbordersize">CommandLeftBorderSize</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	Width in pixels of the left border, overrides <tt class="xref"><a href="#commandbordersize">CommandBorderSize</a></tt> for that border.
+		    </div></dd><dt class="command"><a name="commandrightbordersize">CommandRightBorderSize</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    	Width in pixels of the right border, overrides <tt class="xref"><a href="#commandbordersize">CommandBorderSize</a></tt> for that border.
+		    </div></dd><dt class="command"><a name="commandbordercolor">CommandBorderColor</a> <small class="param">COLOR</small></dt><dd class="cmddoc"><div class="para">
+		    	color of the border
+		    </div></dd><dt class="command"><a name="commandbgcolor">CommandBGColor</a> <small class="param">COLOR</small></dt><dd class="cmddoc"><div class="para">
+		    	background color
+		    </div></dd><dt class="command"><a name="commandbackground">CommandBackground</a> <small class="param">IMAGE</small></dt><dd class="cmddoc"><div class="para">
+		    	Path to your background image. If this is not an absolute path, LSXCommand looks in
+		    	your images directory.</div><div class="para">
+				Note: If this option is not specified, the background and border colors are used.
+		    </div></dd><dt class="command"><a name="commandstretchbackground">CommandStretchBackground</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    	If set to true, the background image will be stretched.
+		    </div></dd><dt class="command"><a name="commandtransparenteditbox">CommandTransparentEditBox</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            This will make the text in the edit box draw transparently over
+            the background.  If you don't set this and are using a bitmap
+            for the background, the text will still use the background
+            color.
+		    </div><div class="para">
+		    This behavior has changed in 1.9.0, and will probably change again.
+		    </div></dd> </dl></div><h4 class="section"><a name="text">Appearance: Text</a></h4><div class="section"><div class="para">Settings that control how the text in the edit box looks.</div><dl><dt class="command"><a name="commandtextsize">CommandTextSize</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+		    Font height in pixels.  (NOT in points!)
+		    </div></dd><dt class="command"><a name="commandtextbold">CommandTextBold</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    Use a bold font.
+		    </div></dd><dt class="command"><a name="commandtextunderline">CommandTextUnderline</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    Underline the text.
+		    </div></dd><dt class="command"><a name="commandtextitalic">CommandTextItalic</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    Use an italic font.
+		    </div></dd><dt class="command"><a name="commandtextcolor">CommandTextColor</a> <small class="param">COLOR</small></dt><dd class="cmddoc"><div class="para">
+		    Text foreground color.
+		    </div></dd><dt class="command"><a name="commandtextfontface">CommandTextFontFace</a> <small class="param">FONT</small></dt><dd class="cmddoc"><div class="para">
+		    Name of the font face to use.
+		    </div></dd><dt class="command"><a name="commandtextalign">CommandTextAlign</a> <small class="param">OPTION</small></dt><dd class="cmddoc"><div class="para">
+						Sets the text alignment: <tt class="code">left</tt>, <tt class="code">center</tt>, or <tt class="code">right</tt>
+						</div></dd><dt class="command"><a name="commandmarginleft">CommandMarginLeft</a> <small class="param">OPTION</small></dt><dd class="cmddoc"><div class="para">
+						Sets the left margin (in pixels) of the edit box.
+						</div></dd><dt class="command"><a name="commandmarginright">CommandMarginRight</a> <small class="param">OPTION</small></dt><dd class="cmddoc"><div class="para">
+						Sets the right margin (in pixels) of the edit box.
+						</div></dd> </dl></div><h4 class="section"><a name="hist">Command History</a></h4><div class="section"><div class="para">
+          As you use it, lsxcommand will remember the last few commands you
+          ran, and autocomplete as you type to make it easier to repeat
+          recent things.  You can also use the up and down arrow keys to
+          scroll through the history list, as well as page up, page down,
+          ctrl+home, or ctrl+end.
+          </div><dl><dt class="command"><a name="commandhistoryfile">CommandHistoryFile</a> <small class="param">FILE</small></dt><dd class="cmddoc"><div class="para">Specifies the file lsxcommand stores its history in.</div><div class="para">
+            This file will be written to every time you execute a 
+            command, and if you ever use <tt class="xref"><a href="#bang_commandclearhistory">!CommandClearHistory</a></tt>.
+            </div></dd><dt class="command"><a name="commandhistoryentries">CommandHistoryEntries</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">Sets number of history entries of which to keep track.</div></dd><dt class="command"><a name="commandhistorymenuentries">CommandHistoryMenuEntries</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">Sets the maximum number of history entries available from the
+            context menu.</div><div class="para">(this may not work in 1.9.0/1.9.1)</div></dd><dt class="command"><a name="commandclearhistoryonstartup">CommandClearHistoryOnStartup</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Clears the history on startup.</div><div class="para">Note: You <em>will</em> lose the history in the
+            <tt class="xref"><a href="#commandhistoryfile">CommandHistoryFile</a></tt> - not just the history
+            in memory.</div><div class="para">See also <tt class="xref"><a href="#commandoninit">CommandOnInit</a></tt> and <tt class="xref"><a href="#bang_commandclearhistory">!CommandClearHistory</a></tt>
+						</div></dd><dt class="command"><a name="commandnewesthistoryitemsontop">CommandNewestHistoryItemsOnTop</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            This setting places newer history items at the top of the menu,
+            instead of at the bottom.
+		    </div></dd><dt class="command"><a name="commandwraphistory">CommandWrapHistory</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Normally scrolling through the history with up/down, etc. will
+            stop when you reach either end of the history list.  With this
+            set, it will continue on the other end.  (page up/down will still
+            stop at the end, but you can press it again to continue in that
+            direction.)</div></dd><dt class="command"><a name="commandunixhistory">CommandUnixHistory</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            The most popular UNIX shell (bash) has the inverse history
+            navigation: Up for previous, down for next. You can use this
+            system with this setting.
+		    </div></dd><dt class="command"><a name="commandaddexternalstohistory">CommandAddExternalsToHistory</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            If this is on, LSXCommand will add any commands launched with
+            the <tt class="xref"><a href="#bang_command">!Command</a></tt> !Bang command to the history. Since
+            I've been using AlterScript with this a lot, it became annoying
+            to have all of AlterScript's commands end up in LSXCommand's
+            history.
+		    </div></dd><dt class="command"><a name="commandnotabmicrocomplete">CommandNoTabMicroComplete</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            Stops Tab-MicroCompletes from taking place. When you are typing
+            in LSXCommand and get an autocompletion, you may want to
+            automatically go on to the next word.
+            see also lsxcommand.txt, section II.5 Tab-MicroComplete and Context Menu Access
+		    </div></dd><dt class="command"><a name="commandtabfilecomplete">CommandTabFileComplete</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+						Enables the completion of file names by using the tab key.
+						Use Ctrl-Tab to search through the file list 
+						(or just Tab when MicroComplete is disabled), and Shift-Tab 
+						to go through in the other direction.
+						See also lsxcommand.txt, section II.9 Tab File Completion
+						</div></dd><dt class="command"><a name="commandnoautocomplete">CommandNoAutoComplete</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    	Turns *off* AutoComplete. Someone asked for it, so I coded it :).
+		    </div></dd><dt class="bang"><a name="bang_commandclearhistory">!CommandClearHistory</a></dt><dd class="cmddoc"><div class="para">Clears both the history in memory *and* the
+            history in the <tt class="xref"><a href="#commandhistoryfile">CommandHistoryFile</a></tt>.</div></dd> </dl><div class="para">
+   Tab-MicroComplete is a feature I made up on my own - not even
+   Microsoft has it.  When you are typing in LSXCommand and get
+   an autocompletion, you may want to automatically go on to the next
+   word.  For instance, when you search with a particular search
+   engine, and then want to search with the same engine again, but
+   with a different phrase.
+          </div><div class="para">
+   With Tab-MicroComplete, you can do that.  If you hit tab while in
+   LSXCommand, the cursor will be moved to the start of the next
+   word, or to the end of the line (depending on where the current
+   cursor is).
+          </div></div><h4 class="section"><a name="menu">Context Menu</a></h4><div class="section"><div class="para">
+   LSXCommand now has Context Menu Access!  You can either right-
+   click on LSXCommand's command box or call the <tt class="xref"><a href="#bang_commandcontextmenu">!CommandContextMenu</a></tt>
+   !bang command.  If you use the !bang command, the menu appears
+   wherever your mouse is on screen.  The Context Menu contains
+   past history entries, all your aliases, and all search engines.
+          </div><dl><dt class="command"><a name="commandcontextmenustandarditems">CommandContextMenuStandardItems</a> <small class="param">INT</small></dt><dd class="cmddoc"><div class="para">
+This item does two things. It first turns on the standard menu items:
+Cut, Copy and Paste. Second, it tells where to put the standard items,
+above or below the LSXCommand specific menus.</div><div class="example">
+							<pre class="code">CommandContextMenuStandardItems 1 ; Above
+CommandContextMenuStandardItems 2 ; Below
+CommandContextMenuStandardItems 0 ; Off (Default)</pre>
+						</div></dd><dt class="command"><a name="commandcontextmenuabovebox">CommandContextMenuAboveBox</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    	If you have your LSXCommand window at the bottom of the screen, you will want to turn
+		    	this on.  If at the top, leave this off.  This sets where the context menu will appear
+		    	- above or below the LSXCommand box.
+		    </div></dd><dt class="command"><a name="commandcontextmenuexecute">CommandContextMenuExecute</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    	Tells LSXCommand to execute a selection from the context menu instead of copying its
+		    	data to the LSXCommand box.</div><div class="para">
+				Note: Since the point of search engines is to have you enter a search phrase,
+		    	it is not possible to have search engines execute.
+		    </div></dd><dt class="command"><a name="commandcontextmenuorder">CommandContextMenuOrder</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">
+		    	Specifies which order each submenu should appear.
+		    	For instance, you can have History, Alias, then Search Engines or Alias, History,
+		    	Search Engines, or...
+		    </div><div class="para">
+            The setting is 3 numbers: <tt class="code">0</tt>, <tt class="code">1</tt>, and
+            <tt class="code">2</tt>. The combination of these numbers sets in which
+            order each submenu appears. The first number is the position
+            of the History submenu. The second is the Alias submenu. And
+            the last is the Search Engines submenu.
+		    </div><div class="para">
+            You can also set any of the three to <tt class="code">9</tt> to remove
+            the corresponding submenu entirely.
+            </div></dd><dt class="command"><a name="commandcontextmenuautopopup">CommandContextMenuAutoPopup</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+			If you set this to true, then everytime the mouse will come over the lsxcommand box,
+			the contect menu will appear.
+		    </div></dd><dt class="bang"><a name="bang_commandshowcontextmenu">!CommandShowContextMenu</a></dt><dd class="cmddoc"><div class="para">Makes LSXCommand's Context Menu visible wherever the cursor
+            is on the screen, regardless of LSXCommand's visibility.</div></dd> </dl></div><h4 class="section"><a name="calc">Calculator</a></h4><div class="section"><div class="para">
+          Oh yes, it can do calculations too.  Type an equals sign
+          (<tt class="code">=</tt>) and then the expression you want evaluated,
+          such as "<tt class="code">=1+1</tt>", then press enter.  But wait,
+          there's more!  Much more.  Almost... too much...
+          </div><dl><dt class="command"><a name="commandcommadelimiter">CommandCommaDelimiter</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+						Some Eurpoean countries use commas as decimal delimiters, so this changes decimals
+						from periods to commas.
+						</div></dd><dt class="command"><a name="commandrpncalculator">CommandRPNCalculator</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+						Makes the calculator an RPN calculator. If you don't know what this is, don't use
+						it! You'll only confuse yourself. Others call RPN "Postfix" notation. If you want
+						to learn more, obtain a Hewlett-Packard RPN calculator (the 48/49 series are
+						especially nice, IMO :).
+						</div><div class="para">
+						Note: See the warning below, the RPN calculator does not do subtraction properly!
+						</div></dd><dt class="command"><a name="commandnotrailingzeros">CommandNoTrailingZeros</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+						Prevents the trailing zeros you get when you do a simple calculation
+						(e.g. =1*1 would usually result in =1.00000 which was a tad pointless IMO)
+						So this option disables it. Simple huh =)
+						</div></dd><dt class="command"><a name="commandcalcprecision">CommandCalcPrecision</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+						Determines the precision of result when using the calculator, in significant 
+						figures. Default: 6 sig figs, as per 1.9.2
+						</div></dd><dt class="bang"><a name="bang_commandcalculate">!CommandCalculate</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">Evaluate an expression and paste the result into the command
+            window.  This can be used with <tt class="xref"><a href="#star_commandchar">*CommandChar</a></tt> to
+            do calculations with something other than <tt class="code">=</tt>.</div><div class="example">
+							<pre class="code">!CommandCalculate =6*9
+
+*CommandChar ] !CommandCalculate =&lt;args&gt;</pre>
+						</div></dd> </dl><div class="para">
+   As of version 1.7.8, the calculator functionality has been entirely
+   revamped, thanks to the work of Jonas Sicking.  Just like in older
+   versions, calculator commands start with an <tt class="code">=</tt> sign at the prompt, then
+   the expression to evaluate.
+          </div><div class="para">
+   What's new?  Everything - from the supported operators to the base
+   conversion, it's all been redone.
+          </div><div class="para">
+   LSXCommand handles float precision, so decimals are allowed.  The
+   result will be placed right back into LSXCommand's command box
+   with an equals sign in front of it and a space after it.  This
+   enables you to use the result of the last command right off the
+   bat!  (By the way - spaces are allowed)
+          </div><div class="para">
+   LSXCommand understands the following operators:<pre class="code">
+     + - * \ / ( ) ^ % ! E
+     </pre>
+     Addition, Subtraction, Multiplication, Division, Division,
+     Open Parenthesis, Close Parenthesis, Power, Modulus (remainder),
+     
+     Factorial, Exponential
+          </div><div class="para">
+     Yes, there are two division operators.  HOWEVER, the <tt class="code">\</tt> means
+     integer division, and the <tt class="code">/</tt> means regular division.
+          </div><div class="para">
+						<tt class="code">E</tt> is the 10 to the power operator.  For instance, <tt class="code">1E6</tt> is 1 million.
+     Note: don't try <tt class="code">1*E6</tt> - that won't work.  Just do <tt class="code">1E6</tt> or <tt class="code">(1E6)</tt>.  You
+     can even do <tt class="code">1E(5+4)</tt>, but don't try to multiply the two.
+          </div><div class="para">
+   MATH LIBRARY FUNCTIONS
+          </div><div class="para">
+   With the revamping of the calculator functionality comes some really
+   useful stuff: a library of mathematics functions!  The following is a
+   list of the supported math functions:
+          </div><div class="para">
+						<pre class="code">      TRIG FUNCTIONS        ANALYTIC FUNCTIONS      CONSTANTS
+      ``````````````        ``````````````````      `````````
+      sin                   exp                     pi
+      cos                   ln                      e
+      tan                   log
+      cot                   log2
+      asin                  log10
+      acos                  sqrt
+      atan                  floor
+      acot                  ceil
+      sinh                  abs
+      cosh                  fpart
+      tanh                  ipart
+                            sign
+                            rand
+                            rnd</pre>
+					</div><div class="para">
+   The trig functions should be self explanatory.  The log functions are
+   a bit tricky: <tt class="code">ln</tt> and <tt class="code">log</tt> are both base e, while <tt class="code">log2</tt> and <tt class="code">log10</tt> are
+   base 2 and 10 respectively.  If you haven't heard of the other
+   functions (like <tt class="code">fpart</tt> and <tt class="code">ipart</tt>), consult your graphing calculator's
+   manual - the one you never bothered to read because you already thought
+   you knew how to use a calculator :P
+          </div><div class="para">
+   To use these functions, you would type something like '<tt class="code">=sin(0)</tt>'.  Note
+   that since <tt class="code">pi</tt> and <tt class="code">e</tt> are constants, you don't put () after them.  For
+   instance, <tt class="code">=pi</tt> would result in <tt class="code">=3.141...</tt>
+					</div><div class="para">
+   RPN CALCULATOR FUNCTIONALITY  
+					</div><div class="para">
+   As of version 1.7, you can use LSXCommand as a "Postfix"
+   calculator.  If you are not familiar with this expression, leave
+   it be and don't worry about it!  If you really want to learn more,
+   obtain a Hewlett-Packard RPN calculator and learn to use it.
+          </div><div class="para">
+   RPN mode does *not* turn your history into a stack.  It does,
+   however, make LSXCommand accept postfix notation expressions. See
+   the documentation for the <tt class="xref"><a href="#commandrpncalculator">CommandRPNCalculator</a></tt> RC Command above in
+   section II.2.
+          </div><div class="para">
+   This functionality extends to the 1.7.8 revamping of the calculator
+   code.  It should work fine, but I haven't played with it enough to say
+   anything more than that.
+          </div><div class="para">
+    Note: The RPN calculator will currently not do subtraction properly.
+    (at all)  For now, make the second operand negative and add, or find
+    a better RPN calculator.  Sorry.  (if someone writes it as a separate
+    module, it can now be integrated into lsxcommand with
+    <tt class="xref"><a href="#star_commandchar">*CommandChar</a></tt> and <tt class="xref"><a href="#bang_commandsettext">!CommandSetText</a></tt>)
+          </div><div class="para">
+   MULTIPLE NUMBER BASE FUNCTIONALITY
+
+					</div><div class="para">
+   As of version 1.7.1, you can specify numbers in different number
+   bases.  With the 1.7.8 rewrite of the calculator, LSXCommand supports
+   4 bases: decimal (10), binary (2), hexadecimal (16) and octal (8).
+          </div><div class="para">
+   To specify a number as binary, place a '<tt class="code">b</tt>' in front of it.  For
+   instance, entering "<tt class="code">=b10</tt>" in LSXCommand will return "<tt class="code">=2</tt>" as an
+   answer.  If you typed "<tt class="code">=5 + b10</tt>", you would get "<tt class="code">=7</tt>" as an
+   answer.
+          </div><div class="para">
+   Append the following prefixes for its respective base:
+          <pre class="code">   b - binary
+   h - hexadecimal
+   o - octal
+   d - decimal (this is, of course, the default)</pre>
+					</div><div class="para">
+   NUMBER CONVERSION FUNCTIONALITY
+          </div><div class="para">
+   With the version 1.7.8 rewrite comes much more flexible number
+   conversion.  You can convert between any of the bases supported by
+   LSXCommand (listed above).
+          </div><div class="para">
+   To convert *from* decimal *to* hexadecimal (color conversion), you
+   would do the following:
+          </div><div class="example">
+						<tt class="code">     =dh 255 255 255    --&gt;   =hff hff hff</tt>
+					</div><div class="para">
+   So, to convert *from* a base *to* another base, place the
+   identifier of the from base first, then the to base, then each
+   number to convert with a space between each one.
+          </div></div><h4 class="section"><a name="search">Internet Searches</a></h4><div class="section"><div class="para">
+   Both Netscape and Internet Explorer support a small feature where
+   you can type a question mark (<tt class="code">?</tt>) and then a keyword, and they will
+   search the net for you.  However, you could never tell which
+   engine Netscape was going to use (Netcenter had deals with all the
+   major engines) and IE always seemed a bit screwy to me.  Anyway,
+   LSXCommand now has this functionality - and you always know which
+   engine you are searching with!
+          </div><div class="example">
+   For instance, to search for "Litestep" with LSXCommand, enter the
+   following and hit &lt;Return&gt;:<pre class="code">
+     ? Litestep</pre>
+					</div><div class="para">
+   The above will search your default search engine for the phrase
+   <tt class="code">Litestep</tt>.  (See the section below about the engines.list file to
+   set up your default engine, and add more!).
+          </div><div class="para">
+   To use a specific search engine with your query, you must simply
+   insert an engine ID after the question mark, like this (Note the
+   lack of a space after the question mark - it's important!):
+          </div><div class="example">
+						<pre class="code">     ?Altavista Litestep
+</pre>
+   This searches AltaVista for the phrase Litestep.
+          </div><dl><dt class="command"><a name="commandsearchenginelist">CommandSearchEngineList</a> <small class="param">FILE</small></dt><dd class="cmddoc"><div class="para">
+		    	The path to your <tt class="code">engines.list</tt> - the list of search engines to use with LSXCommand.
+		    	see also lsxcommand.txt, section II.4 <span class="xref"><a title="engines" href="#engines">The engines.list File</a></span>.
+		    </div><div class="para">
+		    If you set this to anything starting with a <tt class="code">*</tt>, that will be used as a
+		    key to read the engine list from step.rc.
+		    </div><div class="example">
+							<pre class="code">CommandSearchEngineList *CommandSearchEngine
+*CommandSearchEngine default google
+*CommandSearchEngine Google http://www.google.com/search?q=&lt;args&gt;</pre>
+						</div></dd><dt class="command"><a name="commandsearchenginebrowser">CommandSearchEngineBrowser</a> <small class="param">FILE</small></dt><dd class="cmddoc"><div class="para">
+            Path to the browser to be used with search engines. If not
+            specified, LSXCommand uses the default browser on your system.
+		    </div></dd><dt class="bang"><a name="bang_commandrescanengines">!CommandRescanEngines</a></dt><dd class="cmddoc"><div class="para">
+	    	  Rescans the engines.list file.
+	    	</div><div class="para">
+							<strong>Note</strong>: it does not load a new engines.list file if
+			  specified in the step.rc;
+	    	  it will attempt to reload the same engines.list file.
+  	        </div></dd><dt class="bang"><a name="bang_commandsearch">!CommandSearch</a></dt><dd class="cmddoc"><div class="para">Performs an internet search.  This can be used with
+            <tt class="xref"><a href="#star_commandchar">*CommandChar</a></tt> to do searches with something other
+            than <tt class="code">?</tt>.</div><div class="example">
+							Maybe you can't be bothered to hold down the shiftkey when you want to do a search:
+							<tt class="code"><tt class="xref"><a href="#star_commandchar">*CommandChar</a></tt> / !CommandSearch ?&lt;args&gt;</tt>
+						</div></dd> </dl><div class="para">
+   The following is the list of engines that come preconfigured in
+   the sample engines.list (Note - unless otherwise stated, these are
+   configured to the default options these engines use.  Another note
+   - engine names are not case sensitive, I just wrote them the
+   proper way in the examples):
+          </div><div class="para">
+						<pre class="code">     * Default: Yahoo!
+     * Yahoo!		(?Yahoo quake) [Note exclusion of !]
+     * AltaVista	(?AltaVista phrase I can't find anywhere)
+     * Lycos		(?Lycos insane asylum)
+     * Excite		(?Excite dilbert)
+     * InfoSeek		(?InfoSeek obey your thirst)
+     * Google!		(?Google linux) [Note exclusion of ! again]
+     * HotBot		(?HotBot nothing in particular)
+     * DejaNews		(?DejaNews good compilers)
+     * LycosMP3		(?LycosMP3 Offspring Gone Away)
+     * ScourMP3		(?ScourMP3 Robert Miles Children)
+     * Lyrics		(?Lyrics I wish I was a little bit taller)
+     * LyricsByTitle    (?Lyrics I Wish)
+     * Slashdot		(?Slashdot Quest for Cool Cases)
+     * Floach		(?Floach lsxcommand)
+     * MSDN		(?MSDN I didn't know that API call existed)
+     * Amazon		(?Amazon Barbarians Led by Bill Gates)
+     * SoftSeek		(?SoftSeek UltraEdit)
+     * Hardware		(?Hardware AMD K7)
+     * CMA		(?CMA phrase in that article I can't find)
+     * Patent		(?Patent US05731339__)
+
+     Added as of 1.1:
+
+     * UPS		(?UPS 1Z99999999999)
+     * FedEx		(?FedEx 1092831023)
+     * Airborne		(?Airborne 123934309)
+
+     Added as of 1.5: (sorry, I gave up on examples - too many!)
+
+     * BigBook
+     * BarnesAndNoble
+     * MediaFindMP3
+     * Reel
+     * Archieplex
+     * Filez
+     * Shareware
+     * NorthernLight
+     * OpenText
+     * InfoSpace
+     * GoTo
+     * Pathfinder
+     * MetaCrawler
+     * Top5
+     * A2Z
+     * AskJeeves
+     * MerckMan
+     * APWire
+     * WhoWhere
+     * LibraryOfCongress
+     * Finger
+     * NSLookup
+     * LettermanTop10
+     * Anonymizer
+
+   Just a couple of notes:
+     - LycosMP3 and ScourMP3 are customized versions of Lycos
+       (lycos.com) and Scour (www.scour.net) to search strictly for
+       MP3's.
+     - Lyrics (by itself) searches www.lyrics.ch for the lyrics
+       themselves.  LyricsByTitle searches for titles of songs
+       available on the Lyrics server.
+     - Hardware searches Tom's Hardware - a good site for hardware
+       reviews.
+     - CMA searches ZDNet's Computer Magazine Archive - which is cool
+       if you don't remember where you saw an article.
+     - Patent looks up the specified patent number on IBM's Patent
+       server - www.patents.ibm.com
+     - The last three are all shipment tracking searches - UPS, FedEx
+       or Airborne Express
+          </pre>
+					</div><div class="para">
+   For more information about adding, removing, or changing engines
+   in the list file, see the section below.
+          </div><div class="para">
+   PLEASE NOTE: LSXCommand's default search engine list is quite
+   large; however, there are tons of other good search engines out
+   there.  After version 1.5, all engines which are said to be Added
+   in the Change Log (above) are actually added to the master
+   LSXCommand Search Engines list available at my web site:
+   http://floach.pimpin.net/visigoth/litestep/lsxcommand-engines.list
+   (sorry, this offer has expired.)
+          </div><div class="para">
+   CATEGORY FUNCTIONALITY
+          </div><div class="para">
+   Before I start on the category functionality, I have to say the
+   following: your default search engine (identified by the
+   "Default ..." line in your search engines list) should be left
+   alone on a line by itself. Try and make it the first non-comment
+   line in your engines list.
+          </div><div class="para">
+   Just one more note: When a search engine is in a category, you
+   access it *THE SAME WAY* when typing a search command.
+   (ie. even if "Amazon" is in the "Books" category, you still use it
+   by typing "<tt class="code">?Amazon &lt;book&gt;</tt>")
+          </div><div class="para">
+   That said, we can get to the meat of the subject.  Categories are
+   the same as sub-menus in the popup menu.  The only difference
+   between search engines in a category and not in a category is the
+   fact that one is in a sub-menu (such as "<tt class="code">Books -&gt;</tt>" or "<tt class="code">MP3 -&gt;</tt>") and
+   the other is in the root "<tt class="code">Search Engines -&gt;</tt>" sub-menu.
+          </div><div class="para">
+   To create a category in your search engines list, all you have to
+   do is type the name of the category and then an open brace ( "<tt class="code">{</tt>" ).
+   This must be on its own line.  Now you can place as many search
+   engines as you like in that category, each one on its own line just
+   as in the original engines.list.  To close a category, simply place
+   a closing brace ( "<tt class="code">}</tt>" ) on its own line.
+          </div><div class="para">
+   You can also have spaces in your category names (NOTE: This doesn't
+   mean you can have spaces in your search engine names.  That has
+   not been implemented).  To do this, enclose the category name in
+   quotes, such as "Music and Movies".  Also, you can have a keyboard
+   accelerator assigned to a sub-menu.  (You know how the File menu
+   and the Edit menu have underlines under the 'F' and 'E'?  You can
+   have that too - those are called keyboard accelerators).  To have
+   a keyboard accelerator for a particular letter in the category
+   name, place an ampersand ( "<tt class="code">&amp;</tt>" ) in front of the letter.  For
+   instance, "<tt class="code">Music and &amp;Movies</tt>".  If you want to have an ampersand
+   inside the name of a category, put two ampersands in a row.  As an
+   example, "<tt class="code">Music &amp;&amp; Movies</tt>" will have an ampersand between "<tt class="code">Music</tt>"
+   and "<tt class="code">Movies</tt>" but no keyboard accelerator.  "<tt class="code">Music &amp;&amp; &amp;Movies</tt>" will
+   have both an ampersand and an accelerator.
+          </div><div class="para">
+   You are allowed to have sub-categories up to 8 levels deep.  (If you
+   really need more than that, bug a developer.  It's not hard to
+   change.)  You could do something like Computers-&gt; Software-&gt;
+   Download Libraries-&gt;.
+          </div><div class="para">
+   For human readability, you can also have white space in front of
+   both search engine lines and category lines.
+          </div><div class="para">
+   For an example, see the included engines.list file in this
+   distribution of LSXCommand.  (engines.list sold separately.
+   You probably got a copy when you installed LiteStep.)
+          </div></div><h4 class="section"><a name="engines">The engines.list File</a></h4><div class="section"><div class="para">
+   This file tells LSXCommand how to use different search engines to
+   search the Internet.  The basic structure of the file is like
+   this (Note - it's probably a good idea to follow along with the
+   sample engines.list):
+          </div><div class="para">
+						<pre class="code">     Default	&lt;moniker&gt;
+     &lt;moniker1&gt;	&lt;keyed url1&gt;
+     &lt;moniker2&gt;	&lt;keyed url2&gt;
+     ...		...</pre>
+					</div><div class="para">
+   The &lt;moniker&gt; element is one of the monikers listed below
+   (&lt;moniker1&gt;, &lt;moniker2&gt;, etc).  As explained above, the default
+   engine that will be used is &lt;moniker&gt;.  The &lt;keyed url#&gt; elements
+   are, basically, URLs that tell LSXCommand where to send your web
+   browser.  However, there is one difference: the special "key"
+   &lt;args&gt; is used to determine where to place your search string.
+          </div><div class="example">
+   For instance, let's take a look at Yahoo!'s line:
+<pre class="code">     Yahoo		http://search.yahoo.com/bin/search?p=&lt;args&gt;
+          </pre>
+   This means the following:
+
+<pre class="code">     * The user must begin a search with ?Yahoo to use this search
+     * The user's search phrase (stuff after ?Yahoo) is placed in
+       &lt;args&gt;.  So, the statement "?Yahoo something" gets converted
+       to: http://search.yahoo.com/bin/search?p=something</pre>
+					</div><div class="para">
+   Multi-word searches are handled automatically by LSXCommand.  For
+   this reason, LSXCommand can't quite use specialized engines to
+   their full extent - for instance, the "Simple Search" function on
+   the Lyrics server - www.lyrics.ch - has more than one search
+   field.  
+					</div><div class="para">
+   You can find the full engines.list (the one shipped with
+   LSXCommand is by no means complete and neither is this one, but it
+   is larger) here:
+          </div><div class="para">
+     http://floach.pimpin.net/visigoth/litestep/lsxcommand-engines.list
+          </div><div class="para">
+          (Ha!  You didn't actually believe that, did you?)
+          </div><div class="para">
+   TO MAKE YOUR OWN SEARCH ENTRIES:
+          </div><div class="para">
+   Go to the page where you enter a search phrase.  Type something
+   and search for it.  If your URL bar has a lot of &amp;'s and ='s, this
+   site can be used with LSXCommand.  All you have to do is copy this
+   URL and paste it into your engines.list file with a moniker of its
+   own.  Then, replace the phrase you searched for with the key
+   &lt;args&gt;.
+          </div><div class="para">
+   The above type of an engine is one that uses the GET method to
+   send data to the web server.  The other type of method is called
+   POST.  This is the one that doesn't have all the &amp;'s and ='s in
+   the URL.  What you have to do is go back to the search page and
+   go into the actual HTML.  Find the place with the <tt class="code">&lt;form&gt;</tt> tag and
+   
+   from here on, you have to set up your own &amp;'s and ='s from the
+   names and values listed, using the <tt class="code">action=</tt> property of the form
+   tag as a base.  Sorry if it's confusing, but it's almost 5 AM.
+          </div><dl> </dl></div><h4 class="section"><a name="clock">Clock</a></h4><div class="section"><div class="para">You can have the command box show the current date and time
+          when you're not otherwise using it.</div><div class="para">
+   The clock functionality in LSXCommand is quite robust, though hard
+   to use since the format commands look nothing like what you would
+   expect them to.  If you want a quick format command that gives you
+   both the date and time, use <tt class="code">"%#c"</tt>.  If you want more
+   customization, you will just have to read below.  Sorry...
+          </div><dl><dt class="command"><a name="commandtime">CommandTime</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">Format string that tells LSXCommand how you want your
+            time and date to look.</div><div class="para">See below for formatting.</div></dd><dt class="command"><a name="commandclockdisappearsonfocus">CommandClockDisappearsOnFocus</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    	If you want the clock to automatically disappear when you click in LSXCommand, set
+		    	this on. Otherwise, the clock will "pause" at the current time/date. This makes it
+		    	easier for you to copy/paste the time and date into any app.
+		    </div></dd> </dl><div class="para">
+   Okay, so you want more control, eh?  The following comes straight
+   from the Microsoft Developer Network Library.  It is a table of
+   format commands you must use to create your time &amp; date string.
+   Examples are listed below the table.
+          </div><div class="para">
+						<pre class="code">   %a                 Abbreviated weekday name
+   %A                 Full weekday name
+   %b                 Abbreviated month name
+   %B                 Full month name
+   %c                 Date &amp; time representation for current location
+   %d                 Day of month as number (01 - 31)
+   %H                 Hour in 24-Hour format (00 - 23)
+   %I                 Hour in 12-Hour format (01 - 12)
+   %j                 Day of year as number (001 - 366)
+   %m                 Month as number (01 - 12)
+   %M                 Minute as number (00 - 59)
+   %p                 AM / PM indicator for current location
+   %S                 Second as number (00 - 59)
+   %U                 Week of year as number, with Sunday as first
+                      day of the week (00 - 53)
+   %w                 Weekday as number, with Sunday as 0 (0 - 6)
+   %W                 Week of year as number, with Monday as first
+                      day of the week (00 - 53)
+   %x                 Date representation for current location
+   %X                 Time representation for current location
+   %y                 Year without century (two digits) (00 - 99)
+   %Y                 Year with century (four digits)
+   %z                 Time-zone name / abbreviation
+   %Z                 Same as %z
+   %%                 Percent sign</pre>
+					</div><div class="para">
+   The <tt class="code">#</tt> sign (pound, hash, whatever you like...) can be used as a
+   prefix for most format commands.  For instance, <tt class="code">%#</tt>&lt;character&gt;. The
+   following lists the change in meaning for those commands that are
+   affected:
+          </div><div class="para">
+						<pre class="code">   %#c                Long date &amp; time representation for current
+                      location.
+   %#x                Long date representation only for current
+                      location.
+   %#d, %#H, %#I,     Remove leading zeros.
+   %#j, %#m, %#M,
+   %#S, %#U, %#w,
+   %#W, %#y, %#Y</pre>
+					</div><div class="para">
+   So, what the heck does all that crap mean?  Basically, you think
+   of how you want your date &amp; time to look, and then substitute the
+   proper codes where they are needed, for instance:
+          </div><div class="example">
+						<pre class="code">     Think Of...            Code Used
+     ```````````            `````````
+     05:30:00 PM            %I:%M:%S %p
+     Monday 06/14/99        %A %x
+     Mon. 6/14/1999         %a %#m/%#d/%Y  -  Removes leading zeros
+     June 14, 1999          %B %d, %Y
+     Monday, June 14, 1999  %#x</pre>
+					</div></div><h4 class="section"><a name="audio">Audio Player</a></h4><div class="section"><dl><dt class="command"><a name="commandscrollwinamptitle">CommandScrollWinAmpTitle</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    If on, this setting takes WinAmp's scrolling title and displays it in LSXCommand.
+		    Note that WinAmp's scroll song title preference must be on for this to happen.
+		    A neat trick with this is to have both a clock and a WinAmp scroller. The WinAmp
+		    scroller will show when WinAmp is running. If not, the clock will show.
+		    </div></dd><dt class="command"><a name="commandwinampdisappearsonfocus">CommandWinAmpDisappearsOnFocus</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    Just like <tt class="xref"><a href="#commandclockdisappearsonfocus">CommandClockDisappearsOnFocus</a></tt>, but for the WinAmp scrolling feature.
+		    </div></dd><dt class="command"><a name="commandmusicplayer">CommandMusicPlayer</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">
+		    This command enables LSXCommand to use the titles of other music players besides
+		    WinAmp. You should set it to the class name of the application you are looking for.
+		    If you want this to work with Foobar2000, you'll probably need to get the
+		    foo_class plugin for it.  
+						</div></dd> </dl></div><h4 class="section"><a name="behave">Misc. Behavior</a></h4><div class="section"><dl><dt class="command"><a name="commandnotmoveable">CommandNotMoveable</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+		    Normally you can drag the command box around by its borders.  Set this
+		    to <tt class="code">true</tt> to disable that.
+		    </div></dd><dt class="command"><a name="commandnocursorchange">CommandNoCursorChange</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Normally the mouse cursor will change to the text-selection
+            "I beam" cursor when you move over the command box.  Set this
+            to have it stay as the default cursor.</div></dd><dt class="command"><a name="commandassumenetaddress">CommandAssumeNetAddress</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            If you type a command and it looks like a URL without the protocol
+            and does not exist as a file on your system, this will cause
+            lsxcommand to try sticking "<tt class="code">http://</tt>" on the front and
+            opening it with your web browser.
+		    </div></dd><dt class="command"><a name="commandexplorepaths">CommandExplorePaths</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            If enabled, any directory path you enter into LSXCommand will
+            open a treed explorer window, instead of the standard folder
+            window.
+		    </div></dd><dt class="command"><a name="commandnowarnonerror">CommandNoWarnOnError</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            If there is an error (for instance, if the command you entered
+            is invalid or the calculator couldn't evaluate the expression
+            you entered), you will get an error message. This, when turned
+            on, will suppress it.
+		    </div></dd><dt class="command"><a name="commandhideoncommand">CommandHideOnCommand</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Hides lsxcommand when a command is issued.</div><div class="para">See also <tt class="xref"><a href="#commandoncommand">CommandOnCommand</a></tt>
+						</div></dd><dt class="command"><a name="commandhideonesc">CommandHideOnEsc</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Hides lsxcommand when you press the Escape key.</div><div class="para">See also <tt class="xref"><a href="#commandonesc">CommandOnEsc</a></tt>
+						</div></dd><dt class="command"><a name="commandselectallonfocus">CommandSelectAllOnFocus</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Selects everything in the command box when it gains input focus.</div></dd><dt class="command"><a name="commandselectallonmousefocus">CommandSelectAllOnMouseFocus</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            Just like <tt class="xref"><a href="#commandselectallonfocus">CommandSelectAllOnFocus</a></tt>, just that
+            it only works when clicking to focus LSXCommand.</div><div class="para">
+            The reason these are two separate options is for people
+            like me: I like to be able to just click once to put the
+            cursor where I want it -not select the entire command.
+            But, some people like the explorer way of doing things
+            better, so I added it.
+		    </div></dd><dt class="command"><a name="commandhideonunfocus">CommandHideOnUnfocus</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">
+            Hides LSXCommand when it loses keyboard focus. This can be used
+            to hide LSXCommand after it runs an app.
+		    </div><div class="para">See also <tt class="xref"><a href="#commandonunfocus">CommandOnUnfocus</a></tt>
+						</div></dd><dt class="command"><a name="commandnoclearoncommand">CommandNoClearOnCommand</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Won't clear the input after you execute a command.</div><div class="para">See also <tt class="xref"><a href="#commandoncommand">CommandOnCommand</a></tt>
+						</div></dd><dt class="command"><a name="commandclearonhide">CommandClearOnHide</a> <small class="param">BOOL</small></dt><dd class="cmddoc"><div class="para">Clears the text when lsxcommand is hidden.</div></dd><dt class="command"><a name="commandonfocus">CommandOnFocus</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">
+            Will execute a command when you <tt class="xref"><a href="#bang_focuscommand">!FocusCommand</a></tt>
+            (or when you focus it with the mouse).
+		    </div></dd><dt class="command"><a name="commandonunfocus">CommandOnUnfocus</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">
+            Executes a command when the command box loses focus.
+            (eg, when you click on something else)
+		    </div><div class="para">See also: <tt class="xref"><a href="#commandhideonunfocus">CommandHideOnUnfocus</a></tt>
+						</div></dd><dt class="command"><a name="commandoncommand">CommandOnCommand</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">Executes a command when the user executes a command.</div></dd><dt class="command"><a name="commandonesc">CommandOnEsc</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">Executes a command when the user presses the escape key.</div></dd><dt class="command"><a name="commandoninit">CommandOnInit</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">Executes a command when the module completes initialization.</div></dd><dt class="command"><a name="commandonquit">CommandOnQuit</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">Executes a command before the module begins shutting down.</div></dd><dt class="definition"><a name="star_commandalias">*CommandAlias</a> <small class="param">STRING</small> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">Aliases (or Binds) a phrase to another command.</div><div class="example">
+							<pre class="code">*CommandAlias step  notepad c:\litestep\step.rc
+</pre>Will open <tt class="code">c:\litestep\step.rc</tt> in notepad when you
+            type "<tt class="code">step</tt>" into the command box.</div><div class="para">If the command assigned to the alias contains the string
+            <tt class="code">&lt;args&gt;</tt>, it will be replaced with any
+            arguments given after the name of the alias in the command
+            box.</div><div class="para">You can categorize your aliases with <tt class="code">{</tt> and
+            <tt class="code">}</tt>, exactly like the <tt class="code">engines.list</tt>.</div></dd><dt class="definition"><a name="star_commandchar">*CommandChar</a> <small class="param">STRING</small> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">Creates single-character command aliases that can take a
+            line as parameters.  This can be used to create shortcuts that
+            act like <tt class="code">?</tt> and <tt class="code">=</tt>.  (actually, this
+            is how those two are implemented now.)</div><div class="para">The text entered after the symbol in the command box replaces
+            any occurance of <tt class="code">&lt;args&gt;</tt> on the
+            <tt class="code">*CommandChar</tt> line before execution.</div><div class="example">So if you use mzscript a lot and need a fast way to
+            check on the value of variables:
+<pre class="code">; assign ` (grave accent) to show mzscript variables
+*CommandChar ` !VarShow &lt;args&gt;</pre>
+            Then you can type things like <tt class="code">`mousex</tt>.</div><div class="para">You can only assign aliases to printable, non-alphanumeric
+            ASCII characters and character code 128.  (used by MS for the
+            euro symbol)  It might not be a good idea to redefine <tt class="code">"</tt>
+            and <tt class="code">!</tt>, but you can if you want.  You can use the
+            keyword <tt class="code">stop</tt> instead of a character to prevent
+            any further chars from being defined, eg if you want to stop
+            themes from defining them.</div><div class="para">The full list of chars you can alias is:
+            <tt class="code">!"#$%&amp;'()*+,-./:;&lt;=&gt;@[\]^_`{|}~€</tt>
+						</div></dd> </dl></div><h4 class="section"><a name="control">Bang Commands</a></h4><div class="section"><dl><dt class="bang"><a name="bang_focuscommand">!FocusCommand</a></dt><dd class="cmddoc"><div class="para">Set focus to command (nice for binding to hotkeys).</div><div class="para">See also <tt class="xref"><a href="#commandonfocus">CommandOnFocus</a></tt>
+						</div></dd><dt class="bang"><a name="bang_command">!Command</a> <small class="param">ACTION</small></dt><dd class="cmddoc"><div class="para">
+	    	  Now use the power of LSXCommand anywhere within Litestep! Shortcuts, wharf items,
+	    	  whatever that can run !bang commands outside of its own can now use LSXCommand.
+            </div><div class="para">See also <tt class="xref"><a href="#commandoncommand">CommandOnCommand</a></tt>
+						</div></dd><dt class="bang"><a name="bang_commandbrowsefile">!CommandBrowseFile</a> <small class="oparam">STRING</small></dt><dd class="cmddoc"><div class="para">Brings up an Open Dialog Box to browse for a file for
+            LSXCommand to open. It's just the same as typing in the
+            file's name.</div><div class="para">Note: You can send an argument to this !Bang command
+            to specify the filter for the open box.</div><div class="example">For instance, to see just Text Files, you might
+            do this:<pre class="code">
+!CommandBrowseFile All Text Files (*.txt, *.ini)|*.txt;*.ini</pre>
+						</div></dd><dt class="bang"><a name="bang_commandbrowsefolder">!CommandBrowseFolder</a></dt><dd class="cmddoc"><div class="para">Brings up a folder selection dialog. You can select a
+            folder to browse to. There are no arguments for this !Bang
+            command.</div></dd><dt class="bang"><a name="bang_commandtoggletimer">!CommandToggleTimer</a></dt><dd class="cmddoc"><div class="para">Toggles the current timer. If you use this, the WinAmp
+            timer no longer takes precedence over the clock.
+	    	You have to call this !Bang again for the WinAmp scroller
+	    	to appear.</div></dd><dt class="bang"><a name="bang_commandsettext">!CommandSetText</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">This !Bang sets the text in LSXCommand to its arguments.
+	    	This makes for some really neat stuff (for instance, a
+	    	shortcut that pops up LSXCommand with a question mark and a
+	    	space already in it ready for an argument to search with).</div><div class="para">Note: this !Bang command does not show LSXCommand if it is
+	    	hidden.</div><div class="example">Example: <tt class="code">!SetText "?Altavista "</tt>
+						</div></dd><dt class="bang"><a name="bang_commandshowtext">!CommandShowText</a> <small class="param">STRING</small></dt><dd class="cmddoc"><div class="para">This will set the text, like <tt class="xref"><a href="#bang_commandsettext">!CommandSetText</a></tt>,
+            but not set focus to the command box.</div></dd> </dl></div><h4 class="section"><a name="changes">History</a></h4><div class="section"><dl><dt class="revt">2004-06-25  version 1.9.3 by Eddie/rabidcow</dt><dd class="revd"><ul class="revision"><li class="added">
+      — 
+					<tt class="xref"><a href="#commandnotrailingzeros">CommandNoTrailingZeros</a></tt>: Prevents the trailing zeros when using the calculator.
+				</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandcalcprecision">CommandCalcPrecision</a></tt>: Sets the precision of the calculator (Sig Figs) Default: 6 (as per 1.9.2).
+				</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandmarginleft">CommandMarginLeft</a></tt>, <tt class="xref"><a href="#commandmarginright">CommandMarginRight</a></tt>: Sets the margins for the edit box.
+				</li><li class="fixed">
+      — 
+					History now works!!
+				</li><li class="fixed">
+      — 
+					File autocompletion fixed.
+				</li><li class="fixed">
+      — 
+					History entries stored is no longer one more than the <tt class="xref"><a href="#commandhistoryentries">CommandHistoryEntries</a></tt> value.
+				</li><li class="changed">
+— Microcomplete now stops at the backslash character, as well as at a
+space like it did before (so you can microcomplete pathnames). </li><li class="changed"> — Made lsxcommand focus the topmost
+window (which isn't a "tool" window) when it is hidden. (Without this,
+hiding lsxcommand would often not focus another window, so hotkeys
+would not work). </li><li class="changed">
+      — 
+					If <tt class="xref"><a href="#commandtabfilecomplete">CommandTabFileComplete</a></tt> is enabled, and <tt class="xref"><a href="#commandnotabmicrocomplete">CommandNoTabMicroComplete</a></tt> is set, the Tab key can now also be used to autocomplete files.
+				</li></ul></dd><dt class="revt">2004-04-17  version 1.9.2 by rabidcow</dt><dd class="revd"><ul class="revision"><li class="added">
+      — 
+					<tt class="xref"><a href="#commandoncommand">CommandOnCommand</a></tt>, executed when you run a command</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandonesc">CommandOnEsc</a></tt>, executed when you press the escape key</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandoninit">CommandOnInit</a></tt>, executed when the module completes initialization</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandonquit">CommandOnQuit</a></tt>, executed before the module begins shutting down</li><li class="fixed">
+      — History browsing now goes the other direction, should be back to the same as
+        1.8.6 and ealier.  (see <tt class="xref"><a href="#commandunixhistory">CommandUnixHistory</a></tt>)</li></ul></dd><dt class="revt">2004-04-08  version 1.9.1 by rabidcow</dt><dd class="revd"><ul class="revision"><li class="added">
+      — better error messages, unless you turn them off</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandwraphistory">CommandWrapHistory</a></tt> will make history wrap, like in 1.9.0</li><li class="added">
+      — pgup/pgdn/ctrl+home/ctrl+end move in history list now</li><li class="fixed">
+      — 
+					<tt class="xref"><a href="#commandassumenetaddress">CommandAssumeNetAddress</a></tt> should work again</li><li class="fixed">
+      — 
+					<tt class="xref"><a href="#commandnowarnonerror">CommandNoWarnOnError</a></tt> should work again (and not setting it)</li><li class="fixed">
+      — executing stuff should work better  (not sure how to explain it, I
+           made some bad assumptions about the return values of LSExecute)</li><li class="fixed">
+      — you can set a position to 9 in <tt class="xref"><a href="#commandcontextmenuorder">CommandContextMenuOrder</a></tt> and it will
+           not cause a <tt class="code">(check settings)</tt> in the menu</li><li class="fixed">
+      — 
+					<tt class="xref"><a href="#commandsearchenginebrowser">CommandSearchEngineBrowser</a></tt> should work again</li><li class="fixed">
+      — history does not wrap by default</li><li class="fixed">
+      — a command consisting of nothing aside from whitespace will not
+           break the history list on restart</li><li class="changed">
+      — history is written to the file after every command instead of just
+           on exit (and in <tt class="xref"><a href="#bang_commandclearhistory">!CommandClearHistory</a></tt>)</li></ul></dd><dt class="revt">2004-04-05  version 1.9.0 by rabidcow</dt><dd class="revd"><ul class="revision">Some of the changes in 1.8.6 were duplicated here due to 
+           uncoordinated concurrent development.  (iow, I was slow...)<li class="added">
+      — 
+					<tt class="xref"><a href="#bang_commandsize">!CommandSize</a></tt>: Change the size of the command box.  also "<tt class="code">!CommandSize home</tt>"</li><li class="added">
+      — 
+					<tt class="xref"><a href="#bang_commandshowtext">!CommandShowText</a></tt>: Like <tt class="xref"><a href="#bang_commandsettext">!CommandSetText</a></tt>, but without setting focus.</li><li class="added">
+      — 
+					<tt class="xref"><a href="#star_commandchar">*CommandChar</a></tt>: single-char aliases like <tt class="code">?</tt> and <tt class="code">=</tt>
+				</li><li class="added">
+      — 
+					<tt class="xref"><a href="#bang_commandcalculate">!CommandCalculate</a></tt>: perform calculation, default for <tt class="code">=</tt>
+				</li><li class="added">
+      — 
+					<tt class="xref"><a href="#bang_commandsearch">!CommandSearch</a></tt>: perform search, default for <tt class="code">?</tt>
+				</li><li class="added">
+      — The default search engine has a check mark next to it in the menu.
+           (assuming that you set the default near the beginning of the file)</li><li class="added">
+      — Aliases can be organized into categories, and can use &lt;args&gt;</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandtextalign">CommandTextAlign</a></tt>
+					<tt class="code">left</tt>|<tt class="code">center</tt>|<tt class="code">right</tt>
+				</li><li class="added">
+      — you can use "<tt class="code"><tt class="xref"><a href="#star_commandalias">*CommandAlias</a></tt> stop</tt>" to end the alias list</li><li class="fixed">
+      — Removed some <tt class="code">sizeof(char)</tt> where pointer arithmatic handles it (meh,*1...)</li><li class="fixed">
+      — buffer overflow reading settings, apparently was extra naughty on purels</li><li class="fixed">
+      — 
+					<tt class="xref"><a href="#commandonunfocus">CommandOnUnfocus</a></tt> should now work when <tt class="xref"><a href="#commandhideonunfocus">CommandHideOnUnfocus</a></tt> is not set</li><li class="fixed">
+      — there was a remote possibility that certain OnUnfocus commands
+		   could cause litestep to "stop responding to messages", fixed.</li><li class="fixed">
+      — The context menu will show up over the edit box when you press the
+           "app" key.</li><li class="changed">
+      — Stores new entries to history list before $constant$ expansion</li><li class="changed">
+      — 
+					<tt class="xref"><a href="#bang_commandmove">!CommandMove</a></tt> uses more standardishly arguments</li><li class="changed">
+      — 
+					<tt class="xref"><a href="#commandtransparenteditbox">CommandTransparentEditBox</a></tt> is almost obsolete.  Now using flicker-free method,
+		   which doesn't really work on Win95 (not supported by OS), but works better
+		   everywhere else.  Still not perfect unfortunately, no idea why.</li><li class="changed">
+      — Much cleanup and fixes of evil code.  "<tt class="code">atoi(&amp;atom)</tt>" indeed...</li><li class="changed">
+      — Reimplemented search engine and alias lists with hash tables.
+		   These now use common code for a lot of things, so you can have
+		   categorized menus for aliases and load the search engine list
+		   from step.rc (aliases from a file are also possible, but there's
+		   no setting for it yet.)  Both should also run faster, but you
+           almost certainly won't notice.</li><li class="changed">
+      — Reimplemented history and autocomplete file lists with a cleaner,
+		   clearer code structure.</li><li class="changed">
+      — Context menu implementation now restricts you to 8192 (each)
+		   history entries, aliases, and search engines, but I think you'd
+		   have to worry about resource usage before then.  (You can have
+		   more, but the context menu won't work right for more than that.)
+		   Also, aliases and search engines are now limited to a maximum of 8
+		   categories deep.  (an arbitrary limit to make the code easier)</li></ul></dd><dt class="revt">2004-03-29  version 1.8.6 by jugg/Seg@</dt><dd class="revd"><ul class="revision"><li class="fixed">
+      — jugg's buffer size bugfix added
+           (no more crash if <tt class="xref"><a href="#commandonfocus">CommandOnFocus</a></tt> and <tt class="xref"><a href="#commandonunfocus">CommandOnUnfocus</a></tt> actions contain
+           more than 255 characters)</li><li class="fixed">
+      — custom <tt class="code">cz_LCTokenize</tt> function replaced with a call of LS core's
+           <tt class="code">LCTokenize</tt> (they are similar!)</li><li class="fixed">
+      — 
+					<tt class="code">HistoryInit()</tt> rewritten using <tt class="code">GetPrivateProfileString()</tt> API call.
+           Custom implementation of procs that are available in the Windows
+           kernel is at least strange thing :)
+           Also it would solve a problem with unknown spaces.
+           (Windows think that spaces is a part of comment and left them in
+           <tt class="code">WritePrivateProfileString</tt> call (i.e. when modules.ini is written on
+           <tt class="code">!Quit</tt>), but on the next LS start <tt class="code">HistoryInit()</tt> reads these spaces as
+           a part of command, usually other, since numbers changed :) )</li><li class="fixed">
+      — History is now written before eVar expansion. Is there anybody
+           who think that
+           <tt class="code">!alert "X:\Documents and Settings\Seg@\Desktop\"</tt>
+           is more informative that
+           <tt class="code">!alert "$Desktop$"</tt> ?</li><li class="fixed">
+      — 
+					<tt class="code">VarExpansion</tt> changed to <tt class="code">VarExpansionEx</tt>.
+           Don't know about fanatics who can type very long strings with
+           very long eVars, but everything can be...
+           [This was changed back in 1.9.0; the buffer is 4096 chars now, which
+           makes <tt class="code">VarExpansion</tt> and <tt class="code">VarExpansionEx</tt> the
+           same.  Really just something I didn't bother to merge back in.  -- rc]
+           </li><li class="fixed">
+      — Fixed typos in managing transparent edit boxes
+           (don't know how it works though :) )</li><li class="added">
+      — 
+					<tt class="xref"><a href="#commandhideonesc">CommandHideOnEsc</a></tt>
+				</li></ul></dd><dt class="revt"> version 1.8.5 by jesus_mjjg/ilmcuts</dt><dd class="revd"><ul class="revision"><li class="added">
+      — Added <tt class="xref"><a href="#commandstretchbackground">CommandStretchBackground</a></tt>.</li><li class="added">
+      — Added <tt class="xref"><a href="#commandtextbold">CommandTextBold</a></tt>, <tt class="xref"><a href="#commandtextunderline">CommandTextUnderline</a></tt> and <tt class="xref"><a href="#commandtextitalic">CommandTextItalic</a></tt>.</li><li class="fixed">
+      — Fixed multiple access violations.</li><li class="fixed">
+      — Fixed some pointers being used without any prior validation.</li><li class="changed">
+      — Docs/XML converted to the Litestep "official" format ... a lot more work to do though, stay tuned.</li></ul></dd></dl></div><h4 class="section"><a name="index">Index</a></h4><div class="section"><table class="index"><colgroup width="1*"></colgroup><tbody><tr><th colspan="2">Configuration</th></tr><tr><td><a href="#commandaddexternalstohistory">CommandAddExternalsToHistory</a><br><a href="#star_commandalias">*CommandAlias</a><br><a href="#commandassumenetaddress">CommandAssumeNetAddress</a><br><a href="#commandbackground">CommandBackground</a><br><a href="#commandbevelborder">CommandBevelBorder</a><br><a href="#commandbgcolor">CommandBGColor</a><br><a href="#commandbordercolor">CommandBorderColor</a><br><a href="#commandbordersize">CommandBorderSize</a><br><a href="#commandbottombordersize">CommandBottomBorderSize</a><br><a href="#commandcalcprecision">CommandCalcPrecision</a><br><a href="#star_commandchar">*CommandChar</a><br><a href="#commandclearhistoryonstartup">CommandClearHistoryOnStartup</a><br><a href="#commandclearonhide">CommandClearOnHide</a><br><a href="#commandclockdisappearsonfocus">CommandClockDisappearsOnFocus</a><br><a href="#commandcommadelimiter">CommandCommaDelimiter</a><br><a href="#commandcontextmenuabovebox">CommandContextMenuAboveBox</a><br><a href="#commandcontextmenuautopopup">CommandContextMenuAutoPopup</a><br><a href="#commandcontextmenuexecute">CommandContextMenuExecute</a><br><a href="#commandcontextmenuorder">CommandContextMenuOrder</a><br><a href="#commandcontextmenustandarditems">CommandContextMenuStandardItems</a><br><a href="#commandexplorepaths">CommandExplorePaths</a><br><a href="#commandheight">CommandHeight</a><br><a href="#commandhiddenonstart">CommandHiddenOnStart</a><br><a href="#commandhideoncommand">CommandHideOnCommand</a><br><a href="#commandhideonesc">CommandHideOnEsc</a><br><a href="#commandhideonunfocus">CommandHideOnUnfocus</a><br><a href="#commandhistoryentries">CommandHistoryEntries</a><br><a href="#commandhistoryfile">CommandHistoryFile</a><br><a href="#commandhistorymenuentries">CommandHistoryMenuEntries</a><br><a href="#commandleftbordersize">CommandLeftBorderSize</a><br><a href="#commandmarginleft">CommandMarginLeft</a><br><a href="#commandmarginright">CommandMarginRight</a><br><a href="#commandmusicplayer">CommandMusicPlayer</a><br><a href="#commandnewesthistoryitemsontop">CommandNewestHistoryItemsOnTop</a><br><a href="#commandnoautocomplete">CommandNoAutoComplete</a><br><a href="#commandnoclearoncommand">CommandNoClearOnCommand</a><br><a href="#commandnocursorchange">CommandNoCursorChange</a><br><a href="#commandnotabmicrocomplete">CommandNoTabMicroComplete</a><br></td><td><a href="#commandnotalwaysontop">CommandNotAlwaysOnTop</a><br><a href="#commandnotmoveable">CommandNotMoveable</a><br><a href="#commandnotrailingzeros">CommandNoTrailingZeros</a><br><a href="#commandnowarnonerror">CommandNoWarnOnError</a><br><a href="#commandoffsetx">CommandOffsetX</a><br><a href="#commandoffsety">CommandOffsetY</a><br><a href="#commandoncommand">CommandOnCommand</a><br><a href="#commandonesc">CommandOnEsc</a><br><a href="#commandonfocus">CommandOnFocus</a><br><a href="#commandoninit">CommandOnInit</a><br><a href="#commandonquit">CommandOnQuit</a><br><a href="#commandonunfocus">CommandOnUnfocus</a><br><a href="#commandrightbordersize">CommandRightBorderSize</a><br><a href="#commandrpncalculator">CommandRPNCalculator</a><br><a href="#commandscrollwinamptitle">CommandScrollWinAmpTitle</a><br><a href="#commandsearchenginebrowser">CommandSearchEngineBrowser</a><br><a href="#commandsearchenginelist">CommandSearchEngineList</a><br><a href="#commandselectallonfocus">CommandSelectAllOnFocus</a><br><a href="#commandselectallonmousefocus">CommandSelectAllOnMouseFocus</a><br><a href="#commandstretchbackground">CommandStretchBackground</a><br><a href="#commandtabfilecomplete">CommandTabFileComplete</a><br><a href="#commandtextalign">CommandTextAlign</a><br><a href="#commandtextbold">CommandTextBold</a><br><a href="#commandtextcolor">CommandTextColor</a><br><a href="#commandtextfontface">CommandTextFontFace</a><br><a href="#commandtextitalic">CommandTextItalic</a><br><a href="#commandtextsize">CommandTextSize</a><br><a href="#commandtextunderline">CommandTextUnderline</a><br><a href="#commandtime">CommandTime</a><br><a href="#commandtopbordersize">CommandTopBorderSize</a><br><a href="#commandtransparenteditbox">CommandTransparentEditBox</a><br><a href="#commandunixhistory">CommandUnixHistory</a><br><a href="#commandwaitforbox">CommandWaitForBox</a><br><a href="#commandwidth">CommandWidth</a><br><a href="#commandwinampdisappearsonfocus">CommandWinAmpDisappearsOnFocus</a><br><a href="#commandwraphistory">CommandWrapHistory</a><br><a href="#commandx">CommandX</a><br><a href="#commandy">CommandY</a><br></td></tr><tr><th colspan="2">Bang Commands</th></tr><tr><td><a href="#bang_command">!Command</a><br><a href="#bang_commandboxhook">!CommandBoxHook</a><br><a href="#bang_commandbrowsefile">!CommandBrowseFile</a><br><a href="#bang_commandbrowsefolder">!CommandBrowseFolder</a><br><a href="#bang_commandcalculate">!CommandCalculate</a><br><a href="#bang_commandclearhistory">!CommandClearHistory</a><br><a href="#bang_commandhide">!CommandHide</a><br><a href="#bang_commandmove">!CommandMove</a><br><a href="#bang_commandrescanengines">!CommandRescanEngines</a><br></td><td><a href="#bang_commandsearch">!CommandSearch</a><br><a href="#bang_commandsettext">!CommandSetText</a><br><a href="#bang_commandshow">!CommandShow</a><br><a href="#bang_commandshowcontextmenu">!CommandShowContextMenu</a><br><a href="#bang_commandshowtext">!CommandShowText</a><br><a href="#bang_commandsize">!CommandSize</a><br><a href="#bang_commandtoggletimer">!CommandToggleTimer</a><br><a href="#bang_focuscommand">!FocusCommand</a><br><a href="#bang_togglecommand">!ToggleCommand</a><br></td></tr></tbody></table></div><br><br><br><div class="footer">Copyright © 2004 Assorted LiteStep Coders.  All hail documentation; read, update, and distribute.</div></div></div></body></html>

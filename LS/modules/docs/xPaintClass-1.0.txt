@@ -1,0 +1,22 @@
+##########################################################################
+## Installation of xPaintClass-1.0.dll
+##########################################################################
+
+Simply copy the xPaintClass-1.0.dll in your Litestep folder, next to
+Litestep.exe and lsapi.dll.
+
+DO THIS BEFORE YOU LOAD MODULES, WHICH NEED xPaintClass-1.0!
+
+
+That's all :)
+
+Have fun!
+
+
+Homepage:
+----------
+http://www.ls-universe.info
+
+Docs:
+------
+http://wwww.xdocs.ls-universe.info

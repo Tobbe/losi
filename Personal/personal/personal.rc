@@ -1,0 +1,232 @@
+;------------------------------------------------------------------------------
+;personal config file
+;------------------------------------------------------------------------------
+
+;Take care when editing this file - do not change the contents of the first two
+;sections, change settings only in subsequent sections.
+
+
+
+;------------------------------------------------------------------------------
+; I    DO NOT EDIT
+;------------------------------------------------------------------------------
+
+OTSCfgMajorVersion 2
+OTSCfgMinorVersion 0
+
+include "$PersonalDir$evars.rc"
+include "$PersonalDir$hotkey.rc"
+include "$PersonalDir$popup.rc"
+
+
+
+;------------------------------------------------------------------------------
+; II    DO NOT CHANGE UNLESS YOU KNOW WHAT YOU ARE DOING. :)
+;------------------------------------------------------------------------------
+
+*Desktop RButton !Popup                         ;right-click popup menu
+*Desktop LButton+SHIFT !PopupTheme              ;SHIFT-left-click popup menu
+*jDeskMButton2 [.none;!none;!Popup;!none]       ;right-click popup menu
+*jDeskMButton1 [SHIFT;!none;!PopupTheme;!none]  ;SHIFT-left-click popup menu
+
+
+
+;------------------------------------------------------------------------------
+;   load hotkey module
+;------------------------------------------------------------------------------
+
+;--> load hotkey module
+IF NOT ThemeIsOTS1Compliant
+  *NetLoadModule    jkey-0.37
+ENDIF
+
+;--> define some jKey settings
+jKeyVKTable         "$PersonalDir$jkey\vk104.txt"
+jKeyUseHotkeyDef
+
+;--> specify actions for left and right 'win' keys if desired
+;jKeyLWinKey        "!Popup"
+;jKeyRWinKey        "!PopupTheme"
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: jDesk
+;------------------------------------------------------------------------------
+
+;--> prevents LiteStep from recycling automatically when your screen resolution
+;    changes, e.g. when you launch a game.
+jDeskRecycleOnRezChange false
+
+;--> see jDesk's readme for a description of this feature. this is being set so
+;    that the right-click menu launches quickly.
+jDeskDisableDoubleClick
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: popup
+;------------------------------------------------------------------------------
+
+;--> changes the amount of time it takes between putting your mouse over a
+;    folder and when the sub-menu appears.
+PopupMenuDelay          100
+
+;--> adjust the popup scrolling speed if the popup appears off of the screen.
+;    higher values increase the scrolling speed.
+PopupScrollSpeed        1
+
+;--> if set to false, folders must be clicked to unfold sub-menus.
+PopupFolderHoverOpen    true
+
+;--> show filename extensions.
+PopupShowExtension      true
+
+;--> a pinned popup item will act like a normal window by not being always on
+;    top of other windows.
+PinnedPopupNotOnTop     true
+
+;--> !Popuptasks will use the real window captions in the tasks sub-menu if
+;    this is true
+PopupTasksWindowCaption false
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: lsxcommand
+;------------------------------------------------------------------------------
+
+;--> search engine and history files
+CommandSearchEngineList         "$PersonalDir$lsxcommand\engines.list"
+CommandHistoryFile              "$PersonalDir$lsxcommand\history.ini"
+
+;--> number of history entries
+CommandHistoryEntries           20
+
+;--> select everything in the lsxcommand box on focus
+CommandSelectAllOnFocus
+
+;--> enables the completion of file names by using the tab key
+CommandTabFileComplete
+CommandNoTabMicroComplete
+
+;--> turns on the standard menu items: Cut, Copy & Paste, above the lsxcommand
+;    specific menus.
+CommandContextMenuStandardItems 1
+
+;--> any directory path entered into lsxcommand will open a treed explorer
+;    window, instead of the standard folder window
+CommandExplorePaths
+
+;--> press up in lsxcommand for previous command, down for next
+CommandUnixHistory
+
+;--> places newer history items at the top of the menu instead of the bottom
+CommandNewestHistoryItemsOnTop  true
+
+;--> execute a selection from the context menu instead of copying its data to
+;    the lsxcommand box
+CommandContextMenuExecute
+
+;--> if the mouse cursor is not set back to a normal cursor after it is off the
+;    lsxcommand text box, uncomment this setting
+;CommandNoCursorChange
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: rainlendar
+;------------------------------------------------------------------------------
+
+;--> paths to rainlendar.ini, events.ini, and rainlendar language files
+RainlendarPath          "$PersonalDir$rainlendar\"
+RainlendarEventsPath    "$PersonalDir$rainlendar\"
+RainlendarLanguagesPath "$PersonalDir$rainlendar\languages\"
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: syscolor
+;------------------------------------------------------------------------------
+
+;--> Some themes use syscolor.dll to automatically set system colours.
+;    If you do not want themes to automatically change your system colours,
+;    uncomment the following line.
+
+;SCNoChange
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: VWM module(s)
+;------------------------------------------------------------------------------
+
+;--> Because there are multiple VWM modules with different features, and
+;    different names for the same features, each VWM module has to be
+;    individually configured.
+;
+;    Default settings for some common VWM modules have been provided below,
+;    please consult the appropriate module's documentation for information on
+;    these settings.
+;
+;    Only settings for the VWM module in use by the current theme will be
+;    active.
+
+;--> ckVWM-specific settings
+VWMMouseRight                   1           ;shared with RabidVWM
+VWMMouseLeft                    2           ;shared with RabidVWM
+VWMMouseMiddle                  0           ;shared with RabidVWM
+VWMAutoSwitch                   false
+VWMAutoSwitchDistance           1
+VWMAutoSwitchDelay              50
+VWMDisableVerticalAutoSwitch    false
+VWMDisableHorizontalAutoSwitch  false
+VWMRestoreX                     10
+VWMRestoreY                     10
+VWMRestoreWidth                 -1
+VWMRestoreHeight                -1
+VWMNoGathering                  true        ;shared with RabidVWM
+VWMNoSwitchOnFocus              false       ;shared with RabidVWM
+VWMFocusCenter                  true
+VWMFocusLast                    true        ;shared with RabidVWM
+VWMHideTaskOnSwitch             false       ;shared with RabidVWM
+VWMWrapScreen                   true
+VWMReturnToFirstScreen          false       ;shared with RabidVWM
+VWMSnapWindowOnDrag             true        ;shared with RabidVWM
+VWMWindowsHints                 false
+*VWMFix                         Photoshop   ;for Photoshop 5.5 and below
+;*VWMSticky                     <text>
+;*VWMStartWindowsOnDesktop      <text> <int>
+
+
+;--> RabidVWM-specific settings
+VWMConstantUpdate               false
+VWMSwitchOnAnyFocus             true
+VWMFocusTop                     true
+VWMTitleForTitle                true
+VWMNoWrap                       false
+VWMDeskSpacing                  16 12
+VWMHoverTime                    500
+VWMNoShellFlash                 false
+VWMFlashCount                   15
+VWMRefreshTime                  250
+VWMKeepWindowsWithParent        true
+;*VWMIgnoreTitleChange          <windowspec>
+;*VWMStartWindowsOnDesktop      <windowspec> <deskno>
+
+
+;--> bbVWM-specific settings
+bbvwmWrapDesks                  $VWMWrapScreen$
+*bbvwmFix                       Photoshop   ;for Photoshop 5.5 and below
+;*bbvwmSticky                   className
+
+
+
+;------------------------------------------------------------------------------
+;   personal settings: miscellaneous
+;------------------------------------------------------------------------------
+
+;--> "LSUseSystemDDE". This loads Windows' DDE server instead of the
+;    DDEService. Results in larger memory usage but "proper" DDE support.
+;    LSUseSystemDDE takes effect on startup only, not on !recycle.
+LSUseSystemDDE

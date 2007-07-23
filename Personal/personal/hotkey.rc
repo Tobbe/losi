@@ -1,0 +1,34 @@
+;------------------------------------------------------------------------------
+;   sample hotkey config file: edit according to preference
+;------------------------------------------------------------------------------
+
+
+;--> These were setup to mimic the hotkeys available in the explorer shell
+;    Please note that the hotkeys are defined based on those in XP
+
+*Hotkey WIN         R       !Run
+*Hotkey WIN         E       "$FileManager$"
+*Hotkey WIN         PAUSE   control.exe sysdm.cpl
+*Hotkey WIN         M       !MinimizeWindows
+*Hotkey WIN+SHIFT   M       !RestoreWindows
+
+jKeyLWinKey                 !Popup
+jKeyLWinKeyTimeout          750                 ;you can play around with this
+
+
+;--> Some useful LiteStep-specific hotkeys
+
+*Hotkey CTRL+ALT    R       !Recycle
+*Hotkey CTRL+SHIFT  F1      "http://lsdocs.shellfront.org/"
+
+
+;--> Some more useful LiteStep-specific hotkeys, related to the VWM. They're
+;    disabled since the first two might be used by gamers, and the second two
+;    by IE/Mozilla users.
+;
+;    You should uncomment them and try them out some time. :P
+
+;*Hotkey CTRL+ALT   LEFT    !VWMLeft            ;move to left desktop
+;*Hotkey CTRL+ALT   RIGHT   !VWMRight           ;move to right desktop
+;*Hotkey ALT        LEFT    !VWMMoveApp Left    ;move active window left
+;*Hotkey ALT        RIGHT   !VWMMoveApp Right   ;move active window right

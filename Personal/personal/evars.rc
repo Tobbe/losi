@@ -1,0 +1,25 @@
+;------------------------------------------------------------------------------
+;    Edit *only* the paths as needed, and leave the file's *FORMAT* unchanged
+;------------------------------------------------------------------------------
+
+FileManager     "explorer.exe"
+TxtEditor       "notepad.exe"
+CmdPrompt       "$windir$system32\cmd.exe"
+AudioPlayer     "$ProgramFiles$\foobar2000\foobar2000.exe"
+MediaPlayer     "$ProgramFiles$\winamp\winamp.exe"
+GfxViewer       "$ProgramFiles$\Internet Explorer\iexplore.exe"
+GfxEditor       "$windir$system32\mspaint.exe"
+Browser         "$ProgramFiles$\Internet Explorer\iexplore.exe"
+DUN             "$windir$system32\rasphone.exe"
+Email           "$ProgramFiles$\Outlook\Outlook.exe"
+IRC             "$ProgramFiles$\Mirc\Mirc.exe"
+FTP             ""
+IM              "$ProgramFiles$\Messenger\Messenger.exe"
+
+
+
+;------------------------------------------------------------------------------
+;    Add and define any additional evars you require
+;------------------------------------------------------------------------------
+
+;MiscApp        "c:\program files\misc\app.exe"

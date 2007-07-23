@@ -1,0 +1,1072 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<title>xTaskbar v1.1.5 ReadMe</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<style type="text/css" media="all">
+
+body {
+        font-family: "Trebuchet MS",sans-serif;
+        font-size: 14;
+        margin: 0px;
+        padding: 40px;
+        color: #3E3E3E;
+        background: #EEEEEE; }
+
+a {     text-decoration: none; }
+
+p {
+        margin: 0px;
+        padding: 10px 0px 0px 0px;
+        line-height: 140%; }
+
+div.spacer { clear:both }
+
+/*============================================================================*/
+#header {
+		font-family: "Arial",sans-serif;
+        margin: 0px;
+        padding: 0px;
+        height: 100px;
+        border: 1px solid #728BA5;
+        color: #8CA1B4;
+        background-color: #4E6781; }
+
+#header img {
+        float: left;
+        margin: 0px;
+        padding: 0px;
+        border-style: none; }
+
+#header h1 {
+	font-size: 40px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 30px 0px 0px 0px; }
+
+#header div#date {
+	font-size: 14px;
+	font-weight: normal;
+        float: right;
+        margin: -5px 10px 0px 0px;
+        padding: 0px; }
+
+/*============================================================================*/
+#navbar {
+	font-family: "Arial",sans-serif;
+	font-size: 14px;
+        margin: 0px;
+        padding: 4px 0px 0px 0px; /*to get border of ul inside the navbar*/
+        height: 20px;
+        border: 1px solid silver;
+        border-width: 0px 1px;
+        color: #785F30;
+        background-color: #F7C364; }
+
+#navbar ul {
+        margin: 0px;
+        padding: 0px;
+        display: inline; } 
+
+#navbar ul li {
+        margin: 0px 5px;
+        padding: 0px;
+        list-style: none;
+        display: inline; }
+
+#navbar ul li.first {
+        margin-left: 20px; }
+
+#navbar a,a:link,a:visited,a:hover,a:active {
+        display: inline;
+        border: none;
+        color: #785F30;
+        background-color: transparent; }
+
+#navbar a:hover    { border-top: 4px solid #DBA748; color:#363636; background-color: transparent; }
+#navbar a:active   { border-top: 4px solid #DBA748; color:#363636; background-color: transparent; }
+
+/*============================================================================*/
+#content-area {
+        margin: 0px;
+        padding: 10px 20px 20px 20px;
+        border: 1px solid silver;
+        color: inherit;
+        background-color: #FFFFFF; }
+
+#content-area div.title {
+	font-family: "Arial",sans-serif;
+        font-size: 28px;
+        margin: 0px;
+        padding: 0px;
+/*      text-transform: uppercase; */
+        letter-spacing: 1px;
+        color: #8FA8C2;
+	background-color: transparent; }
+
+#content-area span.heading {
+        border-bottom: 1px dotted #CB522C;
+        line-height: 200%;
+        color: #4E6781;
+	background-color: transparent;  }
+
+#content-area h3 {
+    /* clear:both; remove spacers?*/
+	font-weight: normal;
+	margin: 0px 10px 0px 0px;
+	padding: 20px 0px 0px 0px;
+        border-bottom: 1px dotted #CB522C;
+        color: #8FA8C2;
+	background-color: transparent;  }
+
+#content-area h3 + p { padding-top: 5px; }
+
+#content-area p + h3 { padding-top: 35px; }
+
+#content-area div.nav-top {
+	font-family: "Arial",sans-serif;
+	font-size: 20px;
+	font-weight: bolder;
+        margin: 10px -20px 50px -20px;
+        padding: 0px;
+        text-align: center; }
+
+#content-area a,a:link,a:visited,a:hover,a:active {
+        display: inline;
+        border: none;
+        color: #CB522C;
+        background-color: transparent; }
+
+#content-area a:hover    { text-decoration: underline; }
+#content-area a:active   { text-decoration: underline; }
+
+#content-area div.nav-top a,a:link,a:visited,a:hover,a:active {
+        display: block;
+        border: none;
+        color: #DEDEDE;
+        background-color: #FAFAFA; }
+
+#content-area div.nav-top a:hover    { text-decoration: none; color: #AAAAAA; background-color: #F4F4F4; }
+#content-area div.nav-top a:active   { text-decoration: none; color: #AAAAAA; background-color: #F4F4F4; }
+</style>
+</head>
+
+<body id="top">
+
+<div id="header"><!-- ======================================================= -->
+<img src="litestep_logo.png" width="100" height="100" alt="LiteStep logo" />
+<h1>xTaskbar v1.1.5 ReadMe</h1>
+<div id="date">&equiv; October, 2004</div>
+</div>
+<!-- ======================================================================== -->
+
+<div id="navbar"><!-- ======================================================= -->
+<center><ul>
+  <li class="first">
+  <a href="#main">xTaskbar</a></li>
+  <li><a href="#main">Main Settings</a></li>
+  <li><a href="#image">Image Settings</a></li> 
+  <li><a href="#icon">Icon Settings</a></li>
+  <li><a href="#font">Font Settings</a></li>
+  <li><a href="#bang">Bangs and Events</a></li>
+  <li><a href="#examples">Examples</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="xtaskbar_changes.txt">Changes.txt</a></li>
+</ul></center>
+</div>
+<!-- ======================================================================== -->
+
+<div id="content-area" align="justify"><!-- ================================================= -->
+
+<div class="title" id="main">Main Settings</div><!-- SECTION -->
+<p>
+<h3 id="gripper">Special Settings</h3><br>
+<p>
+<code>*xTaskbar &lt;taskbarname&gt;</code><br>
+Define your own Taskbar Name, for having just more then one Taskbar.<br>
+<strong><u>Important:</u> You don't need to set this, if you only need one Taskbar!
+<a href="#examples">(See Examples)</a>.</strong><p>
+<u>Settings Example with custom Taskbar(Name):</u><br>
+<code>
+*xTaskbar Task<br>
+TaskX x-coordinate<br>
+TaskY ....
+</code>
+<p>
+<u>Setting example without custom Taskbar(Name):</u><br>
+<code>
+xTaskbarX x-coordinate<br>
+xTaskbarY ....
+</code>
+<p><p>
+<h3 id="gripper">Main Settings</h3><br>
+<ul>
+<li><code>
+X <strong>INT</strong></code><br>
+Sets the horizontal position of the taskbar in pixels. If the value is
+positive then it is relative to the left side of the desktop, if negative
+then to the right side. Additionally you can make the position relative to
+the center of the desktop by appending the character 'c' after the number
+("32c", "-128c") or "Real Negative Values" by adding a '~' before the number ("~10").<br>
+<u>Example:</u><br>
+xtaskbarx ~5 is 5 Pixel LEFT from the LEFT SIDE ( Just as info, this isn't on the screen anymore ;) )<br>
+xtaskbarx -5 is 5 Pixel LEFT from the RIGHT SIDE
+</li><p>
+<li><code>
+Y <strong>INT</strong></code><br>
+Sets the vertical position of the taskbar in pixels. If the value is
+positive then it is relative to the top of the desktop, if negative then to
+the bottom. Additionally you can make the position relative to the center
+of the desktop by appending the character 'c' after the number ("32c",
+"-128c") or "Real Negative Values" by adding a '~' before the number ("~10").<br>
+<u>Example:</u><br>
+xtaskbarx ~5 is now 5 Pixel ABOVE the TOP SIDE ( Just as info, this isn't on the screen anymore ;) )<br>
+xtaskbarx -5 is now 5 Pixel ABOVE the BOTTOM SIDE
+</li><p>
+<li><code>
+Width <strong>INT</strong></code><br>
+Sets the horizontal size of the taskbar. This can be an absolute value (in
+pixels) or a percentage of the desktop width.
+</li><p>
+<li><code>
+Height <strong>INT</strong></code><br>
+Sets the vertical size of the taskbar. This can be an absolute value (in
+pixels) or a percentage of the desktop height.
+</li><p>
+<li><code>
+AlwaysOnTop <strong>BOOL</strong></code><br>
+If this command is present then it makes the taskbar "always on top", that
+is, the taskbar stays above all application windows.
+</li><p>
+<li><code>
+StartHidden <strong>BOOL</strong></code><br>
+If this command is present then the taskbar will be initially invisible. It
+can later be shown using bang commands.
+</li><p>
+<li><code>AlphaTransparency <strong>INT</strong></code><br>
+The command makes the taskbar really alphatransparent (eg. you will see the background
+or a window you drag below the taskbar shine through).<br>
+<u>Caution:</u> This won't work on WinME or Win9x!<br>
+Valid values are 0-255, where 0 is totally transparent and 255 is opaque.<br>
+Default is 255.
+
+</li><p><li><code>AlphaMap <strong>BOOL</strong></code><br>
+If this command is present then the xTaskbar uses a given AlphaChannel in the PNG images for painting per-pixel Alphatransparency.<br>
+<u>Caution:</u><br>
+This won't work on WinME or Win9x!<br>
+<u>Using AlphaMap doesn't support:</u><br>
+ALPHAMAP WON'T WORK WITH HOOKED XTASKBARS, except you use an AlphaMapped xLabel-3.2 (xPopup-1.0) Parent!!
+</li><p>
+
+</li><p><li><code>AlphaFade</code><br>
+If this command is present then the taskbar will be fade in/out on Show/Hide.<br>
+<u>Caution:</u><br>This won't work on WinME or Win9x!<br>
+
+</li><p><li><code>CustomAlphaFade (stepsize) (delay)</code><br>
+If this command is present then the taskbar will be fade in/out on Show/Hide with the given settings.<br>
+<u>Caution:</u><br>This won't work on WinME or Win9x!<br>
+
+</li><p><li><code>
+TransparencyMode <strong>BOOL</strong></code><br>
+If set, the Transparency (Magic Pink) will be TRUE.
+</li><p>
+<li><code>
+UpdateInterval <strong>INT</strong></code><br>
+Sets the Update Interval of the Taskbar Buttons to check for changes. Default is 1000 (ms), every second.
+
+</li><p>
+<li><code>
+FlashInterval <strong>INT</strong></code><br>
+Sets the Flashing Interval of the Taskbar Buttons. Default is "UpdateInterval".
+
+</li><p>
+<li><code>
+LoadInBox <strong>BOOL</strong></code><br>
+To hook the taskbar (simply hides it till it's loaded into the Parent).
+</li><p>
+<li><code>
+Display <strong>"all", "specific", "normal", "active", "minimized", "normal+active", "normal+minimized" and "active+minimized"</strong></code><br>
+Defines, which Button States your Taskbar should show.<br>
+"All" -> DEFAULT and except the case you use more than one Taskbar, you maybe shouldn't change this.<br>
+"Specific" -> Taskbar shows only the "Specific Tasks", means the taskbar is empty except
+           the tasks which match the *xTaskbarSpecific (taskbarname) (substring) line!
+</li><p>
+<li><code>
+FocusOnEnter <strong>BOOL</strong></code><br>
+If set, the Taskbar "steals" the Focus from the active window, which provides instant MouseWheel functions!
+The One and Only purpose of this setting.
+</li><p>
+<li><code>
+NoMinimizeOnClick <strong>BOOL</strong></code><br>
+If this command is present, clicking a selected TaskButton won't minimize the Application!
+</li><p>
+<li><code>
+NoCreateAtStartup <strong>BOOL</strong></code><br>
+Taskbar will not be created on startup.
+</li><p>
+<li><code>
+UseGrouping <strong>BOOL</strong></code><br>
+If this command is present, then Tasks with the same "Class" are represented by only One TaskButton.
+Access to all "hidden" Tasks via ".select" (normally on LeftClick a TaskButton).
+</li><p>
+<li><code>
+DropDelay <strong>INT</strong></code><br>
+If set, it specifies the time in ms, how long a Dragged File MUST hover over
+           a TaskButton till he's activated (Comes to Front).<br>
+           Default is 0 (ms) -> instantly.
+</li><p>
+<li><code>
+UseBigIcon <strong>BOOL</strong></code><br>
+Use 32x32 Icons in TaskbarButtons instead of the 16x16 Icons.
+</li><p>
+<li><code>
+ShowIcon <strong>BOOL</strong></code><br>
+Show Icons in TaskbarButtons.
+</li><p>
+<li><code>
+ShowText <strong>BOOL</strong></code><br>
+Show Text in TaskbarButtons
+</li><p>
+<li><code>
+ShowTooltip <strong>BOOL</strong></code><br>
+Shows TaskButton tooltips.
+</li><p>
+<li><code>ShowHoverState <strong>BOOL</strong></code><br>
+Enables a visually change, if the Mouse hovers over a Button. Enables HoverButton Settings!
+</li><p>
+<li><code>
+LeftBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the left edge to reserve as a border to taskbuttons. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+TopBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the top edge to reserve as a border to taskbuttons. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+RightBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the right edge to reserve as a border to taskbuttons. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+BottomBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the bottom edge to reserve as a border to taskbuttons. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+Lines <strong>INT</strong></code><br>
+Number of TaskbarLines (horizontal Layout) or TaskbarRows (vertical Layout).
+</li><p>
+<li><code>
+MaxLines <strong>INT</strong></code><br>
+Sets the Maximal available count of Taskbar Lines/Rows. Restricts xTaskbarLines and !xTaskbarLines
+and sets the max value for xTaskbarAutoLines.
+</li><p>
+<li><code>
+AutoLines <strong>BOOL</strong></code><br>
+If set, xTaskbar automatically tracks the Size of the TaskButtons, to add/remove new Taskbarlines, if
+the Width/Height would be smaller than defined MinButtonWidth/Height.<br>
+</li><p>
+<li><code>
+MinButtonWidth <strong>INT</strong></code><br>
+Minimum width of the Taskbutton. 
+If no value is provided then the default is 0.
+</li><p>
+<li><code>
+MinButtonHeight <strong>INT</strong></code><br>
+Minimum height of the Taskbutton.
+If no value is provided then the default is 0.
+</li><p>
+<li><code>
+MaxButtonWidth <strong>INT</strong></code><br>
+Maximum width of the Taskbutton. 
+If no value is provided then the default is $resolutionx$.
+</li><p>
+<li><code>
+MaxButtonHeight <strong>INT</strong></code><br>
+Maximum height of the Taskbutton.
+If no value is provided then the default is 32.
+</li><p>
+<li><code>
+ButtonXSpacing <strong>INT</strong></code><br>
+X Space between buttons.
+If no value is provided then the default is 0.
+</li><p>
+<li><code>
+ButtonYSpacing <strong>INT</strong></code><br>
+Y Space between buttons.
+If no value is provided then the default is 0.
+</li><p>
+<li><code>
+ButtonDirection <strong>".left", ".right", ".top" or ".bottom"</strong></code><br>
+The direction in which new tasks are added. 
+If no value is provided then the default is ".right" (".bottom" for vertical Layout).
+</li><p>
+<li><code>
+ButtonWrapDirection <strong>".top", ".bottom", ".left" or ".right"</strong></code><br>
+The direction in which new tasks are added in MultiLine Taskbars, before they "Wrap" in "xTaskbarButtonDirection".<br>
+If no value is provided then the default is ".bottom" (".right" for vertical Layout).
+</li><p>
+<span class="heading">Normal Images Setup</span><p>
+<li><code>
+Image <strong>IMAGE</strong></code><br>
+Sets the name of the taskbar image. This file must be in BMP or PNG format
+format. If no value is provided then the Taskbar is displayed either with the desktop background
+or is True Transparent depending to your settings.
+</li><p>
+<li><code>
+ImageMode <strong>"stretch", "tile", "tile-horizontal", "tile-vertical"</strong></code><br>
+Sets the method used to scale the taskbar image. If no value is provided
+then the default is "stretch".
+</li><p>
+<li><code>
+ImageLeftEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the left edge of the image that will not be
+stretched or tiled. If no value is provided then the default is 0.
+</li><p>
+<li><code>
+ImageRightEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the right edge of the image that will not be
+stretched or tiled. If no value is provided then the default is 0.
+</li><p>
+<li><code>
+ImageTopEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the top edge of the image that will not be
+stretched or tiled. If no value is provided then the default is 0. 
+</li><p>
+<li><code>
+ImageBottomEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the bottom edge of the image that will not be
+stretched or tiled. If no value is provided then the default is 0.
+</li><p>
+<li><code>
+SaturationIntensity <strong>INT</strong></code><br>
+This command specifies the color saturation of the taskbar (ONLY THE MAIN TASKBAR BG).<br>
+Minimum:   0 -> Grayscale<br>
+Maximum: 255 -> Full Colored (Default)<br>
+</li><p>
+<li><code>
+HueIntensity <strong>INT</strong></code><br>
+This command specifies the amount of the, in the taskbar, blended in color (ONLY THE MAIN TASKBAR BG).<br>
+Minimum:   0 -> Nothing (Default)<br>
+Maximum: 255 
+</li><p>
+<li><code>
+HueColor <strong>COLOR</strong></code><br>
+This command specifies the blended in color.<br>
+Default: FFFFFF
+</li><p>
+<span class="heading">Solid Image Setup</span><p>
+<u><strong>Attention:</u> Only valid, if "xTaskbarUseSolidColors" is set!</strong><p>
+<li><code>UseSolidColors <strong>BOOL</strong></code><br>
+If set, the SolidColor Settings are enabled.
+
+</li><p><li><code>SolidColors <strong>(bgcolor) [(lightbevelcolor)] [(darkbevelcolor)]</strong></code><br>
+Sets the colors of the Taskbar, first the BGColor, then optional Light and Dark BevelColors
+
+</li><p><li><code>SolidBevelSize <strong>INT</strong></code><br>
+Sets the size of the painted bevel in pixels.<br>
+Default: 0
+
+</li><p><li><code>SolidGradientColors <strong>(color) [(color)] [(color)] ...</strong></code><br>
+If defined, a Gradient is Painted with the BackgroundColor and the specified Gradient Colors.<br>
+(NO GRADIENT PAINTED ON BORDER!).
+
+</li><p><li><code>SolidGradientVertical <strong>BOOL</strong></code><br>
+If set, the Gradient is painted vertical instead of horizontal.
+
+</li>
+</ul>
+<span class="heading">Exported Variables:</span><br>
+	(Note that you will need to define dummy variables if you include these
+	in scripts/rc files with standard $evar$ syntax, since when LiteStep reads these files xTaskbar has
+	not yet added them, causing LS to think the variables are undefined.)<p>
+	
+	  Only useful if used in HANDTYPED BANGS (LSXCommand) or if you use it
+           in mzscripts or with "xLabels" special "!ParseEvars" Bang Command!<br>
+         To use $evars$ in Bangs, which contain the "CURRENT" value, use the escape code %# and prefix the "!ParseEvars" Bang!
+<br>
+<code>$xtaskbarcurrentwidth$</code> becomes <code>%#xtaskbarcurrentwidth%#</code> and so on ...<p>
+
+<b>If you use a Custom TaskbarName or more than One, "xTaskbar" becomes naturally the name of your Taskbar!</b>
+<ul><li>
+<code>$xTaskbarCurrentX$</code><br>
+	The current horizontal position of the taskbar.
+	
+</li><p><li><code>$xTaskbarCurrentY$</code><br>
+	The current vertical position of the taskbar.
+
+</li><p><li><code>$xTaskbarCurrentWidth$</code><br>
+	The current width of the taskbar.
+
+</li><p><li><code>$xTaskbarCurrentHeight$</code><br>
+	The current height of the taskbar.
+	
+</li><p><li><code>$xTaskbarCurrentButtonCount$</code><br>
+	The current count of DISPLAYED buttons in the taskbar.
+	
+</li><p><li><code>$xTaskbarCurrentLines$</code><br>
+	The current lines/rows of the taskbar.
+	
+</li><p><li><code>$xTaskbarHoverTask$</code><br>
+	The current TaskTitle under the Mouse, if you are IN THE TASKBAR otherwise empty.
+	</li></ul>
+<p>
+<div class="nav-top"><a href="#top">&#8593;</a></div>
+<div class="title" id="image">Button State Settings</div><!-- SECTION -->
+<p>
+<h3 id="gripper">Overview "Button Image Settings"</h3><br>
+<p>
+<u>The "(Button Type)" in front of each setting means, that every setting can be:</u><br>
+<b>Normal, Active, Minimized, Flashing or Grouped or Hover</b><br>
+If you don't set any of these 6 specific modifiers, the settings will be used for all modes.<a href="#examples">(see Examples)</a><br>
+<b>If you set a setting with "Normal" then, THIS becomes Default for all other States!!<p>
+<ol>
+           <li>You MUST enable "Hover" in general via the setting "xTaskbarShowHoverState"</li>
+           <li>You MUST enable "Grouped" (or Grouping in general) via the setting "xTaskbarUseGrouping"</li>
+           <li>You can ONLY DEFINE BUTTON IMAGE Settings with the New "Hover" and "Grouped" Prefix,
+              No Hover|Grouped Icon or Hover|Grouped Font Settings!</li>
+</ol>
+</font>
+</b>
+<u>Example:</u><br>
+<code>xTaskbarButtonSaturationIntensity 70</code><br>
+All Button States have a SaturationIntensity of 70!<br>
+<code>xTaskbarMinimizedButtonSaturationIntensity 70</code><br>
+Minimized Buttons have a SaturationIntensity of 70!
+<p>
+<h3 id="gripper">Button Image Settings</h3><br>
+<ul>
+<span class="heading">Normal Images Setup</span><p>
+<li><code>
+(Button Type)ButtonTrueTransparent <strong>BOOL</strong></code><br>
+If set, the Magic Pink Areas in the Image "Cut Out the TaskbarMainBG".
+<br><u>Attention:</u> This setting is only active, if you use "xTaskbarTransparencyMode TRUE"!
+
+</li><p>
+<li><code>
+(Button Type)ButtonImage <strong>IMAGE</strong></code><br>
+Sets the name of the TaskButton Image. This file must be in BMP or PNG format
+format. If no value is provided then the Taskbar is displayed with the Taskbar background.
+
+</li><p>
+<li><code>(Button Type)ButtonImageLeftEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the left edge of the TaskButton Image that will not be
+stretched or tiled. If no value is provided then the default is 0.
+
+</li><p><li><code>(Button Type)ButtonImageTopEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the top edge of the TaskButton Image that will not be
+stretched or tiled. If no value is provided then the default is 0.
+
+</li><p><li><code>(Button Type)ButtonImageRightEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the right edge of the TaskButton Image that will not be
+stretched or tiled. If no value is provided then the default is 0.
+
+</li><p><li><code>(Button Type)ButtonImageBottomEdge <strong>INT</strong></code><br>
+Sets the number of pixels on the bottom edge of the TaskButton Image that will not
+be stretched or tiled. If no value is provided then the default is 0.
+</li><p><li><code>
+(Button Type)ButtonImageMode <strong>"stretch", "tile", "tile-horizontal" or "tile-vertical"</strong></code><br>
+Sets the method used to scale the TaskButton Image. If no value is provided
+then the default is "stretch". 
+
+</li><p><li><code>
+(Button Type)ButtonSaturationIntensity <strong>INT</strong></code><br>
+This command specifies the color saturation of the TaskButton.<br>
+Minimum:   0 -> Grayscale<br>
+Maximum: 255 -> Full Colored (Default)<br>
+
+</li><p>
+<li><code>
+(Button Type)ButtonHueIntensity <strong>INT</strong></code><br>
+This command specifies the amount of the, in the TaskButton, blended in color.<br>
+Minimum:   0 -> Nothing (Default)<br>
+Maximum: 255 
+</li><p>
+<li><code>
+(Button Type)ButtonHueColor <strong>COLOR</strong></code><br>
+This command specifies the blended in color.<br>
+Default: FFFFFF
+</li><p>
+<span class="heading">Solid Image Setup</span><p>
+<u><strong>Attention:</u> Only valid, if "xTaskbarUse(Button Type)ButtonSolidColors" is set!
+</strong><p>
+<li><code>Use(Button Type)ButtonSolidColors <strong>BOOL</strong></code><br>
+If set, the SolidColor Settings for this State are enabled.<br>
+<u>Example:</u> "xTaskbarUseActiveButtonSolidColors"
+
+</li><p><li><code>(Button Type)ButtonSolidColors <strong>(bgcolor) [(lightbevelcolor)] [(darkbevelcolor)]</strong></code><br>
+Sets the colors of the TaskbarButton, first the BGColor, then optional Light and Dark BevelColors
+
+</li><p><li><code>(Button Type)ButtonSolidBevelSize <strong>INT</strong></code><br>
+Sets the size of the painted bevel in pixels.<br>
+Default: 0
+
+</li><p><li><code>(Button Type)ButtonSolidGradientColors <strong>(color) [(color)] [(color)] ...</strong></code><br>
+If defined, a Gradient is Painted with the BackgroundColor and the specified Gradient Colors.<br>
+(NO GRADIENT PAINTED ON BORDER!).
+
+</li><p><li><code>(Button Type)ButtonSolidGradientVertical <strong>BOOL</strong></code><br>
+If set, the Gradient is painted vertical instead of horizontal.
+
+</li><p><hr><p>
+<li><code>
+(Button Type)ButtonAlphaBlend <strong>INT</strong></code><br>
+Sets the amount if the Opacity of the TaskButton.
+If no value is provided then the default is 255.<br>
+<u>Attention:</u> This works only under Win2000/XP!
+
+</li>
+</ul>
+<p>
+<h3 id="icon">Overview "Icon Settings"</h3><br>
+<p>
+<u>The "(Button Type)" in front of each setting means that every setting can be:</u><br>
+<b>Normal, Active, Minimized, Flashing</b><br>
+If you don't set any of these 4 specific modifiers, the settings will be used for all modes.
+<a href="#examples">(see Examples)</a><p>
+<b>If you set a setting with "Normal" then, THIS becomes Default for all other States!!</b><p>
+
+<u>Example:</u><br>
+<code>xTaskbarIconX 5</code><br>
+All Button States have a IconX Position of 5!<br>
+<code>xTaskbarMinimizedIconX 5</code><br>
+Minimized Buttons have a IconX Position of 5!
+<p>
+<h3 id="gripper">Icon Settings</h3><br>
+<p>
+<ul>
+<li><code>
+(Button Type)IconX <strong>INT</strong></code><br>
+Sets the horizontal position of the icon in the TaskButton. If the value is
+positive then it is relative to the left side of the TaskButton, if negative
+then to the right side. Additionally you can make the position relative to
+the center of the TaskButton by appending the character 'c' after the number
+("32c", "-128c").
+</li><p>
+<li><code>
+(Button Type)IconY <strong>INT</strong></code><br>
+Sets the vertical position of the icon in the TaskButton. If the value is
+positive then it is relative to the top side of the TaskButton, if negative
+then to the bottom side. Additionally you can make the position relative to
+the center of the TaskButton by appending the character 'c' after the number
+("32c", "-128c").
+</li><p>
+<li><code>
+(Button Type)IconSize <strong>INT</strong></code><br>
+This command specifies the Size (Width/Height) of the displayed Icon.<br>
+Minimum: 8<br>
+Maximum: 32<br>
+If no value is provided then the default is 16.
+</li><p>
+<li><code>
+(Button Type)IconSaturationIntensity <strong>INT</strong></code><br>
+This command specifies the color saturation of the icon.<br>
+Minimum:   0 -> Grayscale<br>
+Maximum: 255 -> Full Colored (Default)<br>
+</li><p>
+<li><code>
+(Button Type)IconHueIntensity <strong>INT</strong></code><br>
+This command specifies the amount of the, in the icon, blended in color.<br>
+Minimum:   0 -> Nothing (Default)<br>
+Maximum: 255 
+</li><p>
+<li><code>
+(Button Type)IconHueColor <strong>COLOR</strong></code><br>
+This command specifies the blended in color.<br>
+Default: FFFFFF
+</li>
+</ul>
+<p>
+<h3 id="font">Overview "Font Settings"</h3><br>
+<p>
+<u>The "(Button Type)" in front of each setting means that every setting can be:</u><br>
+<b>Normal, Active, Minimized, Flashing</b><br>
+If you don't set any of these 4 specific modifiers, the settings will be used for all modes.
+<a href="#examples">(see Examples)</a><p>
+<b>If you set a setting with "Normal" then, THIS becomes Default for all other States!!</b><p>
+
+<u>Example:</u><br>
+<code>xTaskbarFontHeight 20</code><br>
+All Button States have a FontHeight of 20!<br>
+<code>xTaskbarMinimizedFontHeight 20</code><br>
+Minimized Buttons have a Text FontHeight of 20!
+<p>
+<h3 id="gripper">Font Settings</h3><br>
+<ul>
+<li><code>
+(Button Type)Font <strong>FONT</strong></code><br>
+Sets the name of the font used to display text. If no value is provided
+then the default is "Arial".
+</li><p>
+<li><code>
+(Button Type)FontHeight <strong>INT</strong></code><br>
+Sets the height of the font used to display the text in pixels. If no
+value is provided then the default is 15.
+</li><p><li><code>
+(Button Type)FontLeftBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the left edge of the TaskButton to reserve as a border. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+(Button Type)FontRightBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the right edge of the TaskButton to reserve as a border. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+(Button Type)FontTopBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the top edge of the TaskButton to reserve as a border. If no
+value is provided then the default is 0. 
+</li><p>
+<li><code>
+(Button Type)FontBottomBorder <strong>INT</strong></code><br>
+Sets the number of pixels on the bottom edge of the TaskButton to reserve as a border. If no
+value is provided then the default is 0.
+</li><p>
+<li><code>
+(Button Type)FontColor <strong>COLOR</strong></code><br>
+If no value is provided then the default is 000000.
+</li><p>
+<li><code>
+(Button Type)FontBold <strong>BOOL</strong></code><br>
+If this command is present then the font will be bold.
+</li><p>
+<li><code>
+(Button Type)FontItalic <strong>BOOL</strong></code><br>
+If this command is present then the font will be italic.
+</li><p>
+<li><code>
+(Button Type)FontUnderline <strong>BOOL</strong></code><br>
+If this command is present then the font will be underlined.
+</li><p>
+<li><code>
+(Button Type)FontAlign <strong>"left", "right" or "center"</strong></code><br>
+Sets the horizontal text alignment. If no value is provided then the
+Default is "left".
+</li><p>
+<li><code>
+(Button Type)FontVertAlign <strong>"top", "bottom" or "center"</strong></code><br>
+Sets the vertical text alignment. If no value is provided then the
+default is "center".
+</li><p><li><code>
+(Button Type)FontShadow <strong>BOOL</strong></code><br>
+If this command is present then the font has shadows.<br>
+<b>You can either use Shadow or OutLine, not both at the same time! Outlines override Shadows.</b>
+
+</li><p>
+<li><code>
+(Button Type)FontShadowColor <strong>COLOR</strong></code><br>
+Sets the color used to display the text shadow. If no value is provided
+then the default is dark gray (808080).
+</li><p>
+<li><code>
+(Button Type)FontShadowX <strong>INT</strong></code><br>
+Sets the number of pixels in the horizontal direction that the shadow is
+offset from the rest of the text; this can be negative. If no value is
+provided then the default is 1.
+</li><p>
+<li><code>
+(Button Type)FontShadowY <strong>INT</strong></code><br>
+Sets the number of pixels in the vertical direction that the shadow is
+offset from the rest of the text; this can be negative. If no value is
+provided then the default is 1.
+
+</li><p>
+<li><code>
+(Button Type)FontOutline <strong>BOOL</strong></code><br>
+If this command is present then the text will be Outlined.<br>
+<b>You can either use Shadow or OutLine, not both at the same time! Outline overrides Shadow.</b>
+
+</li><p>
+<li><code>
+(Button Type)FontOutlineColor <strong>COLOR</strong></code><br>
+Sets the color used to display the text Outline. If no value is provided
+then the default is dark gray (808080).
+</li><p>
+</li>
+</ul>
+	
+<div class="nav-top"><a href="#top">&#8593;</a></div>
+<div class="title" id="bang">Bang Commands And Events</div><!-- SECTION -->
+<p>
+<h3 id="gripper">Overview</h3><br>
+<p>
+<b>All Values in '[...]' are optional, means if you didn't specify more than ONE Taskbar, you never need to specify [TASKBARNAME]!!</b><p>
+The exaxt purpose of every bang should be quite obvious.<p>
+<p>
+<span class="heading">Bangs</span><br>
+<ul>          
+<li><code>!xTaskbarAlwaysOnTop [TASKBARNAME] <strong>("true"|"on", "false"|"off" or "toggle"|"switch")</strong></code><br>
+<u>"true" or "on":</u> Makes the Taskbar "always on top", that is, it stays above all application
+windows.<br>
+<u>"toggle" or "switch":</u> Switches the Taskbar back and forth between the always on top and pinned to
+desktop states.<br>
+<u>"false" or "off":</u> Pins the Taskbar to the desktop so that it stays below all application
+windows. This the default state and is the opposite of always on top.
+</li><p><li><code>!xTaskbarCreate [TASKBARNAME]</code><br>
+Create a Taskbar manually.
+</li><p><li><code>!xTaskbarDestroy [TASKBARNAME]</code> <br>
+Destroys a Taskbar.
+</li><p><li><code>!xTaskbarDisplay [TASKBARNAME] <strong>(Values, see MainSettings "xTaskbarDisplay")</strong></code> <br>
+Sets the currently displayed States.
+</li><p><li><code>!xTaskbarHide [TASKBARNAME]</code> <br>
+Hides the Taskbar, making it invisible.
+</li><p><li><code>!xTaskbarLines [TASKBARNAME] <strong>INT</strong></code> <br>
+Sets the numner of TaskbarLines.
+</li><p><li><code>!xTaskbarLSBoxHook [TASKBARNAME]</code> <br>
+Called by the Parent Window to hook Taskbar. <u><strong>Do not call manually!</strong></u>
+</li><p><li><code>!xTaskbarMove [TASKBARNAME] <strong>X Y [STEPS] [TIME]</strong></code> <br>
+Moves the Taskbar.<br>
+With animation, if (steps) AND (time) are also defined.
+STEPS are the animation steps and TIME the pause between two steps in milliseconds.<br>
+Maximum TIME: 50ms (keep it short ;) )
+</li><p><li><code>!xTaskbarMoveBy [TASKBARNAME] <strong>X Y [STEPS] [TIME]</strong></code> <br>
+Lets you move the Taskbar according to its actual positioning.
+To keep current position set x or y to 0. Negative values move the Taskbar to left/top, positive to right/bottom.
+<br>
+With animation, if (steps) AND (time) are also defined.
+STEPS are the animation steps and TIME the pause between two steps in milliseconds.<br>
+Maximum TIME: 50ms (keep it short ;) )
+
+</li><p><li><code>!xTaskbarRefresh [TASKBARNAME] <strong>SETTING NEWVALUE</strong></code> <br>
+"Refreshes" the Taskbar with the updated xTaskbarsetting.<p>                
+-> You can change "EVERY" Taskbarsetting On-The-Fly without the need of a hardcoded
+                          bang!
+                          <p>
+                          <strong><u>Examples:</u></strong><br>
+                          <u>You want (On-The-Fly) another Background Image for the Taskbar,
+                     simply call this Bang:</u><br>
+                     <code>!xtaskbarrefresh xtaskbarimage new_image.png</code><br>
+                     
+     
+            <strong><u>Attention:</u></strong><br> You need always TWO settings!<br>
+                        <code>!xtaskbarrefresh xtaskbarshowtooltips</code><br>
+                       won't work, you must define the new setting value (e.g. false)<br>
+                        <code>!xtaskbarrefresh xtaskbarshowtooltips false</code><br>
+                       This is like Normal Bangs only temporary till next Recycle!
+                       If you want to keep settings, you must change and save them.
+  
+
+</li><p><li><code>!xTaskbarReposition [TASKBARNAME] <strong>X Y WIDTH HEIGHT [STEPS] [TIME]</strong></code> <br>
+Repositions (moves and resizes) the Taskbar.<br>
+With animation, if (steps) AND (time) are also defined.
+STEPS are the animation steps and TIME the pause between two steps in milliseconds.<br>
+Maximum TIME: 50ms (keep it short ;) )
+</li><p><li><code>!xTaskbarRepositionBy [TASKBARNAME] <strong>X Y WIDTH HEIGHT [STEPS] [TIME]</strong></code> <br>
+Repositions (moves and resizes) the Taskbar according to its actual positioning ans size.<br>
+To keep current position set x or y to 0. Negative values move Taskbar to left/top, positive to right/bottom.<br>
+To keep current size set cx or cy to 0. If negative, it shrinks the Taskbar about cx in width and/or cy in height.
+If positive, it grows the Taskbar about cx in width and/or cy in height.<br>
+With animation, if (steps) AND (time) are also defined.
+STEPS are the animation steps and TIME the pause between two steps in milliseconds.<br>
+Maximum TIME: 50ms (keep it short ;) )
+</li><p><li><code>!xTaskbarResize [TASKBARNAME] <strong>WIDTH HEIGHT [STEPS] [TIME]</strong></code> <br>
+Resizes the Taskbar.<br>
+With animation, if (steps)> AND (time) are also defined.
+STEPS are the animation steps and TIME the pause between two steps in milliseconds.<br>
+Maximum TIME: 50ms (keep it short ;) )
+</li><p><li><code>!xTaskbarResizeBy [TASKBARNAME] <strong>WIDTH HEIGHT [STEPS] [TIME]</strong></code> <br>
+Resizes the Taskbar relative to actual size.<br>
+If negative, it shrinks the Taskbar about cx in width and/or cy in height.<br>
+If positive, it grows the Taskbar about cx in width and/or cy in height.<br>
+To keep current width and/or height set cx or cy to 0.
+<br>
+With animation, if (steps) AND (time) are also defined.
+STEPS are the animation steps and TIME the pause between two steps in milliseconds.<br>
+Maximum TIME: 50ms (keep it short ;) )
+</li><p><li><code>!xTaskbarSetAlpha [TASKBARNAME] <strong>INT</strong></code> <br>
+Set AlphaTransparency on the fly.
+</li><p><li><code>!xTaskbarShow [TASKBARNAME]</code> <br>
+Shows the Taskbar, making it visible.
+</li><p><li><code>!xTaskbarSwitch [TASKBARNAME] <strong>"next", "prev"</strong></code> <br>
+Switch to "Next" or "Prev"ious Task in the Taskbar.
+</li><p><li><code>!xTaskbarToggle [TASKBARNAME]</code> <br>
+Switches the Taskbar back and forth between the visible and invisible
+states.
+</li>
+
+</ul>
+<p>
+<span class="heading">Taskbar Button Events</span><p>
+<code>ActionsOnButtonDown <strong>BOOL</strong></code> <br>
+If set, the old activation of actions on ButtonDown is used again, instead of ButtonUp.<p>
+<ul><li><code>OnLeftClickButton <strong>".select", ".menu", ".close", ".ontop" or ".none"</strong></code><br> 
+Sets an action to perform, when the mouse left clicks a task button.<br>
+Default is .select
+</li><p><li><code>OnRightClickButton <strong>".select", ".menu", ".close", ".ontop" or ".none"</strong></code><br> 
+Sets an action to perform, when the mouse right clicks a task button.<br>
+Default is .menu
+</li><p><li><code>OnMiddleClickButton <strong>".select", ".menu", ".close", ".ontop" or ".none"</strong></code><br> 
+Sets an action to perform, when the mouse middle clicks a task button.<br>
+Default is .none
+</ul>
+<p>
+<span class="heading">Taskbar Events</span><br>
+<ul><li><code>OnEnter <strong>(action)</strong></code><br> 
+Sets an action to perform, when the mouse cursor enters the taskbar.
+
+</li><p><li><code>OnLeave <strong>(action)</strong></code><br> 
+Sets an action to perform, when the mouse cursor leaves the taskbar.
+
+</li><p><li><code>OnLeftClickDown <strong>(action)</strong></code><br>
+Sets an action to perform, when the user presses the left mousebutton down on the taskbar.
+
+</li><p><li><code>OnLeftClickUp <strong>(action)</strong></code><br>
+Sets an action to perform, when the user releases the left mousebutton on the taskbar.
+
+</li><p><li><code>OnMiddleClickDown <strong>(action)</strong></code><br>
+Sets an action to perform, when the user presses the left mousebutton down on the taskbar.
+
+</li><p><li><code>OnMiddleClickUp <strong>(action)</strong></code><br>
+Sets an action to perform, when the user releases the middle mousebutton on the taskbar.
+
+</li><p><li><code>OnRightClickDown <strong>(action)</strong></code><br>
+Sets an action to perform, when the user presses the left mousebutton down on the taskbar.
+
+</li><p><li><code>OnRightClickUp <strong>(action)</strong></code><br>
+Sets an action to perform, when the user releases the right mouse button on the taskbar.
+
+</li><p><li><code>OnWheelDown <strong>(action)</strong></code><br>
+Sets an action to perform, when the mouse wheel scrolls down while the
+mouse cursor hovers over the taskbar.
+
+</li><p><li><code>OnWheelUp <strong>(action)</strong></code><br>
+Sets an action to perform, when the mouse wheel is scrolled up while the
+mouse cursor hovers over the taskbar.
+
+</li><p><li><code>OnResize <strong>(action)</strong></code><br>
+Sets an action to perform, when the taskbar has changed its size.
+
+</li><p><li><code>OnMove <strong>(action)</strong></code><br>
+Sets an action to perform, when the taskbar has changed its position (executed <strong>after</strong> the move!).
+
+</li><p><li><code>OnAdd <strong>(action)</strong></code><br>
+Sets an action to perform, when a task has been added.
+
+</li><p><li><code>OnRemove <strong>(action)</strong></code><br>
+Sets an action to perform, when a task has been removed.
+
+</li><p><li><code>OnLineAdd <strong>(action)</strong></code><br>
+"action" is executed, if a line has been added.<br>
+           (ONLY with xTaskbarAutoLines! If you call manually !xTaskbarLines you can also call manually
+           the appropriated action.)
+
+</li><p><li><code>OnLineRemove <strong>(action)</strong></code><br>
+"action" is executed, if a line has been removed.<br>
+           (ONLY with xTaskbarAutoLines! If you call manually !xTaskbarLines you can also call manually
+           the appropriated action.)
+
+</li></ul>
+<p>
+<span class="heading">Taskbar Special Settings</span><br>
+The following "Substring" references use the "Standard Wildcard" Syntax!
+<p>
+You can remove the Buttons of Applications with the following:
+<p><code>*xTaskbarRemove "SubString from Class or Windowname"</code><p>
+All Applications, which "Class" or "Windowname" match the "SubString", won't be shown in all Taskbars.<p>
+<hr>
+You can <b>Add Buttons</b> of specific Applications <b>To Only One Specific Taskbar</b>:
+<p><code>*xTaskbarSpecific "CustomTaskbarname" "SubString from Class or Windowname"</code><p>
+All Applications, which "Class" or "Windowname" match the "SubString", will be shown only in the specified Taskbar.<br>This is sort of a Taskbarspecific *TaskbarRemove!<p>
+<hr>
+You can define Custom Icons for Applications with the following:
+<p><code>*xTaskbarIcon "SubString from Class or Windowname" "FULL Path to a (Icon-)File"</code><p>
+All Applications, which "Class" or "Windowname" match the "SubString", get the Icon from the choosen (Icon-)File in all Taskbars.<p>
+
+<div class="nav-top"><a href="#top">&#8593;</a></div>
+<div class="title" id="examples">Examples</div><!-- SECTION -->
+<p>
+<table width="100%" border="1" cellpadding="6" cellspacing="0">
+<tr>
+ <th>Taskbar without defined Custom Name and the same Font/Icon Settings for all buttons:</th>
+</tr>
+<tr>
+<td>
+<code>
+xTaskbarX 20<br>
+xTaskbarY 50<br>
+xTaskbarWidth $resolutionx-200$<br>
+xTaskbarHeight 27<br>
+xTaskbarImage Taskbar_Background.png<br>
+xTaskbarNormalButtonImage TaskbarNormal_Background.png<br>
+xTaskbarActiveAlphaBlend 90<br>
+xTaskbarActiveButtonImage xTaskbarActive_Background.png<br>
+xTaskbarActiveButtonImageMode tile<br>
+xTaskbarFont "Verdana"<br>
+xTaskbarFontHeight 16<br>
+xTaskbarFontColor CDCDCD<br>
+xTaskbarIconX 2<br>
+xTaskbarIconY 10<br>
+xTaskbarIconSize 22
+</code>
+</td>
+</tr>
+<tr>
+<td>
+<u>Information:</u><br>
+You see that there is missing the xTaskbarMinimized/FlashingButtonImage, if they're not set,
+xTaskbarNormalButtonImage will be taken. This is also on Icons and Fonts possible.
+</td>
+</tr>
+</table>
+<p>
+
+<table width="100%" border="1" cellpadding="6" cellspacing="0">
+<tr>
+ <th>Taskbar with defined Custom Name and the same Font Settings for all buttons:</th>
+</tr>
+<tr>
+<td>
+<code>
+*xTaskbar MyOwnBar<br>
+MyOwnBarX 20<br>
+MyOwnBarY 50<br>
+MyOwnBarWidth $resolutionx-200$<br>
+MyOwnBarHeight 27<br>
+MyOwnBarImage Taskbar_Background.png<br>
+MyOwnBarNormalButtonImage TaskbarNormal_Background.png<br>
+MyOwnBarActiveAlphaBlend 90<br>
+MyOwnBarActiveButtonImage xTaskbarActive_Background.png<br>
+MyOwnBarActiveButtonImageMode tile<br>
+MyOwnBarFont "Verdana"<br>
+MyOwnBarFontHeight 16<br>
+MyOwnBarFontColor CDCDCD<br>
+MyOwnBarActiveIconX 5<br>
+MyOwnBarActiveIconY 56<br>
+MyOwnBarActiveIconSize322<br>
+MyOwnBarMinimizedIconX 32<br>
+MyOwnBarMinimizedIconY 43<br>
+MyOwnBarMinimizedIconSize 22<br>
+MyOwnBarFlashingIconX 10<br>
+MyOwnBarFlashingIconY 2<br>
+MyOwnBarFlashingIconSize 53
+</code>
+</td>
+</tr>
+<tr>
+<td>
+<u>Information:</u><br>
+You can add as many Taskbars as you want, just give them another name. eg: you can have
+one bar with only icons and one with only text!<br>
+</td>
+</tr>
+</table>
+<div class="nav-top"><a href="#top">&#8593;</a></div>
+
+<div class="title" id="contact">Contact</div><!-- SECTION -->
+
+<p>
+<u>Please report bugs, if there should be any, to:</u><br>
+<a href="mailto:andymon@ls-universe.info?subject=xTaskbar">andymon@ls-universe.info</a><p>
+If you have wishes for xTaskbar tell them also, maybe I can realize them =)
+<p>
+Btw.: I'm native German, so everyone who's also German mustn't write me in English ;)
+<p>
+<u>Homepage:</u> Here you find News, Updates, and some more.<br>
+<a href="http://www.ls-universe.info">www.LS-Universe.info</a><p>
+</div>
+
+</div>
+</body>
+</html>

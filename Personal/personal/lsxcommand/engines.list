@@ -1,0 +1,155 @@
+; Search Engine List File
+; Last updated November 2001 by leaf
+
+Default Google
+
+"&Search Engines" {
+
+	Yahoo               http://search.yahoo.com/bin/search?p=<args>
+	AltaVista           http://www.altavista.com/cgi-bin/query?pg=q&kl=XX&q=<args>
+	LycosOld            http://www.lycos.com/cgi-bin/pursuit?cat=dir&query=<args>
+	Lycos               http://search.lycos.co.uk/cgi-bin/pursuit?matchmode=and&mtemp=main&etemp=error&query=<args>&cat=brit
+	Excite              http://search.excite.com/search.gw?search=<args>
+	InfoSeekOld         http://infoseek.go.com/Titles?qt=<args>&col=WW&sv=IS&lk=noframes&svx=home_searchbox
+	InfoSeek            http://www.overture.com/d/search/p/go/?Partner=go_home&Keywords=<args>
+	Go                  http://www.overture.com/d/search/p/go/?Partner=go_home&Keywords=<args>
+	Google              http://www.google.com/search?q=<args>
+	HotBot              http://www.hotbot.lycos.co.uk/result.html?query=<args>&bool=all&z=1111121111111111211&languagefield=any&numresult_field=10&description_field=full&uk=ww&hs=s
+	HotBotOld           http://www.hotbot.com/?MT=<args>&SM=MC&DV=0&LG=any&DC=10&DE=2&clickSrc=search&_v=2&OPs=MDRTP
+	DejaNews            http://www.deja.com/qs.xp?OP=dnquery.xp&ST=QS&QRY=<args>&DBS=2
+	Ask                 http://www.ask.co.uk/reply.asp?ask=<args>
+	AskJeeves           http://www.askjeeves.com/AskJeeves.asp?ask=<args>
+	NorthernLightOld    http://www.nlsearch.com/nlquery.fcg?qr=<args>
+	NorthernLight       http://www.northernlight.com/nlquery.fcg?qr=<args>
+	OpenText            http://search.opentext.com/omw/simplesearch?SearchFor=<args>&mode=and
+	InfospaceOld        http://in-115.infospace.com/search?QT=1&QV=info&QX=&QK=15&QL=&QG=&QMULT=1&QN=<args>&QC=&QS=&QU=r
+	Infospace           http://dpxml.infospace.com/info/dog/webresults.htm?&qkw=<args>&qcat=web&start=&userip=130.209.6.43&ver=20007
+;	GoTo                http://www.goto.com/d/search/;$sessionid$4W153TYAA55YLQFIEENQPUQ?Keywords=<args>
+	PathfinderOld       http://cgi.pathfinder.com/cgi-bin/altavista/pshell?venue=pathfinder&q=<args>&pg=q&date=all&x=3&y=13
+	Pathfinder          http://www.time.com/time/searchresults?venue=time&summaries=yes&search_type=simple&query=<args>
+	Time                http://www.time.com/time/searchresults?venue=time&summaries=yes&search_type=simple&query=<args>
+	MetacrawlerOld      http://www.metacrawler.com/crawler?general=<args>
+	Metacrawler         http://search.metacrawler.com/crawler?general=<args>
+	Top5Old             http://www.pointcom.com/cgi-bin/pursuit?cat=point&query=<args>
+	Top5                http://apps5.oingo.com/apps/domainpark/domainparkresults.cgi?Partner=oingo_inclusion_xml_05&Keywords=<args>
+;	A2Z                 http://a2z.lycos.com/cgi-bin/pursuit?query=<args>
+	WhoWhere            http://query1.whowhere.com/jwz/name.wsrch?name=<args>&org=
+	BigBook             http://yp8.superpages.com/listings.phtml?SRC=bb&STYPE=S&PG=L&C=&N=<args>&T=&S=*&R=N&search=Find+It&rtd=yp8.superpages.com
+
+}
+
+"Music && Movies" {
+
+  MP3 {
+
+	OTH                 http://oth.ipmedia.net:8080/cgi-bin/search?q=<args>&cl=1
+	PalaVistaOld        http://mp3.palaquest.com/cgi-bin/nph-metamp3.pl?template=default.html&minrel=60&maxhit=50&query=<args>
+	PalaVista           http://www.palavista.com/cgi-bin/nph-metamp3.pl?template=default.html&minrel=60&maxhit=50&query=<args>
+	LycosMP3Old         http://mp3.lycos.com/cgi-bin/search?form=lycosnet&query=<args>
+	LycosMP3            http://music.lycos.com/default.asp?form=lycosnet&RM=1&QT=S&QW=<args>
+;	ScourMP3            http://search.scour.net/cgi-bin/search.cgi?query=<args>&protocol=all&index=mp3&preview_size=small
+	MediafindMP3        http://194.95.209.6/cgi-bin/search.cgi?file=<args>&filetype=mp3
+	AudioFindMP3        http://www.audiofind.com:70/?audiofindsearch=<args>&audiofindtype=mp3
+
+      }
+	
+	DVDExpressOld       http://www.dvdexpress.com/consumer/include/search_redir.asp?optSearchBy=title&pagename=splash_main&category=q1&query=<args>
+	DVDExpress          http://www.dvdexpress.com/search_advanced.asp?q2=<args>&pagename=1&t=keyword&All=1
+	CDNow               http://www.cdnow.com//cgi-bin/mserver/SID=1116013684/pagename=/RP/CDN/FIND/popsearch.html?string=<args>
+	IMDB                http://us.imdb.com/Tsearch?title=<args>
+;	Lyrics              http://www.lyrics.ch/search/checkfulltext.asp?words=<args>&count=20&type=all&title=
+;	LyricsByTitle       http://www.lyrics.ch/search/checknormal.asp?bands=&label=&song=<args>&match=like
+}
+
+&News {
+
+	Slashdot            http://slashdot.org/search.pl?query=<args>
+;	APWire              http://wire.ap.org/APnews/main_search.html?SEARCHSTRING=<args>
+
+}
+
+&Computers {
+
+  Programming {
+
+	MSDNOld             http://search.microsoft.com/us/dev/results.asp?nq=TRUE&SName=&SPath=&SCatalog=&qu=<args>&Boolean=ALL&chkM=on&radM=0&chkM_0=on&chkM_1=on&chkM_2=on&chkM_3=on&chkM_4=on&chkM_5=on&chkM_6=on&chkM_7=on&chkM_8=on&chkM_9=on&chkM_10=on&chkM_11=on&chkM_12=on&chkM_13=on&chkM_14=on&chkM_15=on&chkM_16=on&chkM_17=on&chkS=on&radS=0&chkS_0=on&chkS_1=on&chkS_2=on&chkS_3=on&chkS_4=on&chkS_5=on&chkS_6=on&chkS_7=on&chkS_8=on&chkS_9=on&chkS_10=on&chkS_11=on&chkS_12=on&chkS_13=on&chkA=on&chkK=on
+
+	MSDN                http://search.microsoft.com/us/dev/default.asp?so=RECCNT&qu=<args>&boolean=ALL&ig=01&i=00&i=01&i=02&i=03&i=04&i=05&i=06&i=07&i=08&i=09&i=10&i=11&i=12&i=13&i=14&i=15&i=16&i=17&i=18&i=19&i=20&i=21&i=22&i=23&i=24&i=25&i=26&i=27&i=28&i=29&i=30&i=31&i=32&i=33&i=34&i=35&i=36&i=37&i=38&i=39&i=40&i=41&i=42&i=43&i=44&i=45&i=46&i=47&i=48&i=49&i=50&i=51&ig=02&ig=03&ig=04&ig=05&ig=06&p=1&nq=NEW
+
+	MS                  http://search.microsoft.com/Default.asp?so=RECCNT&boolean=ALL&siteid=us&p=1&nq=NEW&qu=<args>&IntlSearch=&ig=1&ig=2&ig=3&ig=4&ig=5&ig=6&ig=7&ig=8&ig=9&ig=10&i=00&i=01&i=02&i=03&i=04&i=05&i=06&i=07&i=08&i=09
+
+	MSKBOld             http://search.microsoft.com/us/results.asp?nq=TRUE&SName=&SPath=&SCatalog=&qu=<args>&Boolean=ALL&Finish=Search+Now%21&intCat=7
+
+	MSKB                http://search.support.microsoft.com/kb/psssearch.asp?SPR=msall&T=B&KT=ALL&T1=7d&LQ=<args>&PQ=PastQuery&S=F&A=T&DU=C&FR=0&D=support&LPR=&LNG=EN-GB&VR=http%3A%2F%2Fsupport.microsoft.com%2Fsupport%3Bhttp%3A%2F%2Fsupport.microsoft.com%2Fservicedesks%2Fwebcasts&CAT=Support&VRL=ENG&SA=GN&Go.x=31&Go.y=15
+
+	CodeGuruOld         http://www.codeguru.com/cgi/AT-Pagessearch.cgi?search=<args>
+	CodeGuru            http://10.2.1.202:20000/qmethod=q&querytext=<args>&qnum=10&idnum=30&xoptions=inchitcount+start0+sortboth&attachtoname=codeguru.earthweb.com
+
+	}
+
+ "Software && Hardware" {
+
+	SoftSeekOld         http://search02.softseek.com/cgi-bin/search.cgi?keywords=<args>&seekindex=index&maxresults=025&cb=
+	SoftSeek            http://zddl.search.com/search?q=<args>
+
+	HardwareOld         http://www2.tomshardware.com/site/search.html?word=<args>
+	Hardware            http://www6.tomshardware.com/cgi-bin/htsearch?words=<args>&format=builtin-long&method=and&sort=score&config=content&restrict=&exclude=
+
+	SharewareOld        http://search.shareware.com/code/engine/Find?cfrom=quick&frame=none&orfile=True&category=MS-Windows%28all%29&hits=25&search=<args>&logop=and&and=
+	Shareware           http://shareware.cnet.com/shareware/1,10269,0-13628-501-0-1-1,00.html?&tag=srch&qt=<args>&cn=&ca=13628
+
+	HotFiles            http://hotfiles.zdnet.com/cgi-bin/texis/swlib/hotfiles/search.html?Usrt=rel&Usrchtype=simple&Utext=<args>
+	Astalavista         http://astalavista.box.sk/cgi-bin/robot/robot?srch=<args>&project=robot&gfx=robot
+	LinuxEngine         http://linux.box.sk/box.php3?prj=linux&gfx=linux&srch=<args>
+
+	}
+
+ Archie {
+
+	ArchieplexOld       http://www.nexor.com/public/archie/archieplex/cgi-bin/archieplexform?query=<args>&type=Case+Insensitive+Substring+Match&order=host&server=archie.doc.ic.ac.uk&domain=&hits=99&nice=Nice
+	Archieplex          http://archie.emnet.co.uk/cgi-bin/archieplexform?query=<args>&type=Case+Insensitive+Substring+Match&order=host&server=archie.switch.ch&domain=&hits=95&nice=Nice
+
+;	Filez               http://search.filez.com/search.cgi?type=1&key=<args>&submit1=Find&search=1&rows=50
+	FileDemonOld        http://171.64.175.32/armen/servlets/TestServlet8?filename=<args>
+	FileDemon           http://www.filedemon.com/servlets/TestServlet8?fileName=<args>
+
+	}
+
+	CMA                 http://cma.zdnet.com/texis/cma/cma/+Ww1Fqnhw5B/edit.html?feditsrch=<args>
+
+}
+
+"Books && &Reference" {
+
+	Amazon              http://www.amazon.com/exec/obidos/external-search/?keyword=<args>
+	BarnesAndNoble      http://shop.barnesandnoble.com/booksearch/results.asp?title=<args>&match=exact&options=and
+	FOLDOC              http://wombat.doc.ic.ac.uk/foldoc/foldoc.cgi?query=<args>
+	H2G2                http://www.bbc.co.uk/cgi-bin/search/results.pl?q=<args>&uri=%2Fh2g2%2F
+	PatentsOld          http://www.patents.ibm.com/details?pn=<args>
+	Patents             https://www2.delphion.com/cgi-bin/ncommerce3/ExecMacro/IPN/IPNqrysave.d2w/input?query=(<args>)&-c=bibonly&-i=SCORE VDKVGWKEY PD TITLE&-o=SCORE&mode=add&form=patsearch
+	QuoteOld            http://fast.quote.com/fq/quotecom/quote?symbols=<args>
+	Quote               http://finance.lycos.com/home/stocks/quotes.asp?symbols=<args>&option=&x=18&y=8
+	Dictionary          http://www.m-w.com/cgi-bin/dictionary?book=Dictionary&va=<args>
+	Thesaurus           http://www.m-w.com/cgi-bin/thesaurus?book=Thesaurus&va=<args>
+	LibraryOfCongress   http://lcweb.loc.gov/Harvest/cgi-bin/BrokerQuery.pl.cgi?query=<args>&host=lcweb.loc.gov%3A8501&brokerqueryconfig=BrokerLC.cf&maxresultflag=50&caseflag=on&descflag=on&verbose=on
+
+}
+
+"Package Tracking" {
+
+	UPS                 http://wwwapps.ups.com/etracking/tracking.cgi?submit=Track&InquiryNumber1=<args>&TypeOfInquiryNumber=T
+	FedEx               http://www.fedex.com/cgi-bin/track_it?airbills=<args>
+	Airborne            http://www.airborne.com/cgi-bin/AirbillTrace?ShipmentNumber=<args>
+
+}
+
+Miscellaneous {
+
+	Finger              http://kryten.eng.monash.edu.au/cgi-bin/gspam?c=FINGER+user%40hostname&a=<args>
+	NSLookup            http://www.uia.ac.be/cgi-bin/nslookup-query?hostname=<args>
+	MerckMan            http://www.merck.com/!!tevVX3Hs_tevVX3Hs_/htbin/search_mmanual/?term=<args>
+	LettermanTop10      http://marketing.cbs.com/network/tvshows/mini/lateshow/topten/archive/search/TopTen_Search.cgi?sp=sp&search=<args>
+	Anonymizer          http://anon.free.anonymizer.com/<args>
+
+}
+

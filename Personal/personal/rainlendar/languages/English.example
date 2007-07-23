@@ -1,0 +1,461 @@
+; Rainlendar 0.20 English language file
+; by Rainy (rainy@iki.fi)
+;
+; Note: When translating the strings do not change the numbers in front of them.
+;       Check from http://www.rainlendar.net that the translation isn't already made.
+;
+; The [Locale] section defines the locale that is used in the date strings. 
+; Don't use a localized string in the [locale]-section. It must be in English.
+; See here for correct country strings:
+; http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vclib/html/_crt_country_strings.asp
+;
+ 
+[Locale]
+0=English
+
+[General]
+0=OK
+1=Cancel
+2=Apply
+3=General
+4=Layout
+5=Server
+6=Rainlendar Config
+7=Background
+8=Days
+9=Today
+10=Event
+11=Weekdays
+12=Week Numbers
+13=Month
+14=Year
+15=Hotkeys
+16=Todo
+17=MessageBox
+18=Skin Config
+19=Plugins
+20=Unknown
+21= (Due in %i minutes)
+22=Today
+23=Tomorrow
+24=EventList
+
+[About]
+0=Rainlendar version %s \n(Build on %s)\n\nGet the latest version from:\nhttp://www.rainlendar.net\n\n
+
+[Message]
+0=Are you sure you want to delete the event(s)?
+1=Read-only events cannot be deleted!
+2=Not all events were updated to the server.\nThe server has more up-to-date.
+3=You can use only values positive starting from 1 values in the vertical and horizontal count fields.
+4=%i? Are you mad? Please try to use some more reasonable value in the vertical and horizontal count fields.
+5=Please use only numbers (0-9)\nand letters (A-Z, a-z) in the ID.\nThe illegal chars are automatically changed to '_'
+6=Sorry!\n\nSkin editing is only possible with separate skin configurations.\n\nWhat you need to do is to remove all the skinning stuff from Rainlendar.ini\nand put them in a separate ini-file inside a subfolder under Rainlendar's folder.\nConsult the documentation for more info.
+7=Unable to find the skin: %s\%s\nRainlendar will default to the first available skin.
+8=Unknown !bang: %s
+9=A new version of Rainlendar is available at http://www.rainlendar.net\nDo you want to go there now?
+
+[Error]
+0=No Errors!
+1=Out of memory!
+2=Unable to create the window class!
+3=Unable to create the main window!
+4=Unable to fetch the desktop's background!
+5=Unable to create font!
+6=Unable to calculate text dimensions!
+7=NULL parameter!
+8=File cannot be opened: %s
+9=Bitmap name was not specified in the ini-file!
+				
+[Menu]
+0=About...
+1=Select Month
+2=Next Month\tRight
+3=Prev Month\tLeft
+4=Current Month\tHome
+5=January
+6=February
+7=March
+8=April
+9=May
+10=June
+11=July
+12=August
+13=September
+14=October
+15=November
+16=December
+17=Refresh
+18=Set event...
+19=Show all events...
+20=Config...
+21=Quit
+22=Language
+23=English (default)
+24=Edit Current Skin...
+25=Skins
+26=Next Year\tUp
+27=Prev Year\tDown
+28=Update Outlook
+29=Edit todo list...
+30=Mark as done
+31=Undo
+32=Cut
+33=Copy
+34=Paste
+35=Delete
+36=Select All
+37=Help
+38=Get More Languages...
+39=Get More Skins...
+40=Windows
+41=Calendar
+42=Todo
+43=Event list
+44=Event
+45=Create new event...
+46=Delete event(s)
+47=Visible
+48=Locked
+49=Edit item...
+50=Mark all checked as done
+51=Check item
+	
+[GeneralConfigGUI]
+0=Show event message in tooltip
+1=*not used*
+2=Start hidden
+3=Start weekdays from Monday
+4=Disable keyboard shortcuts
+5=Use window name
+6=Poll wallpaper changes
+7=Event Settings
+8=Execute on event:
+9=General settings
+10=Snap to screen edges
+11=Use native Windows transparency (Win2k/XP only)
+12=Refresh when screen resolution changes
+13=Show Outlook appointments
+14=Week containing Jan 1st is the first week of the year
+15=Use separator in tooltips
+16=Outlook Settings
+17=Update every
+18=seconds (0 = disable)
+19=It is not possible to use native transparency with OnDesktop setting.\nNative transparency is disabled.
+20=Get Outlook events at startup
+21=Max tooltip width:
+22=Show all today's messages at startup
+23=Show message alarms
+24=Max message width:
+25=Show tray icon
+26=Transparency
+27=Transparent
+28=Opaque
+29=Log
+30=Enable Log
+31=Disable Log
+32=Show Log
+33=Advanced Edit
+34=Advanced
+	
+[LayoutConfigGUI]
+0=OnBottom
+1=Normal
+2=OnTop
+3=Movable window
+4=Hide on mouse over (hold Shift-key down to deactivate)
+5=X:
+6=Y:
+7=Position
+8=OnDesktop
+9=Multiple calendars
+10=Vertical count:
+11=Horizontal count:
+12=Previous months:
+13=Start from January
+14=Remember dialog positions
+15=Make negative coordinates relative to bottom right corner
+16=The window's position cannot be set to OnDesktop if native transparency is used.\nThe position is changed to Normal.
+17=Todo list
+18=Show Todo list
+19=Other settings
+20=Click through (hold Shift-key down to deactivate)
+21=Show
+22=days
+23=Substitute today and tomorrow
+24=Event list window
+	
+[HotkeysConfigGUI]
+0=Hide all windows
+1=Show all windows
+2=Toggle all windows
+3=Activate calendar
+4=Refresh
+5=Edit config
+6=Edit skin
+7=Show next month
+8=Show previous month
+9=Show current month
+10=Show all events
+11=Show next year
+12=Show previous year
+13=Update Outlook
+14=Add new todo-item
+15=Action
+16=Hotkey
+17=Set
+18=Hotkeys
+19=Hide Calendar window
+20=Show Calendar window
+21=Toggle Calendar window
+22=Hide Todo window
+23=Show Todo window
+24=Toggle Todo window
+25=Hide Events window
+26=Show Events window
+27=Toggle Events window
+28=Add new event
+
+[SkinGUI]
+0=Enable Days
+1=Do not draw days on today
+2=Do not draw days on event days
+3=Browse
+4=X:
+5=Y:
+6=W:
+7=H:
+8=Rasterizer:
+9=Align:
+10=Bitmap
+11=Bitmap:
+12=Components:
+13=Separation:
+14=Font
+15=Font:
+16=Select
+17=Color:
+18=Stretch
+19=Tile
+20=Transparent
+21=Background
+22=Filename:
+23=Text Color:
+24=ToolTip
+25=Background Color:
+26=Solid color
+27=Bevel edge
+28=Enable Event Days
+29=Show events in the calendar
+30=Enable Today
+31=Enable Weekdays
+32=Enable Week Numbers
+33=Enable Month
+34=Enable Year
+35=Top Left
+36=Top Center
+37=Top Right
+38=Left
+39=Center
+40=Right
+41=Bottom Left
+42=Bottom Center
+43=Bottom Right
+44=Width:
+45=Bitmap Margins:
+46=Text Margins:
+47=Todo Item
+48=Offset X:
+49=Todo Text
+50=Message Text
+51=Weekend Color:
+52=Weekend Bitmap:
+53=Layout
+54=Day layout:
+55=Normal (7x6 grid)
+56=Horizontal
+57=Vertical
+58=Advanced
+59=EventList Background
+60=EventList Headers
+61=EventList Text
+
+[EventGUI]
+0=New
+1=Delete
+2=Single
+3=Daily
+4=Weekly
+5=Monthly
+6=Annually
+7=Valid until:
+8=Every:
+9=Profile:
+10=Repeat
+11=Please wait while synchronizing events with the server
+12=day(s)
+13=week(s)
+14=month(s)
+15=year(s)
+16=Mon
+17=Tue
+18=Wed
+19=Thu
+20=Fri
+21=Sat
+22=Sun
+23=On the %1 day of the month
+24=On the %1 %2 of the month
+25=Sunday
+26=Monday
+27=Tuesday
+28=Wednesday
+29=Thursday
+30=Friday
+31=Saturday
+32=first
+33=second
+34=third
+35=fourth
+36=fifth
+37=weekday
+38=Edit Event
+39=Start:
+40=Duration:
+41=All day event
+42=Message:
+43=Header:
+44=Recurrency
+45=minutes
+46=hour
+47=hours
+48=day
+49=days
+50=week
+51=weeks
+52=Recurrency:
+53=Forever
+54=Number of times:
+55=Show alarm
+56=minutes before the event
+57=Are you sure you want to delete this event?
+58=last
+
+[AllEventsGUI]
+0=Date
+1=Type
+2=Profile
+3=Text
+4=All Events
+5=Start date
+6=End date
+7=Import
+8=Export
+9=None of the plugins is able to export events.
+10=Unable to import the file.
+11=Do you want to export only the selected events?\n(Press "No" to export all events.)
+
+[Numbers]
+0=1st
+1=2nd
+2=3rd
+3=4th
+4=5th
+5=6th
+6=7th
+7=8th
+8=9th
+9=10th
+10=11th
+11=12th
+12=13th
+13=14th
+14=15th
+15=16th
+16=17th
+17=18th
+18=19th
+19=20th
+20=21st
+21=22nd
+22=23rd
+23=24th
+24=25th
+25=26th
+26=27th
+27=28th
+28=29th
+29=30th
+30=31st
+
+[Profiles]
+Birthday=Birthday
+Exam=Exam
+Holiday=Holiday
+Important=Important
+Trip=Trip
+Work=Work
+Default=Default
+Personal=Personal
+
+[Todo]
+0=Todo
+1=Done
+2=Notes
+3=New
+4=Modify
+5=Delete
+6=Undo
+7=Are you sure you want to delete the item?
+8=Are you sure you want to delete these items?
+9=Move up
+10=Move down
+
+[Plugins]
+0=Plugins
+1=Name
+2=Version
+3=Default
+4=Set as default
+5=Settings
+6=The plugins can be enabled/disabled from the checkbox.
+
+[IniFormatPlugin]
+0=Read Only
+1=Read/Write
+2=Filename
+3=Type
+4=Event Files
+5=Todo files
+6=Add
+7=Remove
+8=Toggle type
+
+[OutlookPlugin]
+0=Outlook profile:
+1=Use Outlook labels as event profiles
+2=Keep MAPI-connection alive
+3=Don't show message body
+4=Don't show completed tasks
+
+[ServerPlugin]
+0=User ID:
+1=Server Address:
+2=Server Port:
+
+
+; These are not actually used automatically in the installer, but need to be
+; added in to the install script manually. I'll do that in the next version
+; so do translate these too.  -Rainy
+
+[Install]
+0=Do you want to remove the settings and events?
+1=Note: $INSTDIR could not be removed!
+2=Start menu shortcuts
+3=Desktop shortcut
+4=Startup shortcut
+5=This installs the main program and the default skins & languages.
+6=This adds the shortcuts to your Start Menu.
+7=This adds a shortcut to your desktop.
+8=This adds a shortcut to your startup folder so that Rainlendar start with Windows.
+9=Please close Rainlendar before you proceed.

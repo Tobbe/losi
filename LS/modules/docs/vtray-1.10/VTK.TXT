@@ -1,0 +1,14 @@
+V T K - Vendicator ToolKit
+
+Author: Vendicator
+
+Description:
+The following classes, functions have been separated from mostly
+my LiteStep modules since I found that I was copying the same code
+over and over between projects. This way could is more easily reused
+and hopefully bugfixes in the VTK will improve all modules.
+
+In time more and more features will be available.
+
+Contact:
+vendicator_AT_mail_DOT_com
