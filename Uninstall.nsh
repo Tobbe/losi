@@ -135,5 +135,5 @@ skip:
     SetAutoClose true
 
     FindProcDLL::FindProc "explorer.exe"
-    StrCmp $R0 1 +2
+    StrCmp $R0 "" 1 +2
     ExecShell open "explorer.exe"

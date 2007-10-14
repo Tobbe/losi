@@ -78,7 +78,8 @@ Function AssociateFile
 		StrCmp $0 "" 0 "${Index}-Skip"
 			WriteRegStr HKCR $3 "" $4
 			WriteRegStr HKCR "$3\shell" "" "open"
-			WriteRegStr HKCR "$3\DefaultIcon" "" $7
+			StrCmp $7 "" "${Index}-Skip" ; Only define an icon if we have a value for it
+				WriteRegStr HKCR "$3\DefaultIcon" "" $7
 
 	"${Index}-Skip:"
 		WriteRegExpandStr HKCR "$3\shell\open\command" "" $5

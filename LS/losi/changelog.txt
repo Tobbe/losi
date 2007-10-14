@@ -52,14 +52,42 @@ ls.com is down for an unknown period of time I started this changelog instead
 2007-02-25: Changed the license text (but not the actual license)
 
 2007-03-03: Began work on a page where you can choose between a "Normal
-			Install" and an "Advanced Install"
+            Install" and an "Advanced Install"
 
 2007-07-14: Made the evar configuration during install remeber your
-			choices when going back and forth between the two evar
-			configuration pages. Thanks to jc for finding and fixing
-			this bug.
-			Updated/Added some language strings to LanguageStrings.nsh.
-			Thanks to jc for those too.
-			Made LOSI print the full/long installation path instead of
-			the short, 8.3 version of it. Thanks to jc for telling me
-			to do it :)
+            choices when going back and forth between the two evar
+            configuration pages. Thanks to jc for finding and fixing
+            this bug.
+            Updated/Added some language strings to LanguageStrings.nsh.
+            Thanks to jc for those too.
+            Made LOSI print the full/long installation path instead of
+            the short, 8.3 version of it. Thanks to jc for telling me
+            to do it :)
+
+2007-08-06: Changed LSDir to LitestepDir in the registry (HKLM\Software\
+            LOSI\Installer\)
+
+2007-10-08: Finished a new version of the SetShell util. This time it's written
+            in LUA.
+
+2007-10-09: Added SLI-ThemeManager to the installer and updated a couple of .rc
+            files to support it.
+            Updated formating and a few entries in popup.rc
+            Changed the shortcuts to change the shell to use the new LOSS
+            written in lua
+
+2007-10-10: Added a new option for installing LOSI stuff (for example icons and
+            utils). This used to be done when installing the core, but is now
+            it's own option. In the process I also made the file association
+            a little smarter so it doesn't try to set an icon that doesn't
+            exist.
+
+2007-10-14: I fixed some little things today that I noticed when I tried to do
+            a full install with losi. I associated .lsz files with
+            SLI-ThemeManager.exe. The shortcuts to LOSS on the desktop and in
+            the startmenu are now working. I had to supply the full path to the
+            *.lua files. Added a messagebox when you switch shells using
+            command line parameters (i.e. by using shortcuts). It'll ask you if
+            you want to reboot/logoff (Yes or No) or if you want to Undo the
+            shell switching. I fixed the code that's supposed to launch explorer
+            after uninstalling LS.

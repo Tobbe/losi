@@ -1,17 +1,18 @@
-#!define PAGE_WELCOME
-#!define PAGE_LICENSE
+!define PAGE_WELCOME
+!define PAGE_LICENSE
 !define PAGE_TYPE_OF_INSTALL
-#!define PAGE_SEC_CORE
-#!define PAGE_SEC_THEME
+!define PAGE_SEC_CORE
+!define PAGE_SEC_THEME
+!define PAGE_SEC_LOSI
 !define PAGE_DIRECTORY
-#!define PAGE_HOW_LS
-#!define PAGE_WHERE_PROFILES
-#!define PAGE_START_MENU
-#!define PAGE_FILE_ASSOC
+!define PAGE_HOW_LS
+!define PAGE_WHERE_PROFILES
+!define PAGE_START_MENU
+!define PAGE_FILE_ASSOC
 !define PAGE_CONFIG_EVARS
-#!define PAGE_SEC_ADDITIONAL_ICONS
-#!define PAGE_SEC_POST
-#!define WRITE_UNINSTALLER
+!define PAGE_SEC_ADDITIONAL_ICONS
+!define PAGE_SEC_POST
+!define WRITE_UNINSTALLER
 
 ;--------------------------------
 ;Variables
@@ -243,6 +244,18 @@ Section "Theme" SecTheme
 	!endif
 SectionEnd
 
+Section "LOSI files and utilities" SecLosi
+	!ifdef PAGE_SEC_LOSI
+	    ; Installer related stuff
+		SetOutPath "$INSTDIR\LOSI"
+		File ".\LS\losi\*"
+		
+		; Install the utilities
+	    SetOutPath "$INSTDIR\utilities"
+    	File ".\LS\utilities\*"
+	!endif
+SectionEnd
+
 Section "Associate files" SecFileAssoc
 	!ifdef PAGE_FILE_ASSOC
 		StrCpy $fileAssoc "true"
@@ -335,6 +348,7 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecCore} $(DESC_SecCore)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecTheme} $(DESC_SecTheme)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecLosi} $(DESC_SecLosi)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecFileAssoc} $(DESC_SecFileAssoc)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END

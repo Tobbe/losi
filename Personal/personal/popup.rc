@@ -2,97 +2,101 @@
 ;   sample popup config file: edit according to preference
 ;------------------------------------------------------------------------------
 
-*Popup ".:LITESTEP:." !New !Popup              ;DO NOT DELETE THIS LINE
+*Popup ".:LITESTEP:." !New !Popup ;DO NOT DELETE THIS LINE
 
-*Popup  "file manager"          "$FileManager$"
-*Popup  "text editor"           "$TxtEditor$"
-*Popup  !Separator
+*Popup "File Manager"						"$FileManager$"
+*Popup "Text Editor"						"$TxtEditor$"
+*Popup !Separator
 ;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 
-*Popup "litestep" Folder
-   *Popup  "litestep folder"   !execute ["$FileManager$" /e,"$LiteStepDir$"]
-   *Popup  "themes folder"     !execute ["$FileManager$" /e,"$ThemesDir$"]
-   *Popup  !Separator
-;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-   *Popup  "about"             !About
-   *Popup  "recycle"           !Recycle
-   *popup  "reload"            !Reload
-   *Popup  "quit"              !execute ["$FileManager$" /e,"$LiteStepDir$"][!Quit]
-   *Popup  !Separator
-;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+*Popup "Litestep" Folder
+	*Popup "Litestep folder"				!execute ["$FileManager$" /e,"$LiteStepDir$"]
+	*Popup "Themes folder"					!execute ["$FileManager$" /e,"$ThemesDir$"]
+	*Popup !Separator
+;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+	*Popup "About"							!About
+	*Popup "Recycle"						!Recycle
+	*popup "Reload"							!Reload
+	*Popup "Quit"							!execute ["$FileManager$" /e,"$LiteStepDir$"][!Quit]
+	*Popup !Separator
+;	¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 
-   *Popup "change themes" Folder
-	*Popup  "install theme"         !execute ["$LiteStepDir$utilities\ThemeSwitcher.exe"]
-	*Popup  "refresh list"          !execute ["$LiteStepDir$utilities\ThemeSwitcher.exe" "/refresh"] [!recycle]
-	*Popup  !Separator
-;     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-	include "$ThemesDir$themeslist.rc"
-   *Popup ~Folder
+	*Popup "Change themes" Folder
+		*Popup "Install Theme"				!execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe"]
+		*Popup "Refresh List"     			!execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe" "/refresh"] [!recycle]
+		*Popup !Separator
+;		¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+		include "$ThemesDir$themeslist.rc"
+	*Popup ~Folder
 
-   *Popup  "utilities"         !PopupFolder:"$LitestepDir$utilities\*.exe"
+	*Popup "Utilities" Folder
+		*Popup "LOEC - Edit your Evars"		"$LiteStepDir$utilities\wxlua.exe LOEC.lua"
+		*Popup "LOSS - Set your shell"		"$LiteStepDir$utilities\wxlua.exe LOSS.lua"
+		*Popup "SLI Theme Manager"			"$LiteStepDir$utilities\SLI-ThemeManager.exe"
+	*Popup ~Folder
 
-   *Popup  "edit config" Folder
-	*Popup  "step.rc"       !execute ["$TxtEditor$" "$LiteStepDir$step.rc"]
-	*Popup  "theme.rc"      !execute ["$TxtEditor$" "$ThemeDir$theme.rc"]
-;      *Popup  "modules.ini"   !execute ["$TxtEditor$" "$LitestepDir$modules.ini"]
-	*Popup  !Separator
-;     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-	*Popup  "personal files" !PopupFolder:"$PersonalDir$"
-   *Popup ~Folder
+	*Popup "Edit config" Folder
+		*Popup "step.rc"					!execute ["$TxtEditor$" "$LiteStepDir$step.rc"]
+		*Popup "theme.rc"					!execute ["$TxtEditor$" "$ThemeDir$theme.rc"]
+;		*Popup "modules.ini"				!execute ["$TxtEditor$" "$LitestepDir$modules.ini"]
+		*Popup !Separator
+;		¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+		*Popup "Personal files" !PopupFolder:"$PersonalDir$"
+	*Popup ~Folder
 
-;   *Popup  "litestep docs"     !PopupFolder:"$LitestepDir$lsdocs\*.html"
-   *Popup  "module docs"       !PopupFolder:"$ModulesDir$docs\|$LitestepDir$NLM\*.html"
+;	*Popup "Litestep Docs"					!PopupFolder:"$LitestepDir$lsdocs\*.html"
+	*Popup "Module Docs"					!PopupFolder:"$ModulesDir$docs\|$LitestepDir$NLM\*.html"
 *Popup ~Folder
 
 IF Win9x
-  *Popup  "programs"            !DynamicFolder:"$Programs$"
+*Popup "Programs"							!DynamicFolder:"$Programs$"
 ELSE
-  *Popup  "programs"            !DynamicFolder:"$Programs$|$CommonPrograms$"
-;  *Popup  "admin tools"         !DynamicFolder:"$AdminToolsDir$"
+*Popup "Programs"							!DynamicFolder:"$Programs$|$CommonPrograms$"
+;*Popup "Admin Tools"						!DynamicFolder:"$AdminToolsDir$"
 ENDIF
 
 IF QuickLaunch
-  *Popup  "quicklaunch"         "!DynamicFolder:$QuickLaunch$*.lnk"
+*Popup "Quicklaunch"						"!DynamicFolder:$QuickLaunch$*.lnk"
 ENDIF
 
-*Popup "system" Folder
+*Popup "System" Folder
 
-;   *Popup "shells" Folder
-;       *Popup  "explorer"      !execute ["$LiteStepDir$utilities\SetShell.exe" "explorer.exe"]
-;       *Popup  "blackbox"      !execute ["$LiteStepDir$utilities\SetShell.exe" "d:\blackbox\blackbox.exe"]
-;   *Popup ~Folder
+;	*Popup "Shells" Folder
+;		*Popup "explorer"					!execute ["$LiteStepDir$utilities\wxlua.exe LOSS.lua" "explorer"]
+;		*Popup "blackbox"					!execute ["$LiteStepDir$utilities\wxlua.exe LOSS.lua" "d:\blackbox\blackbox.exe"]
+;	*Popup ~Folder
 
-   *Popup  "my computer"       !PopupMyComputer
-   *Popup  "control panel"     !PopupControlPanel
-   *Popup  !Separator
-;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-   *Popup  "run..."            !Run
-   *Popup  "recycle bin"       !execute ["$FileManager$" "$bitbucket$"]
-   IF Win9x
-   *Popup  "system.ini"      "system.ini"
-   ENDIF
-   *Popup  "regedit"           regedit
+	*Popup "My Computer"					!PopupMyComputer
+	*Popup "Control Panel"					!PopupControlPanel
+	*Popup !Separator
+;	¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+	*Popup "Run..."							!Run
+	*Popup "Recycle bin"					!execute ["$FileManager$" "$bitbucket$"]
+	IF Win9x
+	*Popup "system.ini"						"system.ini"
+	ENDIF
+	*Popup "Regedit"						regedit
 *Popup ~Folder
 
-*Popup  "tasks"                 !PopupTasks
+*Popup "Tasks"								!PopupTasks
 
-*Popup "manage windows" Folder
-   *Popup  "tile horizontal"   !TileWindowsH
-   *Popup  "tile vertical"     !TileWindowsV
-   *Popup  "cascade"           !CascadeWindows
-   *Popup  "minimize all"      !MinimizeWindows
-   *Popup  "restore all"       !RestoreWindows
+*Popup "Manage Windows" Folder
+	*Popup "Tile Horizontal"				!TileWindowsH
+	*Popup "Tile Vertical"					!TileWindowsV
+	*Popup "Cascade"						!CascadeWindows
+	*Popup "Minimize All"					!MinimizeWindows
+	*Popup "Restore All"					!RestoreWindows
 *Popup ~Folder
 
-;*Popup  "recent files"          !PopupRecentDocuments
+;*Popup  "Recent Files"						!PopupRecentDocuments
 
-*Popup  !Separator
+*Popup !Separator
 ;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-*Popup  "logoff"                 !LogOff
+*Popup "Logoff"								!LogOff
 IF WinXP
-  *Popup  "switch user"          !SwitchUser
+*Popup "Switch User"						!SwitchUser
 ENDIF
-*Popup  "shutdown"               !ShutDown
-*Popup  "recycle"                !recycle
+*Popup "Shutdown"							!ShutDown
+*Popup "Recycle"							!recycle
 
-*Popup ~New                     ;DO NOT DELETE THIS LINE
+*Popup ~New ;DO NOT DELETE THIS LINE

@@ -23,6 +23,9 @@
 !else ifdef PAGE_SEC_THEME
     !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
     !insertmacro MUI_PAGE_COMPONENTS
+!else ifdef PAGE_SEC_LOSI
+    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
+    !insertmacro MUI_PAGE_COMPONENTS
 !endif
 
 ; Directory page

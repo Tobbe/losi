@@ -50,7 +50,7 @@
     Pop $0
 
     ;; Store a few paths in the registry
-    WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "LSDir" $INSTDIR
+    WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "LitestepDir" $INSTDIR
     WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
     WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$whereprofiles\personal"
 
@@ -96,10 +96,10 @@ pop:
     CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
     ;CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\litestep.exe"
     ;CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\litestep.exe"
-    CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk" '$INSTDIR\utilities\setshell.exe' -explorer "$INSTDIR\losi\SetShellExplorer.ico"
-	CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk" '$INSTDIR\utilities\setshell.exe' -litestep "$INSTDIR\losi\SetShellLS.ico"
-	CreateShortCut "$DESKTOP\Set Explorer as Shell.lnk" '$INSTDIR\utilities\setshell.exe' -explorer "$INSTDIR\losi\SetShellExplorer.ico"
-	CreateShortCut "$DESKTOP\Set LiteStep as Shell.lnk" '$INSTDIR\utilities\setshell.exe' -litestep "$INSTDIR\losi\SetShellLS.ico"
+    CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' explorer "$INSTDIR\losi\SetShellExplorer.ico"
+	CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk" '$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' litestep "$INSTDIR\losi\SetShellLS.ico"
+	CreateShortCut "$DESKTOP\Set Explorer as Shell.lnk" '$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' explorer "$INSTDIR\losi\SetShellExplorer.ico"
+	CreateShortCut "$DESKTOP\Set LiteStep as Shell.lnk" '$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' litestep "$INSTDIR\losi\SetShellLS.ico"
 	!insertmacro MUI_STARTMENU_WRITE_END
 !endif
 
@@ -124,11 +124,6 @@ pop:
     SetOutPath "$INSTDIR\modules\"
     File ".\LS\modules\*"
 
-    ; Install the utilities
-    SetOutPath "$INSTDIR\utilities"
-    File ".\LS\utilities\*"
-
-
     ; Install the personal files
 
     call backupPersonal
@@ -147,10 +142,6 @@ pop:
 
     SetOutPath "$whereprofiles\personal"
     File ".\Personal\personal\*"
-
-    ; Installer related stuff
-    SetOutPath "$INSTDIR\losi"
-    File ".\LS\losi\*"
 
     StrCmp $R9 "LSKilled" 0 wasntRunning
     StrCpy $LogoffFlag "false" ;If LiteStep was previously running there is no need to log off

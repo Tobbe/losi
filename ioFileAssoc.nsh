@@ -17,9 +17,12 @@ isSel:
 		Push ".lsz"
 		Push "LiteStep.lsz"
 		Push "Zipped LiteStep theme"
-		Push "$INSTDIR\utilities\ThemeSwitcher.exe -install $\"%1$\""
-		Push "$INSTDIR\utilities\ThemeSwitcher.exe -install $\"%1$\""
-		Push "$INSTDIR\losi\lsz.ico"
+		Push "$INSTDIR\utilities\LSI-ThemeManager.exe $\"%1$\""
+		Push "$INSTDIR\utilities\LSI-ThemeManager.exe $\"%1$\""
+		IfFileExists "$INSTDIR\losi\lsz.ico" 0 +3
+			Push "$INSTDIR\losi\lsz.ico"
+		GoTo +2
+		    Push "" ; Don't know what would be a resonable default...
 		call AssociateFile
 	nolsz:
 
@@ -30,7 +33,10 @@ isSel:
 		Push "LiteStep configuration file"
 		Push "$1"
 		Push "$1"
-		Push "$INSTDIR\losi\rc.ico"
+		IfFileExists "$INSTDIR\losi\rc.ico" 0 +3
+			Push "$INSTDIR\losi\rc.ico"
+		GoTo +2
+			Push "notepad.exe,0"
 		call AssociateFile
 	norc:
 

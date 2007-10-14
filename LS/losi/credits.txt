@@ -16,6 +16,10 @@ icons in the installer. He has also written the EvarConfig util. So all in
 all it's safe to say that this installer would not be here if it wasn't
 for him. Thank you the-golem!
 
+I'd like to thank Andymon for writing the xModules and by doing that keeping
+the LS community active and interested. I'd also like to thank him for writing
+SLI-ThemeManager used in LOSI.
+
 And last but not least I would like to thank all my alpha and beta testers:
 wols
 Syl
