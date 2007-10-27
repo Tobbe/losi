@@ -30,8 +30,8 @@
 	*Popup ~Folder
 
 	*Popup "Utilities" Folder
-		*Popup "LOEC - Edit your Evars"		"$LiteStepDir$utilities\wxlua.exe LOEC.lua"
-		*Popup "LOSS - Set your shell"		"$LiteStepDir$utilities\wxlua.exe LOSS.lua"
+		*Popup "LOEC - Edit your Evars"		!execute ["$LiteStepDir$utilities\wxlua.exe" "$LiteStepDir$utilities\LOEC.lua"]
+		*Popup "LOSS - Set your shell"		!execute ["$LiteStepDir$utilities\wxlua.exe" "$LiteStepDir$utilities\LOSS.lua"]
 		*Popup "SLI Theme Manager"			"$LiteStepDir$utilities\SLI-ThemeManager.exe"
 	*Popup ~Folder
 

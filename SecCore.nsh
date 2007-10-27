@@ -1,3 +1,4 @@
+	Push "$INSTDIR"
 	Call KillLS
     Pop $R9
 

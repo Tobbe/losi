@@ -1,7 +1,8 @@
     FindProcDLL::FindProc "litestep.exe"
+    Sleep 50
     StrCmp $R0 1 +1 +6
     	StrCpy $4 "lsWasRunning"
-    	Push $INSTDIR
+    	Push "$INSTDIR"
 		Call un.KillLS
 	GoTo +2
 		StrCpy $4 "lsWasNotRunning"
@@ -77,6 +78,9 @@ skip:
     Call un.Shell9x
 
     removefiles:
+    ; It shouldn't be possible for ls to run at this point, but I have had some
+	; weird errors, so I'm going to kill it one more time just to be sure
+	KillProcDLL::KillProc "litestep.exe"
     
     ; Set the working directory to something we don't need to delete
     SetOutPath $TEMP
@@ -92,8 +96,6 @@ skip:
     Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
     Delete "$DESKTOP\Set Explorer as Shell.lnk"
     Delete "$DESKTOP\Set LiteStep as Shell.lnk"
-    ;Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
-    ;Delete "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk"
 
     ; Set shell folders to all users, so we can delete the All users
 	; stuff (it doesn't matter if it isn't there)
@@ -104,15 +106,45 @@ skip:
     Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
     Delete "$DESKTOP\Set Explorer as Shell.lnk"
     Delete "$DESKTOP\Set LiteStep as Shell.lnk"
+    
+    RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
+    
+    ; Clear all old errors so I can use the error checking for
+    ; checking that all files are deleted
+    ClearErrors
 
-	RMDir "$SMPROGRAMS\$ICONS_GROUP"
 	MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_THEMES) IDNO +2
     RMDir /r /REBOOTOK "$whereprofiles\themes"
+    
+    IfErrors 0 +3
+		DetailPrint "$whereprofiles\themes could not be deleted"
+        ClearErrors
+
     MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_PERSONAL) IDNO +2
-    RMDir /r /REBOOTOK "$whereprofiles\personal"
+    RMDir /r /REBOOTOK "$whereprofiles\personal\"
+    
+    IfErrors 0 +3
+        DetailPrint "$whereprofiles\personal could not be deleted"
+        ClearErrors
+    
     RMDir    /REBOOTOK "$whereprofiles" ; By not specifying '/r' this dir will only be deleted if it's completely empty
+    
+    IfErrors 0 +3
+        DetailPrint "$whereprofiles could not be deleted"
+        ClearErrors
+    
     RMDir /r /REBOOTOK "$INSTDIR\modules\"
+    
+    IfErrors 0 +3
+        DetailPrint "$INSTDIR\modules\ could not be deleted"
+        ClearErrors
+    
     RMDir /r /REBOOTOK "$INSTDIR\NLM\"
+    
+    IfErrors 0 +3
+        DetailPrint "$INSTDIR\NLM\ could not be deleted"
+        ClearErrors
+    
     RMDir /r /REBOOTOK "$INSTDIR\losi\"
     RMDir /r /REBOOTOK "$INSTDIR\utilities\"
     RMDir /r /REBOOTOK "$INSTDIR\modules\"
@@ -154,9 +186,20 @@ skip:
 
 	; Now we can continue on with deleting the last LS files
 	continueDeleting:
+	
+	SetOutPath $TEMP
+	
 	Delete /REBOOTOK "$INSTDIR\*.*" ; Delete all files (not folders) in $INSTDIR
+	
+	IfErrors 0 +3
+        DetailPrint "$INSTDIR\*.* could not be deleted"
+        ClearErrors
     
-    RMDir /REBOOTOK "$INSTDIR" ; Delete the $INSTDIR itself
+    RMDir /REBOOTOK "$INSTDIR\" ; Delete the $INSTDIR itself
+    
+    IfErrors 0 +3
+        DetailPrint "$INSTDIR could not be deleted"
+        ClearErrors
     
     
 
@@ -180,9 +223,7 @@ skip:
 	Push "LiteStep.lua"
 	call un.DeAssociateFile
 
-    SetRebootFlag true
-
-    SetAutoClose true
+    ;SetAutoClose true
 
 	; This code causes the Add/Remove Program dialog to freeze
     ;FindProcDLL::FindProc "explorer.exe"

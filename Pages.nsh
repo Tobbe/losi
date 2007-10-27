@@ -54,17 +54,17 @@
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE LeavingInstFiles
 !insertmacro MUI_PAGE_INSTFILES
 
-; Associate Files page
-!ifdef PAGE_FILE_ASSOC
-    var fileAssoc
-	Page custom ioFileAssoc
-!endif
-
 ; Evars pages
 !ifdef PAGE_CONFIG_EVARS
     var configEvars
 	Page custom ioEvars
 	Page custom ioEvars2
+!endif
+
+; Associate Files page
+!ifdef PAGE_FILE_ASSOC
+    var fileAssoc
+	Page custom ioFileAssoc
 !endif
 
 ; Finish page

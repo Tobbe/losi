@@ -9,6 +9,7 @@ isSel:
 
 	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioFileAssoc.ini"
 
+	; Maybe we could use $texteditor here...
 	; Find the program that handles .txt files
 	ReadRegStr $1 HKCR "txtfile\shell\open\command" ""
 
@@ -17,8 +18,8 @@ isSel:
 		Push ".lsz"
 		Push "LiteStep.lsz"
 		Push "Zipped LiteStep theme"
-		Push "$INSTDIR\utilities\LSI-ThemeManager.exe $\"%1$\""
-		Push "$INSTDIR\utilities\LSI-ThemeManager.exe $\"%1$\""
+		Push "$INSTDIR\utilities\LSI-ThemeManager.exe"
+		Push "$INSTDIR\utilities\LSI-ThemeManager.exe"
 		IfFileExists "$INSTDIR\losi\lsz.ico" 0 +3
 			Push "$INSTDIR\losi\lsz.ico"
 		GoTo +2

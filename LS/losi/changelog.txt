@@ -102,3 +102,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 2007-10-27: Cleaned up Evars.nsh and added some more comments to LOSI.nsi just
             just to tidy it up a bit before commiting everything to the
             repository.
+            Made KillLS as nice as un.KillLS already was (using ls.exe !quit).
+            Fixed the lsz file association, it wasn't working. Did a small
+            adjustment in popup.rc to make the links to LOEC and LOSS work.
+            

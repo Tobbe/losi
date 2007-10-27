@@ -1,6 +1,6 @@
 ; NSIS extensions needed to compile this
 ; script that aren't in the default install:
-; FindProcDLL
+; FindProcDLL (I had bad luck with the "compiled for size"-version)
 ; ShutDown
 ; KillProcDLL
 
@@ -380,7 +380,6 @@ SectionEnd
 	!include ShellNT.nsh
 	!include Kill.nsh
 	!include BackupPersonal.nsh
-	!include refreshShellIcons.nsh
 !endif
 !ifdef WRITE_UNINSTALLER
 	!include uninstShell9x.nsh
@@ -388,9 +387,7 @@ SectionEnd
 !include ieversion.nsh
 !ifdef PAGE_FILE_ASSOC
 	!include RegisterExtension.nsh
-	!ifndef PAGE_SEC_CORE
-	    !include refreshShellIcons.nsh
-	!endif
+	!include refreshShellIcons.nsh
 !endif
 !ifdef PAGE_WHERE_PROFILES
 	!include SetFocus.nsh
