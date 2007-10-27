@@ -91,3 +91,14 @@ ls.com is down for an unknown period of time I started this changelog instead
             you want to reboot/logoff (Yes or No) or if you want to Undo the
             shell switching. I fixed the code that's supposed to launch explorer
             after uninstalling LS.
+
+2007-10-15: The LOSS shortcuts still didn't work. Now they do. It was a PITA to
+            get all the ' and " right :p
+
+2007-10-19: The "Add/Remove Programs" dialog from the control panel froze when
+            uninstalling LS. I finally managed to fix this today. The trick was
+            to make windows start explorer on its own when I shut down Litestep.
+
+2007-10-27: Cleaned up Evars.nsh and added some more comments to LOSI.nsi just
+            just to tidy it up a bit before commiting everything to the
+            repository.

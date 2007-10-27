@@ -1,157 +1,3 @@
-!if 1 = 2 ; This is here to get rid of a compiler warning. I can probably remove the whole LoadEvars-function. 2007-01-20
-Function LoadEvars
-    ClearErrors
-    FileOpen $tmp "$whereprofiles\personal\evars.rc" r
-    IfErrors error
-
-    Push $0 ;The actual string
-    Push $1 ;The first letter of the string
-    Push $2 ;A number indicating if we made any changes or not
-    Push $3 ;The first word in the string, will be used to determine which field to fill with data
-    Push $4 ;The path
-
-    loopReadLine:
-        FileRead $tmp $0
-        IfErrors closefile
-
-        loopTrimStart:
-            Push 0
-            Pop $2 ;$2 = 0
-            StrCpy $1 $0 1
-            StrCmp $1 " " 0 +4 ;Check for space
-                StrCpy $0 $0 "" 1
-                Push 1
-                Pop $2
-            StrCmp $1 "\t" 0 +4 ;Check for tab
-                StrCpy $0 $0 "" 1
-                Push 1
-                Pop $2
-            IntCmp $2 0 +2 ;If $1 (the first character in $0) wasn't " " or \t (tab) we should break
-        GoTo loopTrimStart ;out of the loop
-
-        StrCpy $3 ""
-        StrCpy $4 ""
-
-        loopFirstWord:
-            StrCpy $1 $0 1
-            StrCmp $1 ";" loopReadLine 0 ;check to see if the line is a coment
-            StrCmp $1 "$\r" loopReadLine 0 ;check to see if it's an empty line
-
-            Push 0
-            Pop $2
-            StrCpy $1 $0 1
-            StrCmp $1 " " +8 0 ;Check for space
-                StrCmp $1 "$\t" +7 0 ;Check for tab
-                    StrCmp $1 "$\r" +6 0 ;Check for new lines
-                        StrCpy $1 $0 1
-                        StrCpy $3 '$3$1'
-                        StrCpy $0 $0 "" 1 ;Chop off the first character in the string
-                        Push 1 ;We did change the string
-                        Pop $2
-            IntCmp $2 0 +2 ;Nothing has changed, we are done with the word
-        GoTo loopFirstWord
-
-        loopTrimPath:
-            Push 0
-            Pop $2 ;$2 = 0
-            StrCpy $1 $0 1
-            StrCmp $1 " " 0 +4 ;Check for space
-                StrCpy $0 $0 "" 1
-                Push 1
-                Pop $2
-            StrCmp $1 "$\t" 0 +4 ;Check for tab
-                StrCpy $0 $0 "" 1
-                Push 1
-                Pop $2
-            IntCmp $2 0 +2 ;If $1 (the first character in $0) wasn't " " or \t (tab) we should break
-        GoTo loopTrimPath  ;out of the loop
-
-        ;Now the sting looks like this: "C:\Path\to\app.exe", including the quotes
-        ;Since the next loop breaks at a " I will get rid of the first " and add it to the string
-        ;that will hold the final path;
-        StrCpy $0 $0 "" 1
-        StrCpy $4 '"'
-
-        loopPath:
-            StrCpy $1 $0 1
-            StrCmp $1 ";" loopReadLine 0 ;check to see if the line is a coment
-            StrCmp $1 "$\r" loopReadLine 0 ;check to see if it's an empty line
-
-            Push 0
-            Pop $2
-            StrCpy $1 $0 1
-            StrCmp $1 '"' +8 0 ;Check for "
-                StrCmp $1 "$\t" +7 0 ;Check for tab
-                    StrCmp $1 "$\r" +6 0 ;Check for new lines
-                        StrCpy $1 $0 1
-                        StrCpy $4 '$4$1'
-                        StrCpy $0 $0 "" 1 ;Chop off the first character in the string
-                        Push 1 ;We did change the string
-                        Pop $2
-            IntCmp $2 0 +2 ;Nothing has changed, we are done with the path
-        GoTo loopPath
-
-        ;Add an ending quote to the path
-        StrCpy $4 '$4"'
-
-        StrCmp $3 "FileManager" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 1" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "TxtEditor" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 2" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "CmdPrompt" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 3" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "AudioPlayer" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 4" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "MediaPlayer" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 5" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "GfxViewer" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 6" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "GfxEditor" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 7" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "Browser" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 8" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "DUN" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 9" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "Email" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "IRC" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "FTP" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State" $4
-            GoTo loopReadLine
-        StrCmp $3 "IM" 0 +3
-            WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State" $4
-            GoTo loopReadLine
-
-    GoTo loopReadLine
-
-    closefile:
-    FileClose $tmp
-
-    Pop $4
-    Pop $3
-    Pop $2
-    Pop $1
-    Pop $0
-
-    GoTo +2 ;labels doesn't count as lines
-    error:
-        DetailPrint "Couldn't write evars.rc"
-
-FunctionEnd
-!endif
-
 Function WriteEvarsToEdit
     WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 1" "State" $filemanager
     WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 2" "State" $texteditor
@@ -410,38 +256,38 @@ Function WriteEvars
 	FileWrite $tmp ';    Edit *only* the paths as needed, and leave the file$\'s *FORMAT* unchanged$\r$\n'
 	FileWrite $tmp ';------------------------------------------------------------------------------$\r$\n'
 	FileWrite $tmp 'FileManager    $filemanager$\r$\n'
-    FileWrite $tmp 'TxtEditor      $texteditor$\r$\n'
-    FileWrite $tmp 'CmdPrompt      $commandprompt$\r$\n'
-    FileWrite $tmp 'AudioPlayer    $audioplayer$\r$\n'
-    FileWrite $tmp 'MediaPlayer    $mediaplayer$\r$\n'
-    FileWrite $tmp 'GfxViewer      $gfxviewer$\r$\n'
-    FileWrite $tmp 'GfxEditor      $gfxeditor$\r$\n'
-    FileWrite $tmp 'Browser        $browser$\r$\n'
-    FileWrite $tmp 'DUN            $dun$\r$\n'
-    FileWrite $tmp 'Email          $email$\r$\n'
-    FileWrite $tmp 'IRC            $irc$\r$\n'
-    FileWrite $tmp 'FTP            $ftp$\r$\n'
-    FileWrite $tmp 'IM             $im$\r$\n'
-    FileWrite $tmp '$\r$\n'
-    FileWrite $tmp '$\r$\n'
-    FileWrite $tmp '$\r$\n'
-    FileWrite $tmp ';------------------------------------------------------------------------------$\r$\n'
-    FileWrite $tmp ';    Add and define any additional evars you require$\r$\n'
-    FileWrite $tmp ';------------------------------------------------------------------------------$\r$\n'
-    FileWrite $tmp '$\r$\n'
-    FileWrite $tmp ';MiscApp       "C:\$PROGRAMFILES\misc\app.exe$\r$\n'
+	FileWrite $tmp 'TxtEditor      $texteditor$\r$\n'
+	FileWrite $tmp 'CmdPrompt      $commandprompt$\r$\n'
+	FileWrite $tmp 'AudioPlayer    $audioplayer$\r$\n'
+	FileWrite $tmp 'MediaPlayer    $mediaplayer$\r$\n'
+	FileWrite $tmp 'GfxViewer      $gfxviewer$\r$\n'
+	FileWrite $tmp 'GfxEditor      $gfxeditor$\r$\n'
+	FileWrite $tmp 'Browser        $browser$\r$\n'
+	FileWrite $tmp 'DUN            $dun$\r$\n'
+	FileWrite $tmp 'Email          $email$\r$\n'
+	FileWrite $tmp 'IRC            $irc$\r$\n'
+	FileWrite $tmp 'FTP            $ftp$\r$\n'
+	FileWrite $tmp 'IM             $im$\r$\n'
+	FileWrite $tmp '$\r$\n'
+	FileWrite $tmp '$\r$\n'
+	FileWrite $tmp '$\r$\n'
+	FileWrite $tmp ';------------------------------------------------------------------------------$\r$\n'
+	FileWrite $tmp ';    Add and define any additional evars you require$\r$\n'
+	FileWrite $tmp ';------------------------------------------------------------------------------$\r$\n'
+	FileWrite $tmp '$\r$\n'
+	FileWrite $tmp ';MiscApp       "C:\$PROGRAMFILES\misc\app.exe$\r$\n'
 
-    FileClose $tmp
+	FileClose $tmp
 
-    GoTo noevarerror
-    error:
-        DetailPrint "Couldn't write evars.rc"
+	GoTo noevarerror
+	error:
+		DetailPrint "Couldn't write evars.rc"
 	noevarerror:
 FunctionEnd
 
 Function PopulateEvarVariables
-    IfFileExists '$PLUGINSDIR\test.jpg' +2 ;Make sure they aren't already populated
-        Call LoadEvarsDefaults
+	IfFileExists '$PLUGINSDIR\test.jpg' +2 ;Make sure they aren't already populated
+		Call LoadEvarsDefaults
 FunctionEnd
 
 Function LoadEvarsDefaults
@@ -449,11 +295,11 @@ Function LoadEvarsDefaults
 	SetOutPath $PLUGINSDIR
 	File ".\test.txt"
 
-    ReadRegStr $filemanager HKCR "folder\shell\open\command" ""
+	ReadRegStr $filemanager HKCR "folder\shell\open\command" ""
 
-    System::Call "shell32::FindExecutable(t '$PLUGINSDIR\test.txt', t '', t .r0)"
-    StrCpy $texteditor $0
-    IfFileExists $texteditor +3 0
+	System::Call "shell32::FindExecutable(t '$PLUGINSDIR\test.txt', t '', t .r0)"
+	StrCpy $texteditor $0
+	IfFileExists $texteditor +3 0
 		ReadRegStr $texteditor HKCR ".txt" ""
 		ReadRegStr $texteditor HKCR "$texteditor\shell\open\command" ""
 
@@ -461,18 +307,18 @@ Function LoadEvarsDefaults
 
 	Rename '$PLUGINSDIR\test.txt' '$PLUGINSDIR\test.mp3'
 	System::Call "shell32::FindExecutable(t '$PLUGINSDIR\test.avi', t '', t .r0)"
-    StrCpy $audioplayer $0
-    IfFileExists $audioplayer +6 0
+	StrCpy $audioplayer $0
+	IfFileExists $audioplayer +6 0
 		ReadRegStr $audioplayer HKCR ".mp3" ""
 		ReadRegStr $audioplayer HKCR "$audioplayer\shell\open\command" ""
 		StrCmp $audioplayer "" 0 +3
 		ReadRegStr $audioplayer HKCR ".mp3" ""
-    	ReadRegStr $audioplayer HKCR "$audioplayer\shell\Play\command" ""
+		ReadRegStr $audioplayer HKCR "$audioplayer\shell\Play\command" ""
 
-    Rename '$PLUGINSDIR\test.mp3' '$PLUGINSDIR\test.avi'
+	Rename '$PLUGINSDIR\test.mp3' '$PLUGINSDIR\test.avi'
 	System::Call "shell32::FindExecutable(t '$PLUGINSDIR\test.avi', t '', t .r0)"
-    StrCpy $mediaplayer $0
-    IfFileExists $mediaplayer +6 0
+	StrCpy $mediaplayer $0
+	IfFileExists $mediaplayer +6 0
 		ReadRegStr $mediaplayer HKCR ".avi" ""
 		ReadRegStr $mediaplayer HKCR "$mediaplayer\shell\open\command" ""
 		StrCmp $mediaplayer "" 0 +3
@@ -481,9 +327,9 @@ Function LoadEvarsDefaults
 
 	Rename '$PLUGINSDIR\test.avi' '$PLUGINSDIR\test.jpg'
 	System::Call "shell32::FindExecutable(t '$PLUGINSDIR\test.jpg', t '', t .r0)"
-    StrCpy $gfxviewer $0
-    DetailPrint "FindExecutable: $gfxviewer"
-    IfFileExists $gfxviewer 0 +2
+	StrCpy $gfxviewer $0
+	DetailPrint "FindExecutable: $gfxviewer"
+	IfFileExists $gfxviewer 0 +2
 		StrCmp $gfxviewer "$SYSDIR\shimgvw.dll" 0 +7
 			ReadRegStr $gfxviewer HKCR ".jpg" ""
 			DetailPrint ".jpg:$gfxviewer"
@@ -543,8 +389,8 @@ Function LoadEvarsDefaults
 	${ExePath} $im $im
 
 
-    DetailPrint " "
-    DetailPrint " "
+	DetailPrint " "
+	DetailPrint " "
 	DetailPrint "Values after my magic"
 	DetailPrint "===================================="
 	DetailPrint "FileManager   $filemanager"

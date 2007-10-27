@@ -1,3 +1,9 @@
+; NSIS extensions needed to compile this
+; script that aren't in the default install:
+; FindProcDLL
+; ShutDown
+; KillProcDLL
+
 !define PAGE_WELCOME
 !define PAGE_LICENSE
 !define PAGE_TYPE_OF_INSTALL
@@ -189,6 +195,12 @@ FunctionEnd
 
 !ifdef PAGE_CONFIG_EVARS
 Function ioEvars
+	; The function below is smart about only doing
+	; this if the evar variables aren't already
+	; populated.
+	; By having this function call before the StrCmp
+	; on $configEvars$ the evars will always get
+	; good values
 	Call PopulateEvarVariables
 
     StrCmp $configEvars "true" isSel end

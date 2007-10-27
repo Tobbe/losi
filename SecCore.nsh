@@ -96,10 +96,10 @@ pop:
     CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
     ;CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\litestep.exe"
     ;CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\litestep.exe"
-    CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' explorer "$INSTDIR\losi\SetShellExplorer.ico"
-	CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk" '$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' litestep "$INSTDIR\losi\SetShellLS.ico"
-	CreateShortCut "$DESKTOP\Set Explorer as Shell.lnk" '$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' explorer "$INSTDIR\losi\SetShellExplorer.ico"
-	CreateShortCut "$DESKTOP\Set LiteStep as Shell.lnk" '$INSTDIR\utilities\wxlua.exe" "$INSTDIR\utilities\LOSS.lua"' litestep "$INSTDIR\losi\SetShellLS.ico"
+    CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe"' '"$INSTDIR\utilities\LOSS.lua" explorer' "$INSTDIR\losi\SetShellExplorer.ico"
+	CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe"' '"$INSTDIR\utilities\LOSS.lua" litestep' "$INSTDIR\losi\SetShellLS.ico"
+	CreateShortCut "$DESKTOP\Set Explorer as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe"' '"$INSTDIR\utilities\LOSS.lua" explorer' "$INSTDIR\losi\SetShellExplorer.ico"
+	CreateShortCut "$DESKTOP\Set LiteStep as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe"' '"$INSTDIR\utilities\LOSS.lua" litestep' "$INSTDIR\losi\SetShellLS.ico"
 	!insertmacro MUI_STARTMENU_WRITE_END
 !endif
 

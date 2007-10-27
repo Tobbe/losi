@@ -1,6 +1,12 @@
-	Call un.KillLS
+    FindProcDLL::FindProc "litestep.exe"
+    StrCmp $R0 1 +1 +6
+    	StrCpy $4 "lsWasRunning"
+    	Push $INSTDIR
+		Call un.KillLS
+	GoTo +2
+		StrCpy $4 "lsWasNotRunning"
 
-    Call un.GetWindowsVersion
+	Call un.GetWindowsVersion
     Pop $R0
 
     StrCmp $R0 "9x" un9xShell
@@ -71,6 +77,9 @@ skip:
     Call un.Shell9x
 
     removefiles:
+    
+    ; Set the working directory to something we don't need to delete
+    SetOutPath $TEMP
 
     ;; Get regstrings to know where some of the stuff are
     ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
@@ -101,14 +110,55 @@ skip:
     RMDir /r /REBOOTOK "$whereprofiles\themes"
     MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_PERSONAL) IDNO +2
     RMDir /r /REBOOTOK "$whereprofiles\personal"
-    RMDir    /REBOOTOK "$whereprofiles"
+    RMDir    /REBOOTOK "$whereprofiles" ; By not specifying '/r' this dir will only be deleted if it's completely empty
     RMDir /r /REBOOTOK "$INSTDIR\modules\"
     RMDir /r /REBOOTOK "$INSTDIR\NLM\"
     RMDir /r /REBOOTOK "$INSTDIR\losi\"
     RMDir /r /REBOOTOK "$INSTDIR\utilities\"
     RMDir /r /REBOOTOK "$INSTDIR\modules\"
 
-    Delete /REBOOTOK "$INSTDIR\*.*"
+	; At this point the only thing left of LS is the core (almost anyways)
+	; Now it's time to kill LS and bring back explorer. However, I can't
+	; just do something like 'ExecShell "open" "explorer.exe"' because
+	; that would make the Add/Remove Programs dialog freeze until
+	; explorer was killed. It has this check that makes it wait for every
+	; subprocess of the installer to quit before you can interact with it
+	; again. So the way I make it work now is by using window's built in
+	; feature to restart the shell whenever it's unexpectedly killed.
+	
+	; We only have to do all of this if Litestep was running in the first
+	; place
+	StrCmp $4 "lsWasRunning" +1 continueDeleting
+	
+		; Make sure the "restart shell" feature is turned on. (Back up the
+		; old value first)
+		ReadRegDWORD $0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
+		WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 1
+
+		; Make LS the shell
+		FileOpen $1 "$INSTDIR\step.rc" w
+		FileWrite $1 "LSSetAsShell"
+		FileClose $1
+
+		; Start Litestep as a "real" shell (LSSetAsShell forces LS to call SetShellWindow)
+		Exec "$INSTDIR\litestep.exe"
+		Sleep 2000 ; Give LS two seconds to start
+
+		; Kill Litestep. This should make explorer start
+		Push $INSTDIR
+		Call un.KillLS
+
+		; Change back the value of "AutoRestartShell"
+		WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $0
+
+
+	; Now we can continue on with deleting the last LS files
+	continueDeleting:
+	Delete /REBOOTOK "$INSTDIR\*.*" ; Delete all files (not folders) in $INSTDIR
+    
+    RMDir /REBOOTOK "$INSTDIR" ; Delete the $INSTDIR itself
+    
+    
 
     DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
     DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
@@ -134,6 +184,7 @@ skip:
 
     SetAutoClose true
 
-    FindProcDLL::FindProc "explorer.exe"
-    StrCmp $R0 "" 1 +2
-    ExecShell open "explorer.exe"
+	; This code causes the Add/Remove Program dialog to freeze
+    ;FindProcDLL::FindProc "explorer.exe"
+    ;IntCmp $R0 1 +2 ; return code 1 means "Process was found"
+    ;Exec "explorer.exe"
