@@ -37,7 +37,7 @@ include "$PersonalDir$popup.rc"
 
 ;--> load hotkey module
 IF NOT ThemeIsOTS1Compliant
-  *NetLoadModule    jkey-0.37
+  *NetLoadModule    jkey-0.39
 ENDIF
 
 ;--> define some jKey settings
