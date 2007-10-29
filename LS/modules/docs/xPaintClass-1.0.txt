@@ -1,22 +1,158 @@
-##########################################################################
-## Installation of xPaintClass-1.0.dll
-##########################################################################
+-----------------------------------------------------------------------------
+ xPaintClass "ReadMe"
+-----------------------------------------------------------------------------
 
-Simply copy the xPaintClass-1.0.dll in your Litestep folder, next to
-Litestep.exe and lsapi.dll.
+xPaintClass "needs" Win2000 or newer! :P
 
-DO THIS BEFORE YOU LOAD MODULES, WHICH NEED xPaintClass-1.0!
+ Homepage:
+------------
+ http://www.ls-universe.info
 
+ xPaintClass Docs:
+--------------------
+ http://wwww.xdocs.ls-universe.info
 
-That's all :)
+-----------------------------------------------------------------------------
+ Personal Usage:
+-----------------------------------------------------------------------------
 
-Have fun!
+Put xPaintClass-1.0.dll in your Litestep Folder!
 
+Simply overwrite an eventually existing older version!
 
-Homepage:
-----------
-http://www.ls-universe.info
+If you have another version in your Module Folder, overwrite it with this one too!
 
-Docs:
-------
-http://wwww.xdocs.ls-universe.info
+-----------------------------------------------------------------------------
+ Theme Release Usage:
+-----------------------------------------------------------------------------
+
+Load xPaintClass-1.0 before other modules, at least before every module, that makes use of it!
+Otherwise the modules won't load, making your theme unusable!
+
+That's all!
+
+-----------------------------------------------------------------------------
+ Changes for xPaintClass 
+-----------------------------------------------------------------------------
+
+Major Version 1.0 - Minor Version (0.4) Released on 19-07-2007, Created by Andymon
+
+- Added:   Exported Evar:
+           xPaintClassVersion "1.0.4"
+           Check the existance of this Evar, if you want to use JPG or GIF images in your theme!!
+
+- Added:   xPaintTexture: .image
+           Support for JPG and GIF images.
+
+- Added:   xPaintTexture:
+           ...TextureRotation INT (WIDTH) (HEIGHT)
+           Rotates the texture.
+
+- Added:   xPaint(HTML)Text:
+           ...FontRotation INT
+           Rotates the text.
+
+- Added:   xPaintIcon:
+           ...IconRotation INT
+           Rotates the icon.
+
+- Changed: xPaintTexture: .animation
+           Animation settings support now AddToGroup (except *...Frames lines)
+
+- Fixed:   Recursive AddToGroup bug.
+
+Major Version 1.0 - Minor Version (0.3) Released on 02-06-2007, Created by Andymon
+
+- Added:   Security Fix for the NetLoadModuleAlwaysUseFolders Problem!
+
+- Added:   xPaintTooltip:
+           Tooltips have now by default AutoWidth enabled!
+           Only deactivated, when you set an explicit "TooltipMaxWidth"!
+
+- Added:   xPaintTooltip:
+           You can now set the Font of the Tooltip Text.
+           ...TooltipFont
+           ...TooltipFontHeight
+           ...TooltipFontColor (...TooltipTextColor will still work but is deprecated)
+           ...TooltipFontCharset
+           ...TooltipFontBold
+           ...TooltipFontItalic
+           ...TooltipFontUnderline
+           ...TooltipFontSmoothing
+           ...TooltipFontClearType
+           
+- Fixed:   xPaintTexture: PaintingMode .image
+           Internal ImageWidth and ImageHeight (xLabel feature) is now correctly set,
+           even if "DisablePerformanceCaching" is enabled.
+           
+- Fixed:   xPaintTexture: PaintingMode .image/.animation
+           If a file path contained ".bmp" the AlphaMap feature was broken.
+
+- Fixed:   xPaintTexture: PaintingMode .icon
+           Icon Loading Problems when paths contained .ico, .exe, .dll or other "filetypes".
+
+- Fixed:   xPaintTexture: PaintingMode .icon 
+           Icon Extraction with IconIndex greater then 99 is now possible (200 max)
+           
+- Fixed:   xPaintTexture: PaintingMode .icon
+           MemoryLeak, on every creation/update of the xPaintTexture.
+           (Especially noticable with !LabelRefresh calls, but also on each recycle!)
+                          
+- Fixed:   xPaintIcon:
+           Colorized Icons with AlphaMap have caused module problems for some people.   
+           
+- Fixed:   xPaint(HTML)Text:
+           Disabled FontSmoothing broke the AlphaChannel of the painted Text on AlphaMap supporting Modules.
+           
+- Fixed:   xPaintTooltip:
+           The Tooltip "Stay" Duration Default is now the correct system value (no longer 1000ms!).                      
+
+Major Version 1.0 - Minor Version (0.2) Released on 01-04-2007, Created by Andymon
+
+- Added:   xPaintTexture: PaintingMode .singlecolor/.multicolor
+           ...ShapeType .rectangle/.ellipse/.rounded
+
+- Added:   xPaintTexture: PaintingMode .singlecolor/.multicolor
+           ...RoundedEdges XY/X Y
+
+- Added:   xPaintTooltip:
+           Support for "<tab>", which inserts a Tab.
+
+- Fixed:   xPaintIcon:
+           Increased CPU Usage since Update 1 (Especially noticeable in xTray, xTaskbar)
+
+Major Version 1.0 - Minor Version (0.1) Released on 05-03-2007, Created by Andymon
+
+- Fixed:   xPaintTexture: PaintingMode .icon
+           Icons with alphachannel were not painted properly
+           
+- Fixed:   xPaintTexture: PaintingMode .icon
+           If ...IconExtractionSize was bigger then the available icon, then the difference
+           was painted as a black part on icons with alphachannel.
+           
+- Fixed:   xPaintTexture: PaintingMode .icon
+           Some specific strings/chars in Path/Filenames have broken the Icon Extraction
+           
+- Fixed:   xPaintTexture: -> only xLabel related
+           xLabels Hover and Pressed States are now correctly applied, 
+           even if only the following values are modified
+           ...TextureX
+           ...TextureY
+           ...TextureWidth
+           ...TextureHeight
+           
+- Fixed:   xPaintIcon: 
+           Icons painted with Colorization or AlphaTransparency and Icons, which are painted on AlphaMap
+           modules have now 100% correct AlphaValues.
+           
+- Fixed:   xPaintText and xPaintHTMLText: 
+           Text painted with AlphaTransparency, TextFade or which are painted on AlphaMap modules,
+           have now 100% correct AlphaShaded Antialiasing.
+           (If you use xLabel's (xPaintHTMLText) "<font ...color=...>" tags, you'll have the old 
+           implementation with 90% correct Alpha :P)
+           
+- Fixed:   xPaintTooltip:
+           \t and \n weren't skipped in Tooltips.
+           If a module wants a Tab or Linebreak then it must send '\t' or '\n' (<br>).
+
+Initial Major Version 1.0 Released on 25-01-2007, Created by Andymon
