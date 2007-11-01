@@ -107,3 +107,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             adjustment in popup.rc to make the links to LOEC and LOSS work.
 
 2007-10-28: Upgraded from jKey-0.37 to jKey-0.39
+
+2007-10-29: Upgradet to the latest version of xPaintClass. According to Andymon
+            (the author) it should really only be in $litestepdir$, but since
+            lots of themes get it with NetLoadModule, hence placing it in 
+            $modulesdir$ he thought it would be best if I put it there as well.
+            There would be no conflicts.
