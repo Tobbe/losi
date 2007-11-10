@@ -265,6 +265,11 @@ Section "LOSI files and utilities" SecLosi
 		; Install the utilities
 	    SetOutPath "$INSTDIR\utilities"
     	File ".\LS\utilities\*"
+    	
+    	; Write some registry settings that SLI-ThemeManager needs
+		WriteRegStr HKCU "Software\Litestep\SLI\ThemeManager" "LitestepDir" "$INSTDIR\litestep.exe"
+		WriteRegStr HKCU "Software\Litestep\SLI\ThemeManager" "ThemesDir" "$whereprofiles\themes\"
+		WriteRegDword HKCU "Software\Litestep\SLI\ThemeManager" "SecurityTimeout" 2
 	!endif
 SectionEnd
 

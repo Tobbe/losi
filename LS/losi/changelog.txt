@@ -113,3 +113,5 @@ ls.com is down for an unknown period of time I started this changelog instead
             lots of themes get it with NetLoadModule, hence placing it in 
             $modulesdir$ he thought it would be best if I put it there as well.
             There would be no conflicts.
+
+2007-11-10: Added the latest SLI-ThemeManager.
