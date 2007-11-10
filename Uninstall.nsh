@@ -1,3 +1,8 @@
+    ; Can't uninstall if uninstall log is missing!
+	IfFileExists "$INSTDIR\${UninstLog}" +3
+		MessageBox MB_OK|MB_ICONSTOP "$(UNINSTALL_LOGMISSING)"
+		Abort
+
     FindProcDLL::FindProc "litestep.exe"
     Sleep 50
     StrCmp $R0 1 +1 +6

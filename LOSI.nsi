@@ -17,7 +17,6 @@
 !define PAGE_FILE_ASSOC
 !define PAGE_CONFIG_EVARS
 !define PAGE_SEC_ADDITIONAL_ICONS
-!define PAGE_SEC_POST
 !define WRITE_UNINSTALLER
 
 ;--------------------------------
@@ -319,9 +318,15 @@ Section -AdditionalIcons
 	!endif
 SectionEnd
 
-Section -Post
-	!ifdef PAGE_SEC_POST
-    	WriteUninstaller "$INSTDIR\uninst.exe"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Uninstall
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+!ifdef WRITE_UNINSTALLER
+	Section -post
+		!define UninstLog "uninstall.log"
+	    SetOutPath $INSTDIR
+    	WriteUninstaller "uninstall.exe"
     	WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\litestep.exe"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "InstallLocation" "$INSTDIR"
@@ -332,23 +337,16 @@ Section -Post
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
     	WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoModify" 1
     	WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoRepair" 1
-	!endif
-SectionEnd
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  Uninstall
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-!ifdef WRITE_UNINSTALLER
+	SectionEnd
+    
 	Function un.onUninstSuccess
 	    HideWindow
-	    MessageBox MB_ICONINFORMATION|MB_OK "${PRODUCT_NAME} was successfully removed from your computer."
+	    MessageBox MB_ICONINFORMATION|MB_OK $(UNINSTALL_SUCCESS)
 	FunctionEnd
 
 	Function un.onInit
 	    !insertmacro MUI_UNGETLANGUAGE
-	    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove ${PRODUCT_NAME} and all of its components?" IDYES +2
+	    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_CONFIRM) IDYES +2
 	    Abort
 	FunctionEnd
 

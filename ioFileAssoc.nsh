@@ -2,6 +2,7 @@ StrCmp $fileAssoc "true" isSel end
 isSel:
 	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_FILEASSOC)" "$(TEXT_IO_FILEASSOC)"
 
+    WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 1" "Text" "$(FILEASSOC_GROUPTITLE)"
 	WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 2" "Text" "$(FILEASSOC_LSZ)"
 	WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 3" "Text" "$(FILEASSOC_RC)"
 	WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 4" "Text" "$(FILEASSOC_MZ)"

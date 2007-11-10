@@ -1,25 +1,25 @@
 	Push "$INSTDIR"
 	Call KillLS
-    Pop $R9
+	Pop $R9
 
-    SetOutPath "$SYSDIR"
-    SetOverwrite off
+	SetOutPath "$SYSDIR"
+	SetOverwrite off
 
-    File ".\msvcp60.dll"
-    File ".\msvcrt.dll"
-    File ".\msvcp70.dll"
-    File ".\msvcp71.dll"
-    File ".\msvcr71.dll"
-    File ".\msvcr70.dll"
+	File ".\msvcp60.dll"
+	File ".\msvcrt.dll"
+	File ".\msvcp70.dll"
+	File ".\msvcp71.dll"
+	File ".\msvcr71.dll"
+	File ".\msvcr70.dll"
 
-    SetOutPath "$INSTDIR"
-    SetOverwrite on
+	SetOutPath "$INSTDIR"
+	SetOverwrite on
 
-    Push $0
-    ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "State" ;Field 4 is Documents and Settings
-    IntCmp $0 1 +3 0 0
-    ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "State" ;Field 3 is LSDir\Profiles
-    IntCmp $0 1 profiles noprofiles
+	Push $0
+	ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "State" ;Field 4 is Documents and Settings
+	IntCmp $0 1 +3 0 0
+	ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "State" ;Field 3 is LSDir\Profiles
+	IntCmp $0 1 profiles noprofiles
 
     ; Install to Documents and Settings
     StrCpy $whereprofiles "$APPDATA\LiteStep"
