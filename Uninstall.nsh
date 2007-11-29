@@ -1,8 +1,3 @@
-    ; Can't uninstall if uninstall log is missing!
-	IfFileExists "$INSTDIR\${UninstLog}" +3
-		MessageBox MB_OK|MB_ICONSTOP "$(UNINSTALL_LOGMISSING)"
-		Abort
-
     FindProcDLL::FindProc "litestep.exe"
     Sleep 50
     StrCmp $R0 1 +1 +6
@@ -12,6 +7,26 @@
 	GoTo +2
 		StrCpy $4 "lsWasNotRunning"
 
+	DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
+	DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
+	
+	; Unregister filetypes
+	Push ".lsz"
+	Push "LiteStep.lsz"
+	call un.DeAssociateFile
+	
+	Push ".rc"
+	Push "LiteStep.rc"
+	call un.DeAssociateFile
+	
+	Push ".mz"
+	Push "LiteStep.mz"
+	call un.DeAssociateFile
+	
+	Push ".lua"
+	Push "LiteStep.lua"
+	call un.DeAssociateFile
+	
 	Call un.GetWindowsVersion
     Pop $R0
 
@@ -86,15 +101,14 @@ skip:
     ; It shouldn't be possible for ls to run at this point, but I have had some
 	; weird errors, so I'm going to kill it one more time just to be sure
 	KillProcDLL::KillProc "litestep.exe"
-    
-    ; Set the working directory to something we don't need to delete
-    SetOutPath $TEMP
 
     ;; Get regstrings to know where some of the stuff are
     ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
 
     !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
+	Delete "$INSTDIR\${PRODUCT_NAME}.url"
+
     Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
     Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
     Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
@@ -102,59 +116,51 @@ skip:
     Delete "$DESKTOP\Set Explorer as Shell.lnk"
     Delete "$DESKTOP\Set LiteStep as Shell.lnk"
 
-    ; Set shell folders to all users, so we can delete the All users
+	; Set shell folders to all users, so we can delete the All users
 	; stuff (it doesn't matter if it isn't there)
-    SetShellVarContext all
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
-    Delete "$DESKTOP\Set Explorer as Shell.lnk"
-    Delete "$DESKTOP\Set LiteStep as Shell.lnk"
-    
-    RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
-    
-    ; Clear all old errors so I can use the error checking for
-    ; checking that all files are deleted
-    ClearErrors
+	SetShellVarContext all
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
+	Delete "$DESKTOP\Set Explorer as Shell.lnk"
+	Delete "$DESKTOP\Set LiteStep as Shell.lnk"
+
+	RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
+
+	; Clear all old errors so I can use the error checking for
+	; checking that all files are deleted
+	ClearErrors
 
 	MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_THEMES) IDNO +2
-    RMDir /r /REBOOTOK "$whereprofiles\themes"
-    
-    IfErrors 0 +3
+	RMDir /r /REBOOTOK "$whereprofiles\themes"
+
+	IfErrors 0 +3
 		DetailPrint "$whereprofiles\themes could not be deleted"
-        ClearErrors
+		ClearErrors
 
-    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_PERSONAL) IDNO +2
-    RMDir /r /REBOOTOK "$whereprofiles\personal\"
-    
-    IfErrors 0 +3
-        DetailPrint "$whereprofiles\personal could not be deleted"
-        ClearErrors
-    
-    RMDir    /REBOOTOK "$whereprofiles" ; By not specifying '/r' this dir will only be deleted if it's completely empty
-    
-    IfErrors 0 +3
-        DetailPrint "$whereprofiles could not be deleted"
-        ClearErrors
-    
-    RMDir /r /REBOOTOK "$INSTDIR\modules\"
-    
-    IfErrors 0 +3
-        DetailPrint "$INSTDIR\modules\ could not be deleted"
-        ClearErrors
-    
-    RMDir /r /REBOOTOK "$INSTDIR\NLM\"
-    
-    IfErrors 0 +3
-        DetailPrint "$INSTDIR\NLM\ could not be deleted"
-        ClearErrors
-    
-    RMDir /r /REBOOTOK "$INSTDIR\losi\"
-    RMDir /r /REBOOTOK "$INSTDIR\utilities\"
-    RMDir /r /REBOOTOK "$INSTDIR\modules\"
+	MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_PERSONAL) IDNO +2
+	RMDir /r /REBOOTOK "$whereprofiles\personal\"
 
-	; At this point the only thing left of LS is the core (almost anyways)
+	IfErrors 0 +3
+		DetailPrint "$whereprofiles\personal could not be deleted"
+		ClearErrors
+
+	RMDir /REBOOTOK "$whereprofiles" ; By not specifying '/r' this dir will only be deleted if it's completely empty 
+
+	IfErrors 0 +3
+		DetailPrint "$whereprofiles could not be deleted"
+		ClearErrors
+
+	IfFileExists "$INSTDIR\Profiles" 0 +2 ; An extra delete is needed if the default profiles dir is used
+		RMDir /REBOOTOK "$INSTDIR\Profiles" 
+
+	RMDir /r /REBOOTOK "$INSTDIR\modules\"
+
+	IfErrors 0 +3
+		DetailPrint "$INSTDIR\modules\ could not be deleted"
+		ClearErrors
+
 	; Now it's time to kill LS and bring back explorer. However, I can't
 	; just do something like 'ExecShell "open" "explorer.exe"' because
 	; that would make the Add/Remove Programs dialog freeze until
@@ -192,41 +198,12 @@ skip:
 	; Now we can continue on with deleting the last LS files
 	continueDeleting:
 	
-	SetOutPath $TEMP
-	
-	Delete /REBOOTOK "$INSTDIR\*.*" ; Delete all files (not folders) in $INSTDIR
-	
-	IfErrors 0 +3
-        DetailPrint "$INSTDIR\*.* could not be deleted"
-        ClearErrors
-    
-    RMDir /REBOOTOK "$INSTDIR\" ; Delete the $INSTDIR itself
-    
-    IfErrors 0 +3
-        DetailPrint "$INSTDIR could not be deleted"
-        ClearErrors
-    
-    
-
-    DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
-    DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-    
-    ; Unregister filetypes
-    Push ".lsz"
-	Push "LiteStep.lsz"
-	call un.DeAssociateFile
-	
-	Push ".rc"
-	Push "LiteStep.rc"
-	call un.DeAssociateFile
-	
-	Push ".mz"
-	Push "LiteStep.mz"
-	call un.DeAssociateFile
-	
-	Push ".lua"
-	Push "LiteStep.lua"
-	call un.DeAssociateFile
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$whereprofiles\themes"
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\NLM"
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\LOSI"
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\utilities"
+	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
+	!insertmacro UNINSTALL.LOG_END_UNINSTALL
 
     ;SetAutoClose true
 

@@ -116,3 +116,16 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2007-11-10: Added the latest SLI-ThemeManager. Localized a few more strings.
             The goal is to get this installer fully localized.
+
+2007-11-26: Implemented logging of installed files. This will give me greater
+            control over the uninstall process. It will make sure I'm not
+            removing any files I shouldn't be removing. I am using
+            http://nsis.sourceforge.net/Advanced_Uninstall_Log_NSIS_Header to
+            accomplish this. But I had to make a few modifications to make it
+            localized.
+
+2007-11-29: Fixed the uninstalling. It uses the log created duing install.
+            This means LOSI will not remove files it shouldn't remove. It
+            also means LOSI finally cleans up after itself.
+            The bug where LOSI would throw a "The memory could not be read"
+            error when letting LOSI log off the computer for you is fixed.

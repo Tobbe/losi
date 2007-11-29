@@ -66,8 +66,9 @@ runpage:
 	logoff:
     	ReadINIStr $0 "$PLUGINSDIR\ioSpecial.ini" "Field 4" "State"
     	StrCmp $0 1 0 done ;Check if the user wants to log off or not
-			ShutDown::LogOff
-    
+			ShutDown::LogOff /NOSAFE
+			Quit
+
 done:
 FunctionEnd
 

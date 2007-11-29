@@ -12,8 +12,8 @@
 	File ".\msvcr71.dll"
 	File ".\msvcr70.dll"
 
-	SetOutPath "$INSTDIR"
 	SetOverwrite on
+	SetOutPath "$INSTDIR"
 
 	Push $0
 	ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "State" ;Field 4 is Documents and Settings
@@ -23,8 +23,9 @@
 
     ; Install to Documents and Settings
     StrCpy $whereprofiles "$APPDATA\LiteStep"
-    MessageBox MB_OK "$whereprofiles"
+    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
     File ".\LS\step-das\step.rc" ;das = Documents and Settings :p
+    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     GoTo reg
 
     ; Install to LSDir\Profiles
@@ -39,13 +40,17 @@
 
     profilesok:
     StrCpy $whereprofiles "$INSTDIR\Profiles\$username"
+    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
     File ".\LS\step-lsdir\step.rc"
+    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     GoTo reg
 
     ; Don't install any profiles
     noprofiles:
     StrCpy $whereprofiles "$INSTDIR"
+    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
     File ".\LS\step-none\step.rc"
+    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
 	reg:
     Pop $0
@@ -55,6 +60,7 @@
     WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
     WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$whereprofiles\personal"
 
+	!insertmacro UNINSTALL.LOG_OPEN_INSTALL
     File ".\LS\changes.txt"
     File ".\LS\hook.dll"
     File ".\LS\libpng13.dll"
@@ -65,10 +71,13 @@
     File ".\LS\zlib.dll"
     File ".\LS\zlib1.dll"
     File ".\LS\xPaintClass-1.0.dll"
+    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
     SetOutPath "$INSTDIR\NLM"
     SetOverwrite on
+    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
     File ".\LS\NLM\*"
+    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
     Push $0
     ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
@@ -104,46 +113,22 @@ pop:
 	!insertmacro MUI_STARTMENU_WRITE_END
 !endif
 
-    SetOverwrite on
+	SetOverwrite on
 
 	; Install all the modules and their docs
-    SetOutPath "$INSTDIR\modules\docs\lsxcommand-1.9.3"
-    File ".\LS\modules\docs\lsxcommand-1.9.3\*"
+	SetOutPath "$INSTDIR\modules\"
+	!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+	File /r /x ".svn" ".\LS\modules\*"
+	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
-    SetOutPath "$INSTDIR\modules\docs\popup2-2.1.7"
-    File ".\LS\modules\docs\popup2-2.1.7\*"
+	call backupPersonal
 
-    SetOutPath "$INSTDIR\modules\docs\vtray-1.10"
-    File ".\LS\modules\docs\vtray-1.10\*"
+	; Install the personal files
+	SetOutPath "$whereprofiles\personal"
+	!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+	File /r /x ".svn" ".\Personal\personal\*"
+	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
-    SetOutPath "$INSTDIR\modules\docs\xtaskbar-1.1.5"
-    File ".\LS\modules\docs\xtaskbar-1.1.5\*"
-
-    SetOutPath "$INSTDIR\modules\docs\"
-    File ".\LS\modules\docs\*"
-
-    SetOutPath "$INSTDIR\modules\"
-    File ".\LS\modules\*"
-
-    ; Install the personal files
-
-    call backupPersonal
-
-    SetOutPath "$whereprofiles\personal\jkey"
-    File ".\Personal\personal\jkey\*"
-
-    SetOutPath "$whereprofiles\personal\lsxcommand"
-    File ".\Personal\personal\lsxcommand\*"
-
-    SetOutPath "$whereprofiles\personal\rainlendar\languages"
-    File ".\Personal\personal\rainlendar\languages\*"
-
-    SetOutPath "$whereprofiles\personal\rainlendar"
-    File ".\Personal\personal\rainlendar\*"
-
-    SetOutPath "$whereprofiles\personal"
-    File ".\Personal\personal\*"
-
-    StrCmp $R9 "LSKilled" 0 wasntRunning
-    StrCpy $LogoffFlag "false" ;If LiteStep was previously running there is no need to log off
+	StrCmp $R9 "LSKilled" 0 wasntRunning
+	StrCpy $LogoffFlag "false" ;If LiteStep was previously running there is no need to log off
 	wasntRunning:

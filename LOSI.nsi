@@ -3,6 +3,7 @@
 ; FindProcDLL
 ; ShutDown
 ; KillProcDLL
+; You'll also need the include header "Advanced Uninstall Log NSIS Header"
 
 !define PAGE_WELCOME
 !define PAGE_LICENSE
@@ -67,6 +68,14 @@ var advancedInstall
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
 SetCompressor bzip2
+
+;--------------------------------
+; Uninstall log
+!define INSTDIR_REG_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
+!define INSTDIR_REG_KEY "${PRODUCT_UNINST_KEY}"
+!define UNINSTALLOG_LOCALIZE
+!include AdvUninstLog.nsh
+!insertmacro UNATTENDED_UNINSTALL ;Keep all files we didn't install without asking
 
 ;--------------------------------
 ;MUI Settings
@@ -158,13 +167,22 @@ Function .onInit
 		Abort $(IE4)
 		
 	good:
-    ;Extract InstallOptions INI Files
+	
+	;prepare log always within .onInit function
+	!insertmacro UNINSTALL.LOG_PREPARE_INSTALL
+	
+	;Extract InstallOptions INI Files
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioTypeOfInstall.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioHowLS.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioWhereProfiles.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioEvars.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioEvars2.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioFileAssoc.ini"
+FunctionEnd
+
+Function .onInstSuccess
+         ;Alwasy create/update log within the .onInstSuccess function
+         !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 FunctionEnd
 
 !ifdef PAGE_TYPE_OF_INSTALL
@@ -247,11 +265,10 @@ SectionEnd
 
 Section "Theme" SecTheme
 	!ifdef PAGE_SEC_THEME
-    	SetOutPath "$whereprofiles\themes\InstDef"
-    	File ".\Personal\themes\InstDef\*"
-
-	    SetOutPath "$whereprofiles\themes"
-	    File ".\Personal\themes\*"
+    	SetOutPath "$whereprofiles\themes"
+		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+	    File /r /x ".svn" ".\Personal\themes\*"
+	    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 	!endif
 SectionEnd
 
@@ -259,11 +276,15 @@ Section "LOSI files and utilities" SecLosi
 	!ifdef PAGE_SEC_LOSI
 	    ; Installer related stuff
 		SetOutPath "$INSTDIR\LOSI"
+		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 		File ".\LS\losi\*"
+		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 		
 		; Install the utilities
 	    SetOutPath "$INSTDIR\utilities"
+	    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
     	File ".\LS\utilities\*"
+    	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
     	
     	; Write some registry settings that SLI-ThemeManager needs
 		WriteRegStr HKCU "Software\Litestep\SLI\ThemeManager" "LitestepDir" "$INSTDIR\litestep.exe"
@@ -312,7 +333,7 @@ Section -AdditionalIcons
     		!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     		WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
     		CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-    		CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
+    		CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "${UNINST_EXE}"
     		!insertmacro MUI_STARTMENU_WRITE_END
 		!endif
 	!endif
@@ -324,13 +345,10 @@ SectionEnd
 
 !ifdef WRITE_UNINSTALLER
 	Section -post
-		!define UninstLog "uninstall.log"
-	    SetOutPath $INSTDIR
-    	WriteUninstaller "uninstall.exe"
     	WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\litestep.exe"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "InstallLocation" "$INSTDIR"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
+    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "${UNINST_EXE}"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\litestep.exe"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
     	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
@@ -348,6 +366,7 @@ SectionEnd
 	    !insertmacro MUI_UNGETLANGUAGE
 	    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_CONFIRM) IDYES +2
 	    Abort
+	    !insertmacro UNINSTALL.LOG_BEGIN_UNINSTALL
 	FunctionEnd
 
 	Section Uninstall
