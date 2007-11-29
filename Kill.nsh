@@ -1,6 +1,7 @@
 ; Kill litestep if found
 Function KillLS
     Pop $R1
+    Push $R2
 	FindProcDLL::FindProc "litestep.exe"
     StrCmp $R0 1 foundls lsnotfound
     foundls:
@@ -9,18 +10,21 @@ Function KillLS
 		Sleep 2000
 		FindProcDLL::FindProc "litestep.exe"
 		Sleep 50
-		StrCpy $R0 "LSKilled"
+		StrCpy $R2 "LSKilled"
     	StrCmp $R0 1 +1 end
     	    Sleep 50
         	KillProcDLL::KillProc "litestep.exe"
         	Sleep 2000
-        	MessageBox MB_OK $(MB_FOUND_LS_UNINST)
+        	FindProcDLL::FindProc "litestep.exe"
+        	Sleep 50
+        	StrCmp $R0 1 +1 end
+        		MessageBox MB_OK $(MB_FOUND_LS_UNINST)
         GoTo end
     lsnotfound:
-		StrCpy $R0 "NoLS"
+		StrCpy $R2 "NoLS"
 		
 	end:
-		Push $R0
+		Exch $R2
 FunctionEnd
 
 Function un.KillLS ; For the uninstaller
@@ -37,6 +41,9 @@ Function un.KillLS ; For the uninstaller
     	    Sleep 50
         	KillProcDLL::KillProc "litestep.exe"
         	Sleep 2000
-        	MessageBox MB_OK $(MB_FOUND_LS_UNINST)
+        	FindProcDLL::FindProc "litestep.exe"
+			Sleep 50
+	    	StrCmp $R0 1 +1 lsnotfound
+        		MessageBox MB_OK $(MB_FOUND_LS_UNINST)
     lsnotfound:
 FunctionEnd

@@ -129,3 +129,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             also means LOSI finally cleans up after itself.
             The bug where LOSI would throw a "The memory could not be read"
             error when letting LOSI log off the computer for you is fixed.
+            Added $INSTDIR to the confirmation messagebox when uninstalling,
+            just to make it that much more unlikely that the user removes
+            something he/she wants to keep.
+            Made the taskbar AlwaysOnTop in InstDef.
+            Fixed a minor bug in the KillLS function where it would run
+            KillProcDLL::KillProc "litestep.exe" even if LS wasn't running.

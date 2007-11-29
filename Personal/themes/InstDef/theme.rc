@@ -6,7 +6,7 @@ OTSMajorVersion 2
 OTSMinorVersion 0
 
 ThemeName		"InstDef"
-ThemeVersion	"0.2"
+ThemeVersion	"0.3"
 ThemeAuthor		"Tobbe"
 
 ;--- Colors
@@ -63,6 +63,7 @@ xTaskbarX                      0
 xTaskbarY                      -20
 xTaskbarWidth                  $ResolutionX$
 xTaskbarHeight                 21
+xTaskbarAlwaysOnTop            true
 xTaskbarUseSolidColors         true
 xTaskbarSolidColors            $ColorLight$ $ColorBorder$ $ColorBorder$
 xTaskbarSolidBevelSize         1
