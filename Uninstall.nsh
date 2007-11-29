@@ -205,7 +205,7 @@ skip:
 	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
 	!insertmacro UNINSTALL.LOG_END_UNINSTALL
 
-    ;SetAutoClose true
+    SetAutoClose true
 
 	; This code causes the Add/Remove Program dialog to freeze
     ;FindProcDLL::FindProc "explorer.exe"
