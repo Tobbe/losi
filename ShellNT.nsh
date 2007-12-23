@@ -1,3 +1,14 @@
+# 2007-12-23
+# To do all this without rebooting or even logging off, this is what needs to be done:
+#   Change the Shell value in IniFileMappings, something like this:
+#       WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" "USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+#   Refresh window's ini files cashe, something like this:
+#       WritePrivateProfileString(NULL, NULL, NULL, "system.ini") [C code]
+#       WriteINIStr "system.ini"     <-- might work
+#   Change to the new shell, something like this:
+#       WritePrivateProfileString("boot", "shell", <path to shell>, "system.ini") [C code]
+#       WriteINIStr "system.ini" "boot" "shell" <path to shell>    <-- probably works
+
 Function setShellNT
     ; Check to see if this is the first time LS is installed on this computer
     ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"

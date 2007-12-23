@@ -16,7 +16,7 @@
 ;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 	*Popup "About"							!About
 	*Popup "Recycle"						!Recycle
-	*popup "Reload"							!Reload
+;	*popup "Reload"							!Reload
 	*Popup "Quit"							!execute ["$FileManager$" /e,"$LiteStepDir$"][!Quit]
 	*Popup !Separator
 ;	¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
