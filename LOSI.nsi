@@ -59,9 +59,9 @@ var advancedInstall
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "LOSI"
-!define PRODUCT_VERSION "0.0.8"
+!define PRODUCT_VERSION "0.0.9"
 !define PRODUCT_PUBLISHER "Tobbe"
-!define PRODUCT_WEB_SITE "http://tlundberg.com"
+!define PRODUCT_WEB_SITE "http://tlundberg.com/LOSI"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\litestep.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"

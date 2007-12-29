@@ -1,8 +1,8 @@
-    FindProcDLL::FindProc "litestep.exe"
-    Sleep 50
-    StrCmp $R0 1 +1 +6
-    	StrCpy $4 "lsWasRunning"
-    	Push "$INSTDIR"
+	FindProcDLL::FindProc "litestep.exe"
+	Sleep 50
+	StrCmp $R0 1 +1 +6
+		StrCpy $4 "lsWasRunning"
+		Push "$INSTDIR"
 		Call un.KillLS
 	GoTo +2
 		StrCpy $4 "lsWasNotRunning"
@@ -28,93 +28,70 @@
 	call un.DeAssociateFile
 	
 	Call un.GetWindowsVersion
-    Pop $R0
+	Pop $R0
 
-    StrCmp $R0 "9x" un9xShell
+	StrCmp $R0 "9x" un9xShell
 
-    ;; Restore all the original values ;;
+	;; Restore all the original values ;;
 
-	StrCmp "a" "b" 0 skip
-	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "Shell"
-    StrCmp $0 "" 0 +2
-        DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
-    WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" $0
+#	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMBShell"
+#	StrCmp $0 "" 0 +2
+#		DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
+#	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" $0
 
-    ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMDesktopProcess"
-    StrCmp $0 "" 0 +2
-        DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
+	ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
+	StrCmp $0 "" 0 +3
+		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
+		GoTo +2
+	WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
 
-    ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMADesktopProcess"
-    StrCmp $0 "" 0 +2
-        DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess"
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess" $0
+	ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUADesktopProcess"
+	StrCmp $0 "" 0 +3
+		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess"
+		GoTo +2
+	WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess" $0
 
-    ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMBrowseNewProcess"
-    StrCmp $0 "" 0 +2
-        DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess" $0
+	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUBrowseNewProcess"
+	StrCmp $0 "" 0 +3
+		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess"
+		GoTo +2
+	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess" $0
 
-    ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMAFDPDefaultValue"
-    StrCmp $0 "" 0 +2
-        DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Folder\DesktopProcess" "DefaultValue"
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Folder\DesktopProcess" "DefaultValue" $0
+	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
+	StrCmp $0 "" 0 +3
+		DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+		GoTo +2
+	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
 
-skip:
+	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell"
+	StrCmp $0 "" 0 +3
+		DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+		GoTo +2
+	WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
 
-    ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
-    StrCmp $0 "" 0 +3
-        DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
-        GoTo +2
-    WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
+	GoTo removefiles
 
-    ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUADesktopProcess"
-    StrCmp $0 "" 0 +3
-        DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess"
-        GoTo +2
-    WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess" $0
+	un9xShell:
+	Call un.Shell9x
 
-    ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUBrowseNewProcess"
-    StrCmp $0 "" 0 +3
-        DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess"
-        GoTo +2
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess" $0
-
-    ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
-    StrCmp $0 "" 0 +3
-        DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
-        GoTo +2
-    WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
-
-    ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell"
-    StrCmp $0 "" 0 +3
-        DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
-        GoTo +2
-    WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
-
-    GoTo removefiles
-
-    un9xShell:
-    Call un.Shell9x
-
-    removefiles:
-    ; It shouldn't be possible for ls to run at this point, but I have had some
+	removefiles:
+	; It shouldn't be possible for ls to run at this point, but I have had some
 	; weird errors, so I'm going to kill it one more time just to be sure
 	KillProcDLL::KillProc "litestep.exe"
 
-    ;; Get regstrings to know where some of the stuff are
-    ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
+	;; Get regstrings to know where some of the stuff are
+	ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
 
-    !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
+	!insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
 	Delete "$INSTDIR\${PRODUCT_NAME}.url"
 
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
-    Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
-    Delete "$DESKTOP\Set Explorer as Shell.lnk"
-    Delete "$DESKTOP\Set LiteStep as Shell.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
+	Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
+	Delete "$DESKTOP\Set Explorer as Shell.lnk"
+	Delete "$DESKTOP\Set LiteStep as Shell.lnk"
 
 	; Set shell folders to all users, so we can delete the All users
 	; stuff (it doesn't matter if it isn't there)
@@ -205,9 +182,9 @@ skip:
 	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
 	!insertmacro UNINSTALL.LOG_END_UNINSTALL
 
-    SetAutoClose true
+	SetAutoClose true
 
 	; This code causes the Add/Remove Program dialog to freeze
-    ;FindProcDLL::FindProc "explorer.exe"
-    ;IntCmp $R0 1 +2 ; return code 1 means "Process was found"
-    ;Exec "explorer.exe"
+	;FindProcDLL::FindProc "explorer.exe"
+	;IntCmp $R0 1 +2 ; return code 1 means "Process was found"
+	;Exec "explorer.exe"
