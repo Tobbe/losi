@@ -137,3 +137,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2007-12-28: Updated the German and French language strings. Thanks zbM for
             updating the French part.
+
+2007-12-30: Released LOSI 0.0.9. After that I added an updated engines.list for
+            lsx command. Thanks goes out to moshi for writing the updated list.
+            The old list is still available as old.engines.list
