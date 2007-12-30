@@ -140,4 +140,6 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2007-12-30: Released LOSI 0.0.9. After that I added an updated engines.list for
             lsx command. Thanks goes out to moshi for writing the updated list.
-            The old list is still available as old.engines.list
+            The old list is still available as old.engines.list. The first bad
+            bug has been found in LOSI 0.0.9. The file association with .lsz
+            files didn't work. This has now been fixed.

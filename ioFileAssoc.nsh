@@ -19,8 +19,8 @@ isSel:
 		Push ".lsz"
 		Push "LiteStep.lsz"
 		Push "Zipped LiteStep theme"
-		Push "$INSTDIR\utilities\LSI-ThemeManager.exe"
-		Push "$INSTDIR\utilities\LSI-ThemeManager.exe"
+		Push "$INSTDIR\utilities\SLI-ThemeManager.exe"
+		Push "$INSTDIR\utilities\SLI-ThemeManager.exe"
 		IfFileExists "$INSTDIR\losi\lsz.ico" 0 +3
 			Push "$INSTDIR\losi\lsz.ico"
 		GoTo +2
