@@ -100,8 +100,7 @@ ls.com is down for an unknown period of time I started this changelog instead
             to make windows start explorer on its own when I shut down Litestep.
 
 2007-10-27: Cleaned up Evars.nsh and added some more comments to LOSI.nsi just
-            just to tidy it up a bit before commiting everything to the
-            repository.
+            to tidy it up a bit before commiting everything to the repository.
             Made KillLS as nice as un.KillLS already was (using ls.exe !quit).
             Fixed the lsz file association, it wasn't working. Did a small
             adjustment in popup.rc to make the links to LOEC and LOSS work.
@@ -111,7 +110,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 2007-10-29: Upgradet to the latest version of xPaintClass. According to Andymon
             (the author) it should really only be in $litestepdir$, but since
             lots of themes get it with NetLoadModule, hence placing it in 
-            $modulesdir$ he thought it would be best if I put it there as well.
+            $modulesdir$, he thought it would be best if I put it there as well.
             There would be no conflicts.
 
 2007-11-10: Added the latest SLI-ThemeManager. Localized a few more strings.
@@ -136,4 +135,5 @@ ls.com is down for an unknown period of time I started this changelog instead
             Fixed a minor bug in the KillLS function where it would run
             KillProcDLL::KillProc "litestep.exe" even if LS wasn't running.
 
-2007-12-28: Updated the German and French language strings
+2007-12-28: Updated the German and French language strings. Thanks zbM for
+            updating the French part.

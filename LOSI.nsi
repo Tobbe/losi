@@ -3,7 +3,7 @@
 ; FindProcDLL
 ; ShutDown
 ; KillProcDLL
-; You'll also need the include header "Advanced Uninstall Log NSIS Header"
+; You will also need the include header "Advanced Uninstall Log NSIS Header"
 
 !define PAGE_WELCOME
 !define PAGE_LICENSE
