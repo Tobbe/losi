@@ -356,7 +356,18 @@ Function LoadEvarsDefaults
 	ReadRegStr $ftp HKCR "ftp\shell\open\command" ""
 	
 	StrCpy $im '$PROGRAMFILES\MSN Messenger\msnmsgr.exe'
+	IfFileExists $im imdone
+		StrCpy $im '$PROGRAMFILES\Windows Live\Messenger\msnmsgr.exe'
+		IfFileExists $im imdone
+			ReadRegStr $im HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Miranda IM" "UninstallString"
+			${RIndexOf} $R0 $im '\' ; Macro expands to 4 lines
+			StrCpy $im $im -$R0
+			StrCpy $im "$im\Miranda32.exe"
+			IfFileExists $im imdone
+			StrCpy $im ""
+	imdone:
 
+	DetailPrint " "
 	DetailPrint "Values read from the registry"
 	DetailPrint "====================================="
 	DetailPrint "FileManager   $filemanager"
