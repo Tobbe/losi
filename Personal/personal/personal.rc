@@ -230,3 +230,8 @@ bbvwmWrapDesks                  $VWMWrapScreen$
 ;    DDEService. Results in larger memory usage but "proper" DDE support.
 ;    LSUseSystemDDE takes effect on startup only, not on !recycle.
 LSUseSystemDDE
+
+;--> "LSAutoHideModules". If Litestep detects that a program wants to run
+;    in full screen Litestep hides all its modules. When the program no
+;    longer runs in full screen, the modules are made visible again.
+LSAutoHideModules

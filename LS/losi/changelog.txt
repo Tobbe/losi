@@ -148,3 +148,5 @@ ls.com is down for an unknown period of time I started this changelog instead
             Messenger. If it can't find that either it looks for Miranda IM,
             if that can't be found either it gives up and defaults to an
             empty string.
+
+2008-01-04: Added LSAutoHideModules to personal.rc
