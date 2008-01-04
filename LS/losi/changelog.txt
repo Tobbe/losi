@@ -150,3 +150,4 @@ ls.com is down for an unknown period of time I started this changelog instead
             empty string.
 
 2008-01-04: Added LSAutoHideModules to personal.rc
+            Fixed the registry value for SLI-ThemeManager
