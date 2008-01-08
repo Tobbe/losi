@@ -151,7 +151,7 @@ LangString UNLOG_HEADER ${LANG_FRENCH} "=========== Log de désinstallation: n'éd
 LangString UNLOG_DAT_NOT_FOUND ${LANG_FRENCH} "${UNINST_DAT} est introuvable, la désinstallation ne peut-être effectuée."
 LangString UNLOG_DEL_FILE ${LANG_FRENCH} 'Effacer le fichier "$R9" ?'
 LangString UNLOG_DEL_DIR ${LANG_FRENCH} 'Effacer le dossier "$R9" ?'
-LangString UNLOG_EMPTY_DIR ${LANG_FRENCH} "Précedente installation détécté à $0.$\nLe fichier ${UNINSTALL_LOG}.dat est manquant$\n$\nIl est fortement recommandé de choisir un dossier vide pour y réaliser une installation vierge."
+LangString UNLOG_EMPTY_DIR ${LANG_FRENCH} "Précedente installation détécté dans le dossier $0.$\nLe fichier ${UNINSTALL_LOG}.dat est manquant$\n$\nIl est fortement recommandé de choisir un dossier vide pour y réaliser une installation vierge."
 LangString UNLOG_ERROR_LOG ${LANG_FRENCH} "Erreur dans le log ${UNINSTALL_LOG}."
 LangString UNLOG_ERROR_CREATE ${LANG_FRENCH} "Echec lors de la création du fichier ${UNINSTALL_LOG}."
 LangString BACKUP_PERSONAL ${LANG_FRENCH} "Voulez-vous faire une copie de sauvegarde de vos anciens fichiers personnels ?"
