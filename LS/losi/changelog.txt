@@ -151,3 +151,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2008-01-04: Added LSAutoHideModules to personal.rc
             Fixed the registry value for SLI-ThemeManager
+
+2008-01-09: Switched one of the NLM sites from loose-screws to nbi-studio.
+            Thanks to Andymon for telling me to do it :)
+            Released LOSI 0.0.9.2
