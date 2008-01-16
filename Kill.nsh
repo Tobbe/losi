@@ -1,6 +1,7 @@
 ; Kill litestep if found
 Function KillLS
     Pop $R1
+    MessageBox MB_OK "$R1\litestep.exe !quit"
     Push $R2
 	FindProcDLL::FindProc "litestep.exe"
     StrCmp $R0 1 foundls lsnotfound

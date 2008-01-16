@@ -5,20 +5,20 @@
 ; KillProcDLL
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 
-!define PAGE_WELCOME
-!define PAGE_LICENSE
-!define PAGE_TYPE_OF_INSTALL
-!define PAGE_SEC_CORE
-!define PAGE_SEC_THEME
-!define PAGE_SEC_LOSI
-!define PAGE_DIRECTORY
-!define PAGE_HOW_LS
-!define PAGE_WHERE_PROFILES
+#!define PAGE_WELCOME
+#!define PAGE_LICENSE
+#!define PAGE_TYPE_OF_INSTALL
+#!define PAGE_SEC_CORE
+#!define PAGE_SEC_THEME
+#!define PAGE_SEC_LOSI
+#!define PAGE_DIRECTORY
+#!define PAGE_HOW_LS
+#!define PAGE_WHERE_PROFILES
 !define PAGE_START_MENU
-!define PAGE_FILE_ASSOC
-!define PAGE_CONFIG_EVARS
-!define PAGE_SEC_ADDITIONAL_ICONS
-!define WRITE_UNINSTALLER
+#!define PAGE_FILE_ASSOC
+#!define PAGE_CONFIG_EVARS
+#!define PAGE_SEC_ADDITIONAL_ICONS
+#!define WRITE_UNINSTALLER
 
 ;--------------------------------
 ;Variables
@@ -40,7 +40,7 @@ var im
 var tmp
 !endif
 
-var LogoffFlag
+var currentShell
 
 var username
 
@@ -59,7 +59,7 @@ var advancedInstall
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "LOSI"
-!define PRODUCT_VERSION "0.0.9.1"
+!define PRODUCT_VERSION "0.0.9.2"
 !define PRODUCT_PUBLISHER "Tobbe"
 !define PRODUCT_WEB_SITE "http://tlundberg.com/LOSI"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\litestep.exe"
@@ -87,7 +87,6 @@ SetCompressor bzip2
 !define MUI_ABORTWARNING
 !define MUI_ICON ".\installer.ico"
 !define MUI_UNICON ".\installer.ico"
-!define MUI_FINISHPAGE_NOAUTOCLOSE
 
 ;--------------------------------
 ;Pages
@@ -142,6 +141,12 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
+!ifdef PAGE_SEC_CORE
+    !include GetInQuotes.nsh
+    !include IndexOf.nsh
+    !include GetExecutablePath.nsh
+!endif
+
 Function .onInit
     !ifndef PAGE_WHERE_PROFILES
         StrCpy $whereprofiles "default"
@@ -149,7 +154,6 @@ Function .onInit
 	
 	!ifndef PAGE_SEC_CORE
 	    StrCpy $instCore "true"
-	    StrCpy $LogoffFlag "true"
 	    ;SetRebootFlag true
 	!endif
 	
@@ -253,7 +257,6 @@ FunctionEnd
 
 ;--------------------------------
 ;Installer Sections
-
 Section "LiteStep files" SecCore
 	!ifdef PAGE_SEC_CORE
 		StrCpy $instCore "true"
@@ -308,20 +311,18 @@ SectionEnd
 Function LeavingInstFiles
     Push $0
     ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-    IntCmp $0 1 pop 0 0 ;If we're not setting LS as the shell, we shouldn't start it.
-		IfRebootFlag done 0
-		StrCmp $LogoffFlag "true" done 0
-			; If litestep was running when the installer started neither the rebootflag nor
-			; the logoffflag will be set
-			; If the user choose to install the litestep core the LS he was running would
-			; have been killed. If that's the case we need to launch it again. If, how ever,
-			; the user didn't choose to install the core we shouldn't start a second
-			; instance of litestep.exe
-		
-			StrCmp $instCore "true" 0 done
-	        	ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
-
-		done:
+    IntCmp $0 1 pop ;If we're not setting LS as the shell, we shouldn't start it.
+        ; IF
+		StrCmp $currentShell "litestep.exe" 0 +4
+		    Push "$INSTDIR"
+			Call KillLS
+			GoTo execLS
+		; ELSE
+			KillProcDLL::KillProc $currentShell
+			Sleep 2000
+	execLS:
+		;ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep  ; Is this needed when explorer was running?
+       	;ExecShell open "$R0" ; Is this needed when explorer was running?
 	pop:
 	pop $0
 FunctionEnd
@@ -388,19 +389,21 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 !ifdef PAGE_CONFIG_EVARS
-    !include GetInQuotes.nsh
-    !include IndexOf.nsh
-    !include GetExecutablePath.nsh
+	!ifndef PAGE_SEC_CORE
+		!include GetInQuotes.nsh
+		!include IndexOf.nsh
+		!include GetExecutablePath.nsh
+	!endif
 	!include Evars.nsh
 !endif
 !include FinishPage.nsh
 !ifdef PAGE_HOW_LS
-    !include GetWindowsVersion.nsh
+	!include GetWindowsVersion.nsh
 !endif
+!include Kill.nsh
 !ifdef PAGE_SEC_CORE
 	!include Shell9x.nsh
 	!include ShellNT.nsh
-	!include Kill.nsh
 	!include BackupPersonal.nsh
 	!include refreshShellIcons.nsh
 !endif
@@ -411,7 +414,7 @@ SectionEnd
 !ifdef PAGE_FILE_ASSOC
 	!include RegisterExtension.nsh
 	!ifndef PAGE_SEC_CORE
-	    !include refreshShellIcons.nsh
+		!include refreshShellIcons.nsh
 	!endif
 !endif
 !ifdef PAGE_WHERE_PROFILES

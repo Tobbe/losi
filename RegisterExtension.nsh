@@ -48,11 +48,17 @@ Function AssociateFile
 	; Program used to open the file, use a full pathname
 	Exch 3
 	Exch $5
+	StrCpy $R0 $5 1
+	StrCmp $R0 '"' +2
+	    StrCpy $5 '"$5"'
 
 	; Program used to edit the file, often the same as used
 	; when opening it
 	Exch 2
 	Exch $6
+	StrCpy $R0 $6 1
+	StrCmp $R0 '"' +2
+	    StrCpy $6 '"$6"'
 
 	; File icon
 	Exch
@@ -82,9 +88,9 @@ Function AssociateFile
 				WriteRegStr HKCR "$3\DefaultIcon" "" $7
 
 	"${Index}-Skip:"
-		WriteRegExpandStr HKCR "$3\shell\open\command" "" $5
-		WriteRegStr HKCR "$3\shell\edit" "" $4
-		WriteRegExpandStr HKCR "$3\shell\edit\command" "" $6
+		WriteRegExpandStr HKCR "$3\shell\open\command" "" '$5 "%1"'
+		WriteRegStr HKCR "$3\shell\edit" "" '"$4"'
+		WriteRegExpandStr HKCR "$3\shell\edit\command" "" '$6 "%1"'
 
 		System::Call 'Shell32::SHChangeNotify(i 0x8000000, i 0, i 0, i 0)'
 	!undef Index

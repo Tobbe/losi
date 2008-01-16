@@ -79,26 +79,33 @@
     File ".\LS\NLM\*"
     !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
-    Push $0
-    ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-    IntCmp $0 1 pop 0 0 ;If we're not setting LS as the shell, we're jumpin all the way down
-                        ;to "Pop $0"
+	ReadIniStr $0 "system.ini" "boot" "shell"
+	${ExePath} $0 $0
+	${RIndexOf} $R0 $0 '\' ; Macro expands to 4 lines
+	IntCmp $R0 -1 +4
+	StrLen $R1 $0
+	IntOp $R0 $R1 - $R0
+	IntOp $R0 $R0 + 1
+	StrCpy $currentShell $0 "" $R0
 
-    ; Check weather we're installing on a 9x or NT based system
-    Call GetWindowsVersion
-    Pop $R0
+	ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
+	IntCmp $R0 1 doneSetShell ;If we're not setting LS as the shell, we're jumping down
+	                          ;to doneSetShell
 
-    StrCmp $R0 "9x" set9xShell
+    ; Check whether we're installing on a 9x or NT based system
+	Call GetWindowsVersion
+	Pop $R0
+	
+	StrCmp $R0 "9x" 0 setNTShell
+    	Call setShell9x
+    	GoTo doneSetShell
 
-    ;If we get to this point we're not installing on a 9x based machine
+	setNTShell:
+	;If we get to this point we're not installing on a 9x based machine
 	Call setShellNT
-	GoTo pop
 
-	set9xShell:
-	Call setShell9x
-
-pop:
-    Pop $0
+doneSetShell:
+	Pop $0
 
 !ifdef PAGE_START_MENU
 	; Shortcuts
@@ -130,5 +137,6 @@ pop:
 	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
 	StrCmp $R9 "LSKilled" 0 wasntRunning
-	StrCpy $LogoffFlag "false" ;If LiteStep was previously running there is no need to log off
+	;;;;;;StrCpy $LogoffFlag "false" ;If LiteStep was previously running there is no need to log off
+	;;;;;;
 	wasntRunning:

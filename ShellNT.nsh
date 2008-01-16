@@ -53,17 +53,14 @@ Function setShellNT
 	SetShellVarContext all
 
     ; -- Set as shell -- ;
-    WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" "$INSTDIR\LiteStep.exe"
-    
-    ; See if we're going to have to change anything in HKLM
-    ReadRegStr $0 HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
-    StrCmp $0 "USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon" +3
-        SetRebootFlag true
-        GoTo +2
-
-		StrCpy $LogoffFlag "true"
     
     ; Tell Windows there might be a shell setting in HKCU
     WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" "USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+    
+    ; Refresh window's ini files cashe
+    WriteINIStr "system.ini" "" "" ""
+    
+    ; Change to the new shell
+    WriteINIStr "system.ini" "boot" "shell" "$INSTDIR\litestep.exe"
 end:
 FunctionEnd
