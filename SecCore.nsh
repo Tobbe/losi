@@ -57,7 +57,16 @@
 
     ;; Store a few paths in the registry
     WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "LitestepDir" $INSTDIR
-    WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
+	; IF
+	StrCmp $whereprofiles "$INSTDIR\Profiles\$username" 0 +3
+	    WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "$INSTDIR\Profiles\%USERNAME%"
+	    GoTo +5
+	; ELSE IF
+	StrCmp $whereprofiles "$APPDATA\LiteStep" 0 +3
+	    WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "%APPDATA%\Litestep"
+	    GoTo +2
+	; ELSE
+		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
     WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$whereprofiles\personal"
 
 	!insertmacro UNINSTALL.LOG_OPEN_INSTALL

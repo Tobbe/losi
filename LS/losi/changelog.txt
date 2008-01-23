@@ -165,3 +165,11 @@ ls.com is down for an unknown period of time I started this changelog instead
             the themes list in the popup.
 
 2008-01-16: Added the posibility to not create any start menu icons
+
+2008-01-23: More work as gone in to the "install ls without rebooting the 
+            computer" feature. Mostly it's been changes to the finish page
+            code.
+            I've added zBM's latest french translations.
+            The bug regarding registry paths and usernames that Andymon found
+            has been fixed. It might affect installations to "Documents and
+            Settings" as well, I have to investigate that further.

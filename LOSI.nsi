@@ -5,20 +5,20 @@
 ; KillProcDLL
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 
-#!define PAGE_WELCOME
-#!define PAGE_LICENSE
-#!define PAGE_TYPE_OF_INSTALL
-#!define PAGE_SEC_CORE
-#!define PAGE_SEC_THEME
-#!define PAGE_SEC_LOSI
-#!define PAGE_DIRECTORY
-#!define PAGE_HOW_LS
-#!define PAGE_WHERE_PROFILES
+!define PAGE_WELCOME
+!define PAGE_LICENSE
+!define PAGE_TYPE_OF_INSTALL
+!define PAGE_SEC_CORE
+!define PAGE_SEC_THEME
+!define PAGE_SEC_LOSI
+!define PAGE_DIRECTORY
+!define PAGE_HOW_LS
+!define PAGE_WHERE_PROFILES
 !define PAGE_START_MENU
-#!define PAGE_FILE_ASSOC
-#!define PAGE_CONFIG_EVARS
-#!define PAGE_SEC_ADDITIONAL_ICONS
-#!define WRITE_UNINSTALLER
+!define PAGE_FILE_ASSOC
+!define PAGE_CONFIG_EVARS
+!define PAGE_SEC_ADDITIONAL_ICONS
+!define WRITE_UNINSTALLER
 
 ;--------------------------------
 ;Variables

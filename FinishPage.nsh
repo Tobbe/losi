@@ -6,12 +6,15 @@
 
 Function SetupFinishPage
 	ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-	IntCmp $R0 1 +2 ;Remove the "Run Litestep" checkbox when Litestep is set as shell
-	    StrCpy $INSTDIR "C:\Program\Litestep"
-		;WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Settings" "NumFields" "3"
+	IntCmp $R0 1 doneSettingUp ;Disable the "Run Litestep" checkbox when Litestep is set as shell
+	    WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Field 4" "State" "1"
+		WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Field 4" "Flags" "DISABLED"
+ 		;WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Settings" "NumFields" "3"
+doneSettingUp:
 FunctionEnd
 
 Function FinishRun
+	MessageBox MB_OK "Nuvarande skal: >$currentShell<"
 	; IF
 	StrCmp $currentShell "litestep.exe" 0 +4
 	    Push "$INSTDIR"
