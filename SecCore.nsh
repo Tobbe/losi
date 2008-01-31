@@ -91,17 +91,29 @@
 	ReadIniStr $0 "system.ini" "boot" "shell"
 	${ExePath} $0 $0
 	${RIndexOf} $R0 $0 '\' ; Macro expands to 4 lines
-	IntCmp $R0 -1 +4
-	StrLen $R1 $0
-	IntOp $R0 $R1 - $R0
-	IntOp $R0 $R0 + 1
-	StrCpy $currentShell $0 "" $R0
+	; IF
+	IntCmp $R0 -1 0 +3 +3
+		StrCpy $currentShell $0
+		GoTo +5
+	; ELSE
+		StrLen $R1 $0
+		IntOp $R0 $R1 - $R0
+		IntOp $R0 $R0 + 1
+		StrCpy $currentShell $0 "" $R0
+
+	; IF
+	StrCmp $currentShell "" 0 +2
+		ReadRegStr $currentShell HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+
+	; IF
+	StrCmp $currentShell "" 0 +2
+		StrCpy $currentShell "explorer.exe"
 
 	ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
 	IntCmp $R0 1 doneSetShell ;If we're not setting LS as the shell, we're jumping down
 	                          ;to doneSetShell
 
-    ; Check whether we're installing on a 9x or NT based system
+	; Check whether we're installing on a 9x or NT based system
 	Call GetWindowsVersion
 	Pop $R0
 	
@@ -146,6 +158,6 @@ doneSetShell:
 	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
 	StrCmp $R9 "LSKilled" 0 wasntRunning
-	;;;;;;StrCpy $LogoffFlag "false" ;If LiteStep was previously running there is no need to log off
-	;;;;;;
+	    ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
+	    StrCpy $hasStartedLS "true"
 	wasntRunning:

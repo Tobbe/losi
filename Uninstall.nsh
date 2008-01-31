@@ -33,43 +33,52 @@
 	StrCmp $R0 "9x" un9xShell
 
 	;; Restore all the original values ;;
-
-#	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMBShell"
-#	StrCmp $0 "" 0 +2
-#		DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
-#	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" $0
-
-	ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
-	StrCmp $0 "" 0 +3
-		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
-		GoTo +2
-	WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
-
-	ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUADesktopProcess"
-	StrCmp $0 "" 0 +3
-		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess"
-		GoTo +2
-	WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess" $0
-
-	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUBrowseNewProcess"
-	StrCmp $0 "" 0 +3
-		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess"
-		GoTo +2
-	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess" $0
-
+	
+	; Make sure the old values are still in the registry. If they aren't and we would run this code
+	; all the registry settings would be deleted, and we don't want that. Use a registry value that
+	; is always defined for the check.
+	
 	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
-	StrCmp $0 "" 0 +3
-		DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
-		GoTo +2
-	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
+	StrCmp $0 "" removefiles
+#		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMBShell"
+#		StrCmp $0 "" 0 +2
+#			DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
+#		WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" $0
 
-	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell"
-	StrCmp $0 "" 0 +3
-		DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
-		GoTo +2
-	WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
+		ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
+		StrCmp $0 "" 0 +3
+			DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
+			GoTo +2
+		WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
 
-	GoTo removefiles
+		ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUADesktopProcess"
+		StrCmp $0 "" 0 +3
+			DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess"
+			GoTo +2
+		WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess" $0
+
+		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUBrowseNewProcess"
+		StrCmp $0 "" 0 +3
+			DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess"
+			GoTo +2
+		WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess" $0
+
+		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
+		StrCmp $0 "" 0 +3
+			DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+			GoTo +2
+		WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
+
+		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell"
+		StrCmp $0 "" 0 +3
+			DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+			GoTo +2
+		WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
+	
+		; Refresh window's ini files cashe
+		WriteINIStr "system.ini" "" "" ""
+
+		GoTo removefiles
 
 	un9xShell:
 	Call un.Shell9x
@@ -81,6 +90,7 @@
 
 	;; Get regstrings to know where some of the stuff are
 	ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
+	ExpandEnvStrings $whereprofiles $whereprofiles
 
 	!insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
@@ -149,7 +159,10 @@
 	; We only have to do all of this if Litestep was running in the first
 	; place
 	StrCmp $4 "lsWasRunning" +1 continueDeleting
-	
+		; This whole trick wont work if there are any explorer windows open
+       	KillProcDLL::KillProc "explorer.exe"
+       	Sleep 500
+
 		; Make sure the "restart shell" feature is turned on. (Back up the
 		; old value first)
 		ReadRegDWORD $0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
@@ -170,6 +183,8 @@
 
 		; Change back the value of "AutoRestartShell"
 		WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $0
+		
+		Sleep 2000 ; Give explorer some time to start
 
 
 	; Now we can continue on with deleting the last LS files

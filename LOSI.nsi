@@ -41,6 +41,7 @@ var tmp
 !endif
 
 var currentShell
+var hasStartedLS
 
 var username
 
@@ -59,7 +60,7 @@ var advancedInstall
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "LOSI"
-!define PRODUCT_VERSION "0.0.9.2"
+!define PRODUCT_VERSION "0.1"
 !define PRODUCT_PUBLISHER "Tobbe"
 !define PRODUCT_WEB_SITE "http://tlundberg.com/LOSI"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\litestep.exe"
@@ -309,22 +310,27 @@ Section "Configure Evars" SecConfigEvars
 SectionEnd
 
 Function LeavingInstFiles
-    Push $0
-    ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-    IntCmp $0 1 pop ;If we're not setting LS as the shell, we shouldn't start it.
+#    Push $0
+#    ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
+#    IntCmp $0 1 0 pop pop ;If we're not setting LS as the shell, we shouldn't start it.
+    
+#    ReadRegDWORD $R0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
+#	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 0
         ; IF
-		StrCmp $currentShell "litestep.exe" 0 +4
-		    Push "$INSTDIR"
-			Call KillLS
-			GoTo execLS
+#		StrCmp $currentShell "litestep.exe" 0 +4
+#		    Push "$INSTDIR"
+#			Call KillLS
+#			GoTo execLS
 		; ELSE
-			KillProcDLL::KillProc $currentShell
-			Sleep 2000
-	execLS:
-		;ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep  ; Is this needed when explorer was running?
-       	;ExecShell open "$R0" ; Is this needed when explorer was running?
-	pop:
-	pop $0
+#			KillProcDLL::KillProc $currentShell
+#			Sleep 2000
+#	execLS:
+#		ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
+
+#    WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R0
+    
+#	pop:
+#	pop $0
 FunctionEnd
 
 Section -AdditionalIcons

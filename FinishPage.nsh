@@ -6,23 +6,33 @@
 
 Function SetupFinishPage
 	ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-	IntCmp $R0 1 doneSettingUp ;Disable the "Run Litestep" checkbox when Litestep is set as shell
+	; IF (Don't set as shell != TRUE)
+	IntCmp $R0 1 +7 ;Tick and disable the "Run Litestep" checkbox when Litestep is set as shell
+	StrCmp $hasStartedLS "true" +7
 	    WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Field 4" "State" "1"
 		WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Field 4" "Flags" "DISABLED"
- 		;WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Settings" "NumFields" "3"
+		WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Field 4" "Top" "-3200"
+		WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Field 4" "Bottom" "-3199"
+		GoTo doneSettingUp
+	; ELSE IF ($hasStartedLS == TRUE)
+	StrCmp $hasStartedLS "true" 0 doneSettingUp
+ 		WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Settings" "NumFields" "3"
 doneSettingUp:
 FunctionEnd
 
 Function FinishRun
-	MessageBox MB_OK "Nuvarande skal: >$currentShell<"
-	; IF
-	StrCmp $currentShell "litestep.exe" 0 +4
-	    Push "$INSTDIR"
-		Call KillLS
-		GoTo execLS
-	; ELSE
+    ReadRegDWORD $R0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
+	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 0
+
+	; Always kill LS
+	Push "$INSTDIR"
+	Call KillLS
+	
+	; IF ($currentShell != litestep.exe)
+	StrCmp $currentShell "litestep.exe" execLS
 		KillProcDLL::KillProc $currentShell
 		Sleep 2000
 execLS:
 	ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
+	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R0
 FunctionEnd
