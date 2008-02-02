@@ -28,6 +28,8 @@ include "$PersonalDir$popup.rc"
 *Desktop LButton+SHIFT !PopupTheme              ;SHIFT-left-click popup menu
 *jDeskMButton2 [.none;!none;!Popup;!none]       ;right-click popup menu
 *jDeskMButton1 [SHIFT;!none;!PopupTheme;!none]  ;SHIFT-left-click popup menu
+*xDeskOnRightClickUp .none !Popup		;right-click popup menu
+*xDeskOnLeftClickUp .SHIFT !PopupTheme		;SHIFT-left-click popup menu
 
 
 

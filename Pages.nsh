@@ -31,6 +31,7 @@
 ; Directory page
 !ifdef PAGE_DIRECTORY
     !define MUI_PAGE_CUSTOMFUNCTION_PRE PreDir
+    !define MUI_PAGE_CUSTOMFUNCTION_LEAVE BadPathsCheck
 	!insertmacro MUI_PAGE_DIRECTORY
 !endif
 

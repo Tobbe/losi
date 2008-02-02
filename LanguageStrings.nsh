@@ -56,6 +56,7 @@ LangString BACKUP_PERSONAL ${LANG_ENGLISH} "Do you want to backup your old perso
 LangString BACKUP_DONE ${LANG_ENGLISH} "Your old files can be found in the folder $whereprofiles\backup\"
 LangString MB_FOUND_LS_UNINST ${LANG_ENGLISH} "LiteStep should now be killed so the core files can be deleted. If it is not, please manually kill LS, either by pressing ctrl-alt-F1 then quit, issuing !quit or by using the TaskManager. Then press OK."
 LangString FINISH_LOGOFF ${LANG_ENGLISH} "I want to log off"
+LangString BAD_INST_PATH ${LANG_ENGLISH} "The specified install path is invalid!"
 
 ;Swedish
 LangString DESC_SecCore ${LANG_SWEDISH} "LiteStepfiler (kärnfiler, moduler, OTS2). Dessa filer är nödvändiga om du vill köra det här som en egen distrubition."
@@ -107,6 +108,7 @@ LangString BACKUP_PERSONAL ${LANG_SWEDISH} "Vill du spara dina gammla personliga
 LangString BACKUP_DONE ${LANG_SWEDISH} "Du hittar dina gammla filer i mappen $whereprofiles\backup\"
 LangString MB_FOUND_LS_UNINST ${LANG_SWEDISH} "LiteStep ska nu vara avstängt så att kärnfilerna kan tas bort. Om det inte är det, var snäll och stäng av LS genom att antingen trycka ctrl-alt-F1 och välja quit, köra !quit, eller genom att stänga av det genom aktivitetshanteraren. Tryck sedan OK."
 LangString FINISH_LOGOFF ${LANG_SWEDISH} "Jag vill logga ut"
+LangString BAD_INST_PATH ${LANG_SWEDISH} "Ogiltig installationssökväg!"
 
 ;French
 LangString DESC_SecCore ${LANG_FRENCH} "Fichiers et dossiers essentiels de LiteStep (noyau, modules, OTS2). Ces fichiers sont nécessaires si vous voulez utiliser différentes version de LiteStep."
@@ -158,6 +160,7 @@ LangString BACKUP_PERSONAL ${LANG_FRENCH} "Voulez-vous faire une copie de sauveg
 LangString BACKUP_DONE ${LANG_FRENCH} "Vous pourrez retrouver vos anciens fichiers de configuration dans le dossier $whereprofiles\backup\."
 LangString MB_FOUND_LS_UNINST ${LANG_FRENCH} "Litestep va maintenant être déchargé afin d'effacer les fichiers encore chargé. Si ce n'est pas le cas, merci de le faire manuellement en utilisant le menu popup ou par la commande bang !quit; le cas échéant, avec la combinaison de touche Ctrl-Alt-F1 (Quitter... / Forcer...), ou a l'aide du Gestionnaire de Tâches. Ensuite validez par OK."
 LangString FINISH_LOGOFF ${LANG_FRENCH} "Je désire fermer la session."
+LangString BAD_INST_PATH ${LANG_FRENCH} "Install path invalid!"
 
 ;German
 LangString DESC_SecCore ${LANG_GERMAN} "LiteStep (Core, Module, OTS2). Diese Dateien werden benötigt damit LiteStep lauffähig ist."
@@ -209,3 +212,4 @@ LangString BACKUP_PERSONAL ${LANG_GERMAN} "Wollen Sie Ihre alten Persönlichen Ei
 LangString BACKUP_DONE ${LANG_GERMAN} "Ihre alten Einstellungen finden Sie unter $whereprofiles\backup\"
 LangString MB_FOUND_LS_UNINST ${LANG_GERMAN} "LiteStep sollte nun beendet werden damit die Core-Dateien gelöscht werden können. Falls LiteStep noch läuft beenden Sie es entweder mit Strg+Alt+F1 -> LiteStep beenden, !quit oder mit Hilfe des TaskManagers (Strg+Shift+Esc). Drücken Sie danach OK."
 LangString FINISH_LOGOFF ${LANG_GERMAN} "Abmelden"
+LangString BAD_INST_PATH ${LANG_GERMAN} "Das gewählte Verzeichnis ist nicht zur Installation geeignet!"
