@@ -102,6 +102,8 @@
 	Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
 	Delete "$DESKTOP\Set Explorer as Shell.lnk"
 	Delete "$DESKTOP\Set LiteStep as Shell.lnk"
+    
+    RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
 
 	; Set shell folders to all users, so we can delete the All users
 	; stuff (it doesn't matter if it isn't there)
@@ -196,6 +198,8 @@
 	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\utilities"
 	!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
 	!insertmacro UNINSTALL.LOG_END_UNINSTALL
+    
+    DeleteRegKey HKLM "Software\${PRODUCT_NAME}"
 
 	SetAutoClose true
 
