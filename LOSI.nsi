@@ -91,8 +91,153 @@ SetCompressor bzip2
 ;--------------------------------
 ;Pages
 
-!include LongPath.nsh
-!include "Pages.nsh"
+; Welcome page
+!ifdef PAGE_WELCOME
+	!insertmacro MUI_PAGE_WELCOME
+!endif
+
+; License page
+!ifdef PAGE_LICENSE
+	!define MUI_LICENSEPAGE_CHECKBOX
+	!insertmacro MUI_PAGE_LICENSE ".\license.rtf"
+!endif
+
+; Normal/Advanced install
+!ifdef PAGE_TYPE_OF_INSTALL
+	Page custom ioTypeOfInstall
+
+	Function ioTypeOfInstall
+		; Shows a page asking the user if he wants a normal
+		; install or an advanced install
+		!include ioTypeOfInstall.nsh
+	FunctionEnd
+!endif
+
+; Components page
+!ifdef PAGE_SEC_CORE
+    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
+	!insertmacro MUI_PAGE_COMPONENTS
+!else ifdef PAGE_SEC_THEME
+    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
+    !insertmacro MUI_PAGE_COMPONENTS
+!else ifdef PAGE_SEC_LOSI
+    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
+    !insertmacro MUI_PAGE_COMPONENTS
+!endif
+
+; Directory page
+!ifdef PAGE_DIRECTORY
+	!include BadPathsCheck.nsh
+
+    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreDir
+    !define MUI_PAGE_CUSTOMFUNCTION_LEAVE BadPathsCheck
+	!insertmacro MUI_PAGE_DIRECTORY
+!endif
+
+; How to install LS (for all users, or just for the current user)
+!ifdef PAGE_HOW_LS
+	!include GetWindowsVersion.nsh
+
+	Page custom ioHowLS
+	
+	Function ioHowLS
+	    ; Sets up the page where the user can choose how to
+		; install LS (All users, current user, or don't set as shell)
+		!include ioHowLS.nsh
+	FunctionEnd
+!endif
+
+; Where to install the user profiles
+!ifdef PAGE_WHERE_PROFILES
+	!include SetFocus.nsh
+	!include GetWindowsVersion.nsh
+
+	Page custom ioWhereProfiles
+	
+	Function ioWhereProfiles
+		; Sets up the page where the user can choose where
+		; to install the profile files (System profiles dir,
+		; LS profiles dir, or no profiles)
+	    !include ioWhereProfiles.nsh
+	FunctionEnd
+!endif
+
+; Start menu page
+!ifdef PAGE_START_MENU
+	!include StartMenuSettings.nsh
+!endif
+
+; Instfiles page
+!insertmacro MUI_PAGE_INSTFILES
+
+; Evars pages
+!ifdef PAGE_CONFIG_EVARS
+	!include GetInQuotes.nsh
+	!include IndexOf.nsh
+	!include GetExecutablePath.nsh
+	!include Evars.nsh
+
+    var configEvars
+	Page custom ioEvars
+	Page custom ioEvars2
+	
+	Function ioEvars
+		; The function below is smart about only doing
+		; this if the evar variables aren't already
+		; populated.
+		; By having this function call before the StrCmp
+		; on $configEvars$ the evars will always get
+		; good values
+		Call PopulateEvarVariables
+	
+	    StrCmp $configEvars "true" isSel end
+	    isSel:
+	        Call WriteEvarsToEdit
+	
+	    	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_EVARS)" "$(TEXT_IO_EVARS)"
+	    	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioEvars.ini"
+		end:
+	FunctionEnd
+	
+	Function ioEvars2
+	    StrCmp $configEvars "true" isSel notSel
+	    isSel:
+	    	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_EVARS)" "$(TEXT_IO_EVARS)"
+	    	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioEvars2.ini"
+	
+	    	Call ReadEvarsFromEdit
+	
+		notSel:
+	
+		Call WriteEvars
+	FunctionEnd
+!endif
+
+; Associate Files page
+!ifdef PAGE_FILE_ASSOC
+	!include RegisterExtension.nsh
+	!include refreshShellIcons.nsh
+
+    var fileAssoc
+	Page custom ioFileAssoc
+	
+	Function ioFileAssoc
+		; Sets up the page for associating file types
+		; with programs
+		!include ioFileAssoc.nsh
+	FunctionEnd
+!endif
+
+; Finish page
+!include FinishPageSettings.nsh
+
+; Uninstaller pages
+!ifdef WRITE_UNINSTALLER
+	!include uninstShell9x.nsh
+	!include GetWindowsVersion.nsh
+
+	!insertmacro MUI_UNPAGE_INSTFILES
+!endif
 
 ;--------------------------------
 ;Language Selection Dialog Settings
@@ -184,74 +329,9 @@ Function .onInstSuccess
          !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 FunctionEnd
 
-!ifdef PAGE_TYPE_OF_INSTALL
-Function ioTypeOfInstall
-	; Shows a page asking the user if he wants a normal
-	; install or an advanced install
-	!include ioTypeOfInstall.nsh
-FunctionEnd
-!endif
-
-!ifdef PAGE_HOW_LS
-Function ioHowLS
-    ; Sets up the page where the user can choose how to
-	; install LS (All users, current user, or don't set as shell)
-	!include ioHowLS.nsh
-FunctionEnd
-!endif
-
-!ifdef PAGE_WHERE_PROFILES
-Function ioWhereProfiles
-	; Sets up the page where the user can choose where
-	; to install the profile files (System profiles dir,
-	; LS profiles dir, or no profiles)
-    !include ioWhereProfiles.nsh
-FunctionEnd
-!endif
-
-!ifdef PAGE_CONFIG_EVARS
-Function ioEvars
-	; The function below is smart about only doing
-	; this if the evar variables aren't already
-	; populated.
-	; By having this function call before the StrCmp
-	; on $configEvars$ the evars will always get
-	; good values
-	Call PopulateEvarVariables
-
-    StrCmp $configEvars "true" isSel end
-    isSel:
-        Call WriteEvarsToEdit
-
-    	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_EVARS)" "$(TEXT_IO_EVARS)"
-    	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioEvars.ini"
-	end:
-FunctionEnd
-
-Function ioEvars2
-    StrCmp $configEvars "true" isSel notSel
-    isSel:
-    	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_EVARS)" "$(TEXT_IO_EVARS)"
-    	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioEvars2.ini"
-
-    	Call ReadEvarsFromEdit
-
-	notSel:
-
-	Call WriteEvars
-FunctionEnd
-!endif
-
-!ifdef PAGE_FILE_ASSOC
-Function ioFileAssoc
-	; Sets up the page for associating file types
-	; with programs
-	!include ioFileAssoc.nsh
-FunctionEnd
-!endif
-
 ;--------------------------------
 ;Installer Sections
+
 Section "LiteStep files" SecCore
 	!ifdef PAGE_SEC_CORE
 		; Install all the litestep core files and distro specific files.
@@ -301,30 +381,6 @@ Section "Configure Evars" SecConfigEvars
 		StrCpy $configEvars "true"
 	!endif
 SectionEnd
-
-Function LeavingInstFiles
-#    Push $0
-#    ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-#    IntCmp $0 1 0 pop pop ;If we're not setting LS as the shell, we shouldn't start it.
-    
-#    ReadRegDWORD $R0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
-#	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 0
-        ; IF
-#		StrCmp $currentShell "litestep.exe" 0 +4
-#		    Push "$INSTDIR"
-#			Call KillLS
-#			GoTo execLS
-		; ELSE
-#			KillProcDLL::KillProc $currentShell
-#			Sleep 2000
-#	execLS:
-#		ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
-
-#    WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R0
-    
-#	pop:
-#	pop $0
-FunctionEnd
 
 Section -AdditionalIcons
 	!ifdef PAGE_SEC_ADDITIONAL_ICONS
@@ -387,35 +443,15 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
+!include LongPath.nsh
+!include PreFunctions.nsh
 !include FinishPage.nsh
 !include Kill.nsh
 !include ieversion.nsh
 
-!ifdef PAGE_DIRECTORY
-    !include BadPathsCheck.nsh
-!endif
-!ifdef PAGE_CONFIG_EVARS
-	!include GetInQuotes.nsh
-	!include IndexOf.nsh
-	!include GetExecutablePath.nsh
-	!include Evars.nsh
-!endif
-!ifdef PAGE_HOW_LS
-	!include GetWindowsVersion.nsh
-!endif
 !ifdef PAGE_SEC_CORE
 	!include Shell9x.nsh
 	!include ShellNT.nsh
 	!include BackupPersonal.nsh
-	!include refreshShellIcons.nsh
-!endif
-!ifdef WRITE_UNINSTALLER
-	!include uninstShell9x.nsh
-!endif
-!ifdef PAGE_FILE_ASSOC
-	!include RegisterExtension.nsh
-	!include refreshShellIcons.nsh
-!endif
-!ifdef PAGE_WHERE_PROFILES
-	!include SetFocus.nsh
+	!include GetWindowsVersion.nsh
 !endif
