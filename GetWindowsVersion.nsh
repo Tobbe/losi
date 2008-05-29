@@ -1,3 +1,6 @@
+!ifndef GET_WINDOWS_VERSION_NSH
+!define GET_WINDOWS_VERSION_NSH
+
 ; GetWindowsVersion
 ;
 ; Based on Yazno's function, http://yazno.tripod.com/powerpimpit/
@@ -109,3 +112,5 @@ Function un.GetWindowsVersion
 	Exch $R0
 
 FunctionEnd
+
+!endif
