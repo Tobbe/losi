@@ -182,3 +182,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             system settings from the registry when uninstalling if LS wasn't set
             as the shell.
             The "install ls without rebooting" feature is usable now.
+
+2008-05-18: Removed zlib.dll from the installation. zlib1.dll is enough.
+            Made the uninstaller remove the losi folder from the registry.
+            Made the uninstaller remove the losi folder from the start menu.
+
+2008-05-29: Got rid of an unnecessary variable. It was confusing to have it.

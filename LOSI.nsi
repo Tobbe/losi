@@ -1,9 +1,10 @@
-; NSIS extensions needed to compile this
-; script that aren't in the default install:
-; FindProcDLL
+; NSIS extensions needed to compile this script that 
+;    aren't in the default install:
+; FindProcDLL   (don't get the optimized for size version, 
+; KillProcDLL    I had no luck with that)
 ; ShutDown
-; KillProcDLL
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
+;   Make sure you get the modified version that has support for localization
 
 !define PAGE_WELCOME
 !define PAGE_LICENSE
@@ -46,8 +47,6 @@ var hasStartedLS
 var username
 
 var whereprofiles
-
-var instCore
 
 var advancedInstall
 
@@ -154,7 +153,6 @@ Function .onInit
 	!endif
 	
 	!ifndef PAGE_SEC_CORE
-	    StrCpy $instCore "true"
 	    ;SetRebootFlag true
 	!endif
 	
@@ -260,7 +258,6 @@ FunctionEnd
 ;Installer Sections
 Section "LiteStep files" SecCore
 	!ifdef PAGE_SEC_CORE
-		StrCpy $instCore "true"
 		; Install all the litestep core files and distro specific files.
 		; Also sets LS as shell if the user wants to
     	!include SecCore.nsh
@@ -394,6 +391,9 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
+!ifdef PAGE_DIRECTORY
+    !include BadPathsCheck.nsh
+!endif
 !ifdef PAGE_CONFIG_EVARS
 	!ifndef PAGE_SEC_CORE
 		!include GetInQuotes.nsh
