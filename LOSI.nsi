@@ -152,10 +152,6 @@ Function .onInit
         StrCpy $whereprofiles "default"
 	!endif
 	
-	!ifndef PAGE_SEC_CORE
-	    ;SetRebootFlag true
-	!endif
-	
 	UserInfo::GetName
 	Pop $username
 	ClearErrors ; UserInfo might genrate an error, but we don't care
@@ -391,22 +387,22 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
+!include FinishPage.nsh
+!include Kill.nsh
+!include ieversion.nsh
+
 !ifdef PAGE_DIRECTORY
     !include BadPathsCheck.nsh
 !endif
 !ifdef PAGE_CONFIG_EVARS
-	!ifndef PAGE_SEC_CORE
-		!include GetInQuotes.nsh
-		!include IndexOf.nsh
-		!include GetExecutablePath.nsh
-	!endif
+	!include GetInQuotes.nsh
+	!include IndexOf.nsh
+	!include GetExecutablePath.nsh
 	!include Evars.nsh
 !endif
-!include FinishPage.nsh
 !ifdef PAGE_HOW_LS
 	!include GetWindowsVersion.nsh
 !endif
-!include Kill.nsh
 !ifdef PAGE_SEC_CORE
 	!include Shell9x.nsh
 	!include ShellNT.nsh
@@ -416,12 +412,9 @@ SectionEnd
 !ifdef WRITE_UNINSTALLER
 	!include uninstShell9x.nsh
 !endif
-!include ieversion.nsh
 !ifdef PAGE_FILE_ASSOC
 	!include RegisterExtension.nsh
-	!ifndef PAGE_SEC_CORE
-		!include refreshShellIcons.nsh
-	!endif
+	!include refreshShellIcons.nsh
 !endif
 !ifdef PAGE_WHERE_PROFILES
 	!include SetFocus.nsh

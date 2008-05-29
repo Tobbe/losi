@@ -1,3 +1,5 @@
+!ifndef INDEX_OF_NSH
+!define INDEX_OF_NSH
 ; IndexOf & RIndexOf: Find index of character in string
 ; -----------------------------------------------------
 ;
@@ -76,3 +78,4 @@ FunctionEnd
 !macroend
 
 !define RIndexOf "!insertmacro RIndexOf"
+!endif

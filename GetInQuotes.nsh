@@ -1,3 +1,6 @@
+!ifndef GET_IN_QUOTES_NSH
+!define GET_IN_QUOTES_NSH
+
 ; Push 'a string containing "quotes"!'
 ; Call GetInQuotes
 ; Pop $R0 ; = quotes
@@ -39,3 +42,5 @@ Pop $R2
 Pop $R1
 Exch $R0
 FunctionEnd
+
+!endif

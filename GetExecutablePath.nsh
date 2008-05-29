@@ -1,3 +1,6 @@
+!ifndef GET_EXECUTABLE_PATH_NSH
+!define GET_EXECUTABLE_PATH_NSH
+
 Function GetExecutablePath
 	exch $0 ; Execution string - Top element in stack is now what ever value $0 had before
 	push $R0
@@ -55,3 +58,5 @@ FunctionEnd
 !macroend
 
 !define ExePath "!insertmacro ExePath"
+
+!endif
