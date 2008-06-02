@@ -57,7 +57,7 @@ var advancedInstall
 !include WinMessages.nsh
 
 !define PRODUCT_NAME "LOSI"
-!define PRODUCT_VERSION "0.1"
+!define PRODUCT_VERSION "0.2"
 !define PRODUCT_PUBLISHER "Tobbe"
 !define PRODUCT_WEB_SITE "http://tlundberg.com/LOSI"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\litestep.exe"

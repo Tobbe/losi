@@ -197,3 +197,4 @@ ls.com is down for an unknown period of time I started this changelog instead
             Fixed the file association code. It must have broken somewhere along
             the way.
             Updated to LiteStep 0.24.8 RC1
+            Released LOSI-0.2
