@@ -1,75 +1,29 @@
 *-----------------------------------------------------------------------------*
 
-    SLI Theme Manager v1.0 README
+    SLI Theme Manager v2.0 Introduction
 
 *-----------------------------------------------------------------------------*
 
- If you start the SLI-ThemeManager.exe you can "manage" your themes!
+ Requirements:
+ **************
  
- - You MUST copy SLI-ThemeManager.exe into "$litestepdir$utilities\" otherwise the PopupMenu actions WON'T WORK!
- - You SHOULD have installed/extracted all your themes in the Litestep $ThemesDir$
- - You CAN move all your Theme-Archives (*.zip and *.lsz) in the Litestep $ThemesDir$
- 
- The List shows the recognized Themes and you can apply various tasks on them.
- Simple perform a RightClick on an entry and choose the desired action.
- 
- A Left DoubleClick performs a quick ThemeSwitch.
- 
- While you hover over an entry a small ThemeInfo is displayed.
- It shows (if available in ThemeFolder/theme.rc):
- ThemeName
- ThemeAuthor
- OTSVersion
- preview.bmp, preview.png, preview.jpg, or preview.gif
- 
- You can change some optional settings of SLI Theme Manager. (See OPTIONS:)
- 
- You can install themes manually via a simple interface.
- 
- You can rewrite (/refresh) the themeslist.rc manually.
+ A (probably unofficial) OTS3 Installation or
+ LOSI x.x or
+ Omars Litestep Installer 3.0.2 or
+ A other, fully OTS2 compatible, Litestep Installer
  
  
-  COMMANDLINE OPTIONS:
- ----------------------
+ Installation:
+ **************
  
- - SLI-ThemeManager.exe /switch THEME
- 
-  THEME is the folder name of the theme in the $ThemesDir$ of Litestep.
-  Switches to this theme, if the folder and a theme.rc exists and rewrites the themeselect.rc.
- 
- - SLI-ThemeManager.exe /refresh
- 
-  Rescans the $ThemesDir$ of Litestep for theme folders and rewrites the themeslist.rc.
- 
- - SLI-ThemeManager.exe "Path to *.zip" 
-   SLI-ThemeManager.exe "Path to *.lsz"
- 
-  Installs the theme into the $ThemesDir$ of Litestep and rewrites the themeslist.rc.
+ Simply copy SLI-ThemeManager.exe in "$LitestepDir$Utilities\".
+ Run it.
  
  
-  OPTIONS:
- ----------
+ ReadMe:
+ ********
  
- You can modify the following settings, if you start SLI-ThemeManager.exe.
- 1. The Path to your LitestepDir (only required if the automatic detection should fail!)
- 2. The Path to your ThemesDir (only required if the automatic detection should fail!)
- 3.1 The activation of a Theme Security MessageBox after a commandline ThemeSwitch
- 3.2 The choosen time in secs till the MessageBox is displayed.
+ Open the last Tab in SLI-ThemeManager for more details.
  
  
-  REGISTRY:
- -----------
- 
- The following Registry Keys are created (when needed) and can be modified by a Litestep installer.
- 
- HKEY_CURRENT_USER \ Software\Litestep\SLI\ThemeManager
- 
-   LitestepDir "Path to the $LitestepDir$ with litestep.exe" <- REG_SZ
-   
-   ThemesDir "Path to the $ThemesDir$ with the theme folders" <- REG_SZ
-   
-   SecurityTimeout "Timeout in secs" <- REG_DWORD
-   
-    -> If you set the Timeout to 0 then the MessageBox is deactivated, any value greater 0
-       and the MessageBox is activated!
- 
+  

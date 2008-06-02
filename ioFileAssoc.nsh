@@ -13,6 +13,8 @@ isSel:
 	; Maybe we could use $texteditor here...
 	; Find the program that handles .txt files
 	ReadRegStr $1 HKCR "txtfile\shell\open\command" ""
+	
+	MessageBox MB_OK "Text editor: $1"
 
 	ReadINIStr $2 "$PLUGINSDIR\ioFileAssoc.ini" "Field 2" "State"
 	IntCmp $2 1 0 nolsz

@@ -188,3 +188,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             Made the uninstaller remove the losi folder from the start menu.
 
 2008-05-29: Got rid of an unnecessary variable. It was confusing to have it.
+
+2008-06-02: I tested LOSI today and it seems the "Slow switching between evar 
+            pages in installer." bug has been solved. I just had to tell NSIS
+            to reserve the test.txt file to speed up its extraction.
+            The "No themesdir and themeslist.rc/themeselect.rc created" bug has 
+            also been solved.

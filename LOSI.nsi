@@ -25,6 +25,10 @@
 ;--------------------------------
 ;Variables
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Test the new version of SLI-ThemeManager
+
 !ifdef PAGE_CONFIG_EVARS
 	var filemanager
 	var texteditor
@@ -489,7 +493,7 @@ Section "Theme" SecTheme
 	!ifdef PAGE_SEC_THEME
     	SetOutPath "$whereprofiles\themes"
 		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-	    File /r /x ".svn" ".\Personal\themes\*"
+	    File /r /x ".svn" /x "*-empty.rc" ".\Personal\themes\*"
 	    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 	!endif
 SectionEnd
@@ -527,18 +531,18 @@ Section "Configure Evars" SecConfigEvars
 	!endif
 SectionEnd
 
-Section -AdditionalIcons
-	!ifdef PAGE_SEC_ADDITIONAL_ICONS
-    	SetOutPath $INSTDIR
-    	!ifdef PAGE_START_MENU
-    		!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-    		WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-    		CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-    		CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "${UNINST_EXE}"
-    		!insertmacro MUI_STARTMENU_WRITE_END
+!ifdef PAGE_SEC_ADDITIONAL_ICONS
+	Section -AdditionalIcons
+		SetOutPath $INSTDIR
+		!ifdef PAGE_START_MENU
+			!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+			WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
+			CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+			CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "${UNINST_EXE}"
+			!insertmacro MUI_STARTMENU_WRITE_END
 		!endif
-	!endif
-SectionEnd
+	SectionEnd
+!endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  Uninstall

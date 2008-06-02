@@ -92,30 +92,33 @@
 	ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
 	ExpandEnvStrings $whereprofiles $whereprofiles
 
-	!insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
-
 	Delete "$INSTDIR\${PRODUCT_NAME}.url"
+	
+	!ifdef PAGE_START_MENU
+		!insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
 
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
+		Delete "$DESKTOP\Set Explorer as Shell.lnk"
+		Delete "$DESKTOP\Set LiteStep as Shell.lnk"
+	    
+	    RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
+	
+		; Set shell folders to all users, so we can delete the All users
+		; stuff (it doesn't matter if it isn't there)
+		SetShellVarContext all
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
+		Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
+		RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
+	!endif
+	
 	Delete "$DESKTOP\Set Explorer as Shell.lnk"
 	Delete "$DESKTOP\Set LiteStep as Shell.lnk"
-    
-    RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
 
-	; Set shell folders to all users, so we can delete the All users
-	; stuff (it doesn't matter if it isn't there)
-	SetShellVarContext all
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
-	Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
-	Delete "$DESKTOP\Set Explorer as Shell.lnk"
-	Delete "$DESKTOP\Set LiteStep as Shell.lnk"
-
-	RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
 
 	; Clear all old errors so I can use the error checking for
 	; checking that all files are deleted

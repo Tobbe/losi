@@ -2,5 +2,3 @@
 ;
 ; Example
 ; *Popup "ThemeName"   !execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe" /switch "ThemeName"]
-
-*Popup "InstDef"   !execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe" /switch "InstDef"]
