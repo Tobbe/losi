@@ -1,5 +1,6 @@
 !ifndef GET_EXECUTABLE_PATH_NSH
 !define GET_EXECUTABLE_PATH_NSH
+!include IndexOf.nsh
 
 Function GetExecutablePath
 	exch $0 ; Execution string - Top element in stack is now what ever value $0 had before

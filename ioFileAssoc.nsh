@@ -15,6 +15,10 @@ isSel:
 	ReadRegStr $1 HKCR "txtfile\shell\open\command" ""
 	
 	MessageBox MB_OK "Text editor: $1"
+	
+	${ExePath} $1 $1
+	
+	MessageBox MB_OK "Text editor: $1"
 
 	ReadINIStr $2 "$PLUGINSDIR\ioFileAssoc.ini" "Field 2" "State"
 	IntCmp $2 1 0 nolsz

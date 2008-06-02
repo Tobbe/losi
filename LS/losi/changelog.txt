@@ -194,3 +194,5 @@ ls.com is down for an unknown period of time I started this changelog instead
             to reserve the test.txt file to speed up its extraction.
             The "No themesdir and themeslist.rc/themeselect.rc created" bug has 
             also been solved.
+            Fixed the file association code. It must have broken somewhere along
+            the way.

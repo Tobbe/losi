@@ -6,9 +6,9 @@
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 
-!define PAGE_WELCOME
-!define PAGE_LICENSE
-!define PAGE_PREREQUISITES
+#!define PAGE_WELCOME
+#!define PAGE_LICENSE
+#!define PAGE_PREREQUISITES
 !define PAGE_TYPE_OF_INSTALL
 !define PAGE_SEC_CORE
 !define PAGE_SEC_THEME
@@ -16,10 +16,10 @@
 !define PAGE_DIRECTORY
 !define PAGE_HOW_LS
 !define PAGE_WHERE_PROFILES
-!define PAGE_START_MENU
+#!define PAGE_START_MENU
 !define PAGE_FILE_ASSOC
-!define PAGE_CONFIG_EVARS
-!define PAGE_SEC_ADDITIONAL_ICONS
+#!define PAGE_CONFIG_EVARS
+#!define PAGE_SEC_ADDITIONAL_ICONS
 !define WRITE_UNINSTALLER
 
 ;--------------------------------
@@ -413,6 +413,7 @@ ShowUnInstDetails show
 !ifdef PAGE_FILE_ASSOC
 	!include RegisterExtension.nsh
 	!include refreshShellIcons.nsh
+	!include GetExecutablePath.nsh
 
     var fileAssoc
 	Page custom ioFileAssoc
