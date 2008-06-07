@@ -6,6 +6,8 @@
 
 *Popup "File Manager"						"$FileManager$"
 *Popup "Text Editor"						"$TxtEditor$"
+*Popup "Web browser"						"$browser$"
+*Popup "Image Editor"						"$gfxeditor$"
 *Popup !Separator
 ;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 
@@ -16,7 +18,7 @@
 ;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 	*Popup "About"							!About
 	*Popup "Recycle"						!Recycle
-;	*popup "Reload"							!Reload
+;	*Popup "Reload"							!Reload
 	*Popup "Quit"							!execute ["$FileManager$" /e,"$LiteStepDir$"][!Quit]
 	*Popup !Separator
 ;	¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
@@ -60,7 +62,6 @@ IF QuickLaunch
 ENDIF
 
 *Popup "System" Folder
-
 ;	*Popup "Shells" Folder
 ;		*Popup "explorer"					!execute ["$LiteStepDir$utilities\wxlua.exe LOSS.lua" "explorer"]
 ;		*Popup "blackbox"					!execute ["$LiteStepDir$utilities\wxlua.exe LOSS.lua" "d:\blackbox\blackbox.exe"]
@@ -68,6 +69,10 @@ ENDIF
 
 	*Popup "My Computer"					!PopupMyComputer
 	*Popup "Control Panel"					!PopupControlPanel
+	*Popup !Separator
+;	¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+	*Popup "Desktop Settings"				!execute [control.exe desk.cpl]
+	*Popup "Add/Remove programs"			!execute [control.exe appwiz.cpl]
 	*Popup !Separator
 ;	¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 	*Popup "Run..."							!Run
