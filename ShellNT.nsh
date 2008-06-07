@@ -10,7 +10,8 @@
 #       WriteINIStr "system.ini" "boot" "shell" <path to shell>    <-- probably works
 
 Function setShellNT
-	; Check to see if this is the first time LS is installed on this computer
+	; Check to see if this is the first time LS is installed on this computer.
+	; We don't want to overwrite previous values
 	ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
 	StrCmp $0 "" 0 setAsShell
 		ReadRegStr $0 HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
@@ -18,19 +19,9 @@ Function setShellNT
 
 		ReadRegStr $0 HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
 		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell" $0
-		#WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell" "explorer.exe" # <-- ugly! Only temporary
-																								   # I want to reset to the
-																								   # shell the user had before
-																								   # he/she installed LS
 
 		ReadRegDWORD $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
 		WriteRegDWORD HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess" $0
-
-		ReadRegDWORD $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess"
-		WriteRegDWORD HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUADesktopProcess" $0
-
-		ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess"
-		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUBrowseNewProcess" $0
 
 		ReadRegStr $0 HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
 		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell" $0
@@ -38,10 +29,6 @@ Function setShellNT
 	setAsShell:
     ;Current User Desktop Process
     WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" 1
-    ;Current User Advanced Desktop Process
-    WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DesktopProcess" 1
-    ;Current User Browse New Process
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\BrowseNewProcess" "BrowseNewProcess" "yes"
 
     ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 2" "State" ;Field 2 is All Users
     IntCmp $0 1 +3 0 0

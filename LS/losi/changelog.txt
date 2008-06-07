@@ -198,3 +198,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             the way.
             Updated to LiteStep 0.24.8 RC1
             Released LOSI-0.2
+
+2008-06-07: Added Web Browser and Image Editor to the top of the popup menu.
+            Added Display Settings and Add/Remove Programs to the System menu 
+            in the popup menu.
+            Reduced the number of registry keys changed during installation/
+            uninstallation.
