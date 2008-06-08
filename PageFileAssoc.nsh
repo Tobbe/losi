@@ -80,4 +80,8 @@
 		; Update all icons
 		Call RefreshShellIcons
 	FunctionEnd
+	
+	Section "Associate files" SecFileAssoc
+		StrCpy $fileAssoc "true"
+	SectionEnd
 !endif

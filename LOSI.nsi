@@ -6,7 +6,6 @@
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 
-!define PAGE_SEC_ADDITIONAL_ICONS
 !define WRITE_UNINSTALLER
 
 ;--------------------------------
@@ -114,13 +113,14 @@ ShowUnInstDetails show
 !include PageLicense.nsh
 !include PagePrerequisites.nsh
 !include PageTypeOfInstall.nsh
+!include PageStartMenu.nsh
 !include SectionCore.nsh
 !include SectionTheme.nsh
 !include SectionLOSI.nsh
+!include HiddenSectionAdditionalIcons.nsh
 !include PageDirectory.nsh
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
-!include PageStartMenu.nsh
 !include PageInstFiles.nsh
 !include PageConfigEvars.nsh
 !include PageFileAssoc.nsh
@@ -148,7 +148,7 @@ Function .onInit
 	
     !insertmacro MUI_LANGDLL_DISPLAY
 	
-	;prepare log always within .onInit function
+	;Always prepare the log within the .onInit function
 	!insertmacro UNINSTALL.LOG_PREPARE_INSTALL
 	
 	;Extract InstallOptions INI Files
@@ -162,8 +162,8 @@ Function .onInit
 FunctionEnd
 
 Function .onInstSuccess
-         ;Alwasy create/update log within the .onInstSuccess function
-         !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
+	;Alwasy create/update log within the .onInstSuccess function
+	!insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 FunctionEnd
 
 Function customOnUserAbort
@@ -175,77 +175,12 @@ FunctionEnd
 
 ;--------------------------------
 ;Installer Sections
-!ifdef SECTION_CORE
-    !include GetInQuotes.nsh
-    !include IndexOf.nsh
-    !include GetExecutablePath.nsh
-    !include BackupPersonal.nsh
-    !include Shell9x.nsh
-	!include ShellNT.nsh
-	!include GetWindowsVersion.nsh
-!endif
-Section "LiteStep files" SecCore
-	!ifdef SECTION_CORE
-		; Install all the litestep core files and distro specific files.
-		; Also sets LS as shell if the user wants to
-    	!include SecCore.nsh
-    !endif
-SectionEnd
-
-Section "Theme" SecTheme
-	!ifdef SECTION_THEME
-    	SetOutPath "$whereprofiles\themes"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-	    File /r /x ".svn" /x "*-empty.rc" ".\Personal\themes\*"
-	    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-	!endif
-SectionEnd
-
-Section "LOSI files and utilities" SecLosi
-	!ifdef SECTION_LOSI
-	    ; Installer related stuff
-		SetOutPath "$INSTDIR\LOSI"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-		File ".\LS\losi\*"
-		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-		
-		; Install the utilities
-	    SetOutPath "$INSTDIR\utilities"
-	    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
-    	File ".\LS\utilities\*"
-    	!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-    	
-    	; Write some registry settings that SLI-ThemeManager needs
-		WriteRegStr HKCU "Software\Litestep\SLI\ThemeManager" "LitestepDir" "$INSTDIR\"
-		WriteRegStr HKCU "Software\Litestep\SLI\ThemeManager" "ThemesDir" "$whereprofiles\themes\"
-		WriteRegDword HKCU "Software\Litestep\SLI\ThemeManager" "SecurityTimeout" 2
-	!endif
-SectionEnd
-
-Section "Associate files" SecFileAssoc
-	!ifdef PAGE_FILE_ASSOC
-		StrCpy $fileAssoc "true"
-	!endif
-SectionEnd
 
 Section "Configure Evars" SecConfigEvars
 	!ifdef PAGE_CONFIG_EVARS
 		StrCpy $configEvars "true"
 	!endif
 SectionEnd
-
-!ifdef PAGE_SEC_ADDITIONAL_ICONS
-	Section -AdditionalIcons
-		SetOutPath $INSTDIR
-		!ifdef PAGE_START_MENU
-			!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-			WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-			CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-			CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "${UNINST_EXE}"
-			!insertmacro MUI_STARTMENU_WRITE_END
-		!endif
-	SectionEnd
-!endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  Uninstall
