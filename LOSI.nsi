@@ -6,41 +6,11 @@
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 
-!define PAGE_WELCOME
-!define PAGE_LICENSE
-!define PAGE_PREREQUISITES
-!define PAGE_TYPE_OF_INSTALL
-!define PAGE_SEC_CORE
-!define PAGE_SEC_THEME
-!define PAGE_SEC_LOSI
-!define PAGE_DIRECTORY
-!define PAGE_HOW_LS
-!define PAGE_WHERE_PROFILES
-!define PAGE_START_MENU
-!define PAGE_FILE_ASSOC
-!define PAGE_CONFIG_EVARS
 !define PAGE_SEC_ADDITIONAL_ICONS
 !define WRITE_UNINSTALLER
 
 ;--------------------------------
 ;Variables
-
-!ifdef PAGE_CONFIG_EVARS
-	var filemanager
-	var texteditor
-	var commandprompt
-	var audioplayer
-	var mediaplayer
-	var gfxviewer
-	var gfxeditor
-	var browser
-	var dun
-	var email
-	var irc
-	var ftp
-	var im
-	var tmp
-!endif
 
 var currentShell
 var hasStartedLS
@@ -135,294 +105,26 @@ ShowUnInstDetails show
 ;--------------------------------
 
 ;--------------------------------
-;Pages
+;Pages and Sections
 
-; Welcome page
-!ifdef PAGE_WELCOME
-	!insertmacro MUI_PAGE_WELCOME
-!endif
+; Here you include the pages and sections you want in the installer.
+; If you don't want one of the pages/sections just remove/comment that line.
 
-; License page
-!ifdef PAGE_LICENSE
-	!define MUI_LICENSEPAGE_CHECKBOX
-	!insertmacro MUI_PAGE_LICENSE ".\license.rtf"
-!endif
-
-!ifdef PAGE_PREREQUISITES
-	!include ieversion.nsh
-	!include LogicLib.nsh
-	!include WinSxSHasAssembly.nsh
-	
-	Page custom ioPreReq
-	
-	Function ioPreReq
-		Push $R0
-		Push $R1
-		Push $R2 ; true if IE => 4 is installed, false if it isn't
-		Push $R3 ; true if VC8 dlls are installed, false if they aren't
-		Push $R4 ; true if VC8 SP1 dlls are installed, false if they aren't
-		Push $R5 ; true if VC9 dlls are installed
-		
-		; Assume everything is OK
-		StrCpy $R2 "true"
-		StrCpy $R3 "true"
-		StrCpy $R4 "true"
-		StrCpy $R5 "true"
-
-		; Check for Internet Explorer >= 4
-		Call GetIEVersion
-		Pop $R0
-		
-		${If} $R0 < 4
-			StrCpy $R2 "false"
-		${EndIf}
-
-		; Look for VC8 DLLs
-		Push 'msvcr80.dll'
-		Push 'Microsoft.VC80.CRT,version="8.0.50727.42",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-		Call WinSxS_HasAssembly
-		Pop $R0
-
-		${If} $R0 == 0
-			; Try another version
-			Push 'msvcr80.dll'
-			Push 'Microsoft.VC80.CRT,version="8.0.50727.163",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-			Call WinSxS_HasAssembly
-			Pop $R0
-
-			${If} $R0 == 0
-				; Try yet another version
-				Push 'msvcr80.dll'
-				Push 'Microsoft.VC80.CRT,version="8.0.50727.762",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-				Call WinSxS_HasAssembly
-				Pop $R0
-
-				${If} $R0 == 0
-					; Try another version again
-					Push 'msvcr80.dll'
-					Push 'Microsoft.VC80.CRT,version="8.0.50727.1433",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-					Call WinSxS_HasAssembly
-					Pop $R0
-
-					${If} $R0 == 0
-						StrCpy $R3 "false"
-					${EndIf}
-				${EndIf}
-			${EndIf}
-		${EndIf}
-
-		; Look for VC8 SP1 DLLs
-		Push 'msvcr80.dll'
-		Push 'Microsoft.VC80.CRT,version="8.0.50727.762",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-		Call WinSxS_HasAssembly
-		Pop $R0
-
-		${If} $R0 == 0
-			; Try another version
-			Push 'msvcr80.dll'
-			Push 'Microsoft.VC80.CRT,version="8.0.50727.1433",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-			Call WinSxS_HasAssembly
-			Pop $R0
-
-			${If} $R0 == 0
-				StrCpy $R4 "false"
-			${EndIf}
-		${EndIf}
-		
-		; Look for VC9 DLLs
-		Push 'msvcr90.dll'
-		Push 'Microsoft.VC90.CRT,version="9.0.21022.8",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
-		Call WinSxS_HasAssembly
-		Pop $R0
-
-		${If} $R0 == 0
-			StrCpy $R5 "false"
-		${EndIf}
-
-		!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_PREREQ)" "$(TEXT_IO_PREREQ)"
-
-		InitPluginsDir
-		SetOutPath $PLUGINSDIR
-		File ".\cross.bmp"
-		File ".\check.bmp"
-
-		${If} $R2 == "true"
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 1" "Text" "$PLUGINSDIR\check.bmp"
-		${Else}
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 1" "Text" "$PLUGINSDIR\cross.bmp"
-		${EndIf}
-		
-		${If} $R3 == "true"
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 3" "Text" "$PLUGINSDIR\check.bmp"
-		${Else}
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 3" "Text" "$PLUGINSDIR\cross.bmp"
-		${EndIf}
-
-		${If} $R4 == "true"
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 7" "Text" "$PLUGINSDIR\check.bmp"
-		${Else}
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 7" "Text" "$PLUGINSDIR\cross.bmp"
-		${EndIf}
-
-		${If} $R5 == "true"
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 8" "Text" "$PLUGINSDIR\check.bmp"
-		${Else}
-			WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 8" "Text" "$PLUGINSDIR\cross.bmp"
-		${EndIf}
-		
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 5" "Text" "$(PRE_REQ_NEEDED)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 2" "Text" "$(PRE_REQ_GTEIE4)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 4" "Text" "$(PRE_REQ_VC8)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 6" "Text" "$(PRE_REQ_GOOD)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 9" "Text" "$(PRE_REQ_VC8SP1)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 10" "Text" "$(PRE_REQ_VC9)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 11" "Text" "$(PRE_REQ_URLTEXT)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "Text" "${PRODUCT_WEB_SITE}/prereq.html"		
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "State" "${PRODUCT_WEB_SITE}/prereq.html"		
-	
-        !insertmacro INSTALLOPTIONS_INITDIALOG "ioPreReq.ini"
-        ${If} $R2 == "false"
-        ${OrIf} $R3 == "false"
-        	GetDlgItem $R1 $HWNDPARENT 1
-        	EnableWindow $R1 0
-        	StrCpy $PreReqOK "false"
-        ${EndIf}
-        !insertmacro INSTALLOPTIONS_SHOW
-        
-        Pop $R1
-		Pop $R0	
-	FunctionEnd
-!endif
-
-; Normal/Advanced install
-!ifdef PAGE_TYPE_OF_INSTALL
-	Page custom ioTypeOfInstall
-
-	Function ioTypeOfInstall
-		; Shows a page asking the user if he wants a normal
-		; install or an advanced install
-		!include ioTypeOfInstall.nsh
-	FunctionEnd
-!endif
-
-; Components page
-!ifdef PAGE_SEC_CORE
-    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
-	!insertmacro MUI_PAGE_COMPONENTS
-!else ifdef PAGE_SEC_THEME
-    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
-    !insertmacro MUI_PAGE_COMPONENTS
-!else ifdef PAGE_SEC_LOSI
-    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
-    !insertmacro MUI_PAGE_COMPONENTS
-!endif
-
-; Directory page
-!ifdef PAGE_DIRECTORY
-	!include BadPathsCheck.nsh
-
-    !define MUI_PAGE_CUSTOMFUNCTION_PRE PreDir
-    !define MUI_PAGE_CUSTOMFUNCTION_LEAVE BadPathsCheck
-	!insertmacro MUI_PAGE_DIRECTORY
-!endif
-
-; How to install LS (for all users, or just for the current user)
-!ifdef PAGE_HOW_LS
-	!include GetWindowsVersion.nsh
-
-	Page custom ioHowLS
-	
-	Function ioHowLS
-	    ; Sets up the page where the user can choose how to
-		; install LS (All users, current user, or don't set as shell)
-		!include ioHowLS.nsh
-	FunctionEnd
-!endif
-
-; Where to install the user profiles
-!ifdef PAGE_WHERE_PROFILES
-	!include SetFocus.nsh
-	!include GetWindowsVersion.nsh
-
-	Page custom ioWhereProfiles
-	
-	Function ioWhereProfiles
-		; Sets up the page where the user can choose where
-		; to install the profile files (System profiles dir,
-		; LS profiles dir, or no profiles)
-	    !include ioWhereProfiles.nsh
-	FunctionEnd
-!endif
-
-; Start menu page
-!ifdef PAGE_START_MENU
-	!include StartMenuSettings.nsh
-!endif
-
-; Instfiles page
-!insertmacro MUI_PAGE_INSTFILES
-
-; Evars pages
-!ifdef PAGE_CONFIG_EVARS
-	!include GetInQuotes.nsh
-	!include IndexOf.nsh
-	!include GetExecutablePath.nsh
-	!include Evars.nsh
-
-    var configEvars
-	Page custom ioEvars
-	Page custom ioEvars2
-	
-	Function ioEvars
-		; The function below is smart about only doing
-		; this if the evar variables aren't already
-		; populated.
-		; By having this function call before the StrCmp
-		; on $configEvars$ the evars will always get
-		; good values
-		Call PopulateEvarVariables
-	
-	    StrCmp $configEvars "true" isSel end
-	    isSel:
-	        Call WriteEvarsToEdit
-	
-	    	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_EVARS)" "$(TEXT_IO_EVARS)"
-	    	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioEvars.ini"
-		end:
-	FunctionEnd
-	
-	Function ioEvars2
-	    StrCmp $configEvars "true" isSel notSel
-	    isSel:
-	    	!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_EVARS)" "$(TEXT_IO_EVARS)"
-	    	!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioEvars2.ini"
-	
-	    	Call ReadEvarsFromEdit
-	
-		notSel:
-	
-		Call WriteEvars
-	FunctionEnd
-!endif
-
-; Associate Files page
-!ifdef PAGE_FILE_ASSOC
-	!include RegisterExtension.nsh
-	!include refreshShellIcons.nsh
-	!include GetExecutablePath.nsh
-
-    var fileAssoc
-	Page custom ioFileAssoc
-	
-	Function ioFileAssoc
-		; Sets up the page for associating file types
-		; with programs
-		!include ioFileAssoc.nsh
-	FunctionEnd
-!endif
-
-; Finish page
-!include FinishPageSettings.nsh
+!include PageWelcome.nsh
+!include PageLicense.nsh
+!include PagePrerequisites.nsh
+!include PageTypeOfInstall.nsh
+!include SectionCore.nsh
+!include SectionTheme.nsh
+!include SectionLOSI.nsh
+!include PageDirectory.nsh
+!include PageHowLS.nsh
+!include PageWhereProfiles.nsh
+!include PageStartMenu.nsh
+!include PageInstFiles.nsh
+!include PageConfigEvars.nsh
+!include PageFileAssoc.nsh
+!include PageFinish.nsh
 
 ; Uninstaller pages
 !ifdef WRITE_UNINSTALLER
@@ -473,13 +175,17 @@ FunctionEnd
 
 ;--------------------------------
 ;Installer Sections
-!ifdef PAGE_SEC_CORE
+!ifdef SECTION_CORE
     !include GetInQuotes.nsh
     !include IndexOf.nsh
     !include GetExecutablePath.nsh
+    !include BackupPersonal.nsh
+    !include Shell9x.nsh
+	!include ShellNT.nsh
+	!include GetWindowsVersion.nsh
 !endif
 Section "LiteStep files" SecCore
-	!ifdef PAGE_SEC_CORE
+	!ifdef SECTION_CORE
 		; Install all the litestep core files and distro specific files.
 		; Also sets LS as shell if the user wants to
     	!include SecCore.nsh
@@ -487,7 +193,7 @@ Section "LiteStep files" SecCore
 SectionEnd
 
 Section "Theme" SecTheme
-	!ifdef PAGE_SEC_THEME
+	!ifdef SECTION_THEME
     	SetOutPath "$whereprofiles\themes"
 		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 	    File /r /x ".svn" /x "*-empty.rc" ".\Personal\themes\*"
@@ -496,7 +202,7 @@ Section "Theme" SecTheme
 SectionEnd
 
 Section "LOSI files and utilities" SecLosi
-	!ifdef PAGE_SEC_LOSI
+	!ifdef SECTION_LOSI
 	    ; Installer related stuff
 		SetOutPath "$INSTDIR\LOSI"
 		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
@@ -582,21 +288,22 @@ SectionEnd
 
 ;Assign language strings to sections
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecCore} $(DESC_SecCore)
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecTheme} $(DESC_SecTheme)
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecLosi} $(DESC_SecLosi)
+	!ifdef SECTION_CORE
+		!insertmacro MUI_DESCRIPTION_TEXT ${SecCore} $(DESC_SecCore)
+    !endif
+
+    !ifdef SECTION_THEME
+		!insertmacro MUI_DESCRIPTION_TEXT ${SecTheme} $(DESC_SecTheme)
+    !endif
+
+    !ifdef SECTION_LOSI
+		!insertmacro MUI_DESCRIPTION_TEXT ${SecLosi} $(DESC_SecLosi)
+    !endif
+
     !insertmacro MUI_DESCRIPTION_TEXT ${SecFileAssoc} $(DESC_SecFileAssoc)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 !include LongPath.nsh
 !include PreFunctions.nsh
-!include FinishPage.nsh
 !include Kill.nsh
-
-!ifdef PAGE_SEC_CORE
-	!include Shell9x.nsh
-	!include ShellNT.nsh
-	!include BackupPersonal.nsh
-	!include GetWindowsVersion.nsh
-!endif

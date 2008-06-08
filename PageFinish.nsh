@@ -36,3 +36,16 @@ execLS:
 	ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R0
 FunctionEnd
+
+!define MUI_PAGE_CUSTOMFUNCTION_PRE SetupFinishPage
+;!define MUI_PAGE_CUSTOMFUNCTION_SHOW ShowFinishPage
+;!define MUI_PAGE_CUSTOMFUNCTION_LEAVE ValidateFinish
+
+!define MUI_FINISHPAGE_NOREBOOTSUPPORT
+!define MUI_FINISHPAGE_NOAUTOCLOSE
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT $(RUN_LS)
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
+!define MUI_FINISHPAGE_RUN_FUNCTION FinishRun
+
+!insertmacro MUI_PAGE_FINISH

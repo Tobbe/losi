@@ -1,0 +1,5 @@
+!ifndef SECTIONS_INCLUDE_NSH
+!define SECTIONS_INCLUDE_NSH
+	!define MUI_PAGE_CUSTOMFUNCTION_PRE PreAdvanced
+    !insertmacro MUI_PAGE_COMPONENTS
+!endif
