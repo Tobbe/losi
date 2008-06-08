@@ -23,6 +23,10 @@
 	!include GetExecutablePath.nsh
 	!include Evars.nsh
 
+	Section "Configure Evars" SecConfigEvars
+		StrCpy $configEvars "true"
+	SectionEnd
+
 	Page custom ioEvars
 	Page custom ioEvars2
 	

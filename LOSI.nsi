@@ -6,8 +6,6 @@
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 
-!define WRITE_UNINSTALLER
-
 ;--------------------------------
 ;Variables
 
@@ -125,14 +123,10 @@ ShowUnInstDetails show
 !include PageConfigEvars.nsh
 !include PageFileAssoc.nsh
 !include PageFinish.nsh
+!include Uninstaller.nsh
 
-; Uninstaller pages
-!ifdef WRITE_UNINSTALLER
-	!include uninstShell9x.nsh
-	!include GetWindowsVersion.nsh
-
-	!insertmacro MUI_UNPAGE_INSTFILES
-!endif
+;End Pages and Sections
+;--------------------------------
 
 !include "LanguageStrings.nsh"
 
@@ -173,33 +167,7 @@ Function customOnUserAbort
 	NoCancelAbort:
 FunctionEnd
 
-;--------------------------------
-;Installer Sections
-
-Section "Configure Evars" SecConfigEvars
-	!ifdef PAGE_CONFIG_EVARS
-		StrCpy $configEvars "true"
-	!endif
-SectionEnd
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;  Uninstall
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-!ifdef WRITE_UNINSTALLER
-	Section -post
-    	WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\litestep.exe"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "InstallLocation" "$INSTDIR"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "${UNINST_EXE}"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\litestep.exe"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
-    	WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
-    	WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoModify" 1
-    	WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoRepair" 1
-	SectionEnd
-    
+!ifdef WRITE_UNINSTALLER    
 	Function un.onUninstSuccess
 	    HideWindow
 	    MessageBox MB_ICONINFORMATION|MB_OK $(UNINSTALL_SUCCESS)
@@ -211,15 +179,7 @@ SectionEnd
 	    Abort
 	    !insertmacro UNINSTALL.LOG_BEGIN_UNINSTALL
 	FunctionEnd
-
-	Section Uninstall
-		!include Uninstall.nsh
-	SectionEnd
 !endif
-
-
-;--------------------------------
-;Descriptions
 
 ;Assign language strings to sections
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -235,8 +195,13 @@ SectionEnd
 		!insertmacro MUI_DESCRIPTION_TEXT ${SecLosi} $(DESC_SecLosi)
     !endif
 
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecFileAssoc} $(DESC_SecFileAssoc)
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
+	!ifdef PAGE_FILE_ASSOC
+    	!insertmacro MUI_DESCRIPTION_TEXT ${SecFileAssoc} $(DESC_SecFileAssoc)
+    !endif
+
+	!ifdef PAGE_CONFIG_EVARS
+		!insertmacro MUI_DESCRIPTION_TEXT ${SecConfigEvars} $(DESC_SecConfigEvars)
+	!endif
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 !include LongPath.nsh
