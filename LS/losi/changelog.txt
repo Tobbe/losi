@@ -204,3 +204,10 @@ ls.com is down for an unknown period of time I started this changelog instead
             in the popup menu.
             Reduced the number of registry keys changed during installation/
             uninstallation.
+
+2008-06-08: Fixed the bug where the uninstaller would remove too much (it 
+            didn't keep the personal files even if you asked it to).  I'm also 
+            not closing the uninstaller automatically any longer. This makes it 
+            possible for the user to read/copy the log messages if he/she wants
+            to.  Made it possible to associate .box files with a text editor.
+            (.box files are used by the module LSBox.)

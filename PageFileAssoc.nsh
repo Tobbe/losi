@@ -18,6 +18,7 @@
 			WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 3" "Text" "$(FILEASSOC_RC)"
 			WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 4" "Text" "$(FILEASSOC_MZ)"
 			WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 5" "Text" "$(FILEASSOC_LUA)"
+			WriteINIStr "$PLUGINSDIR\ioFileAssoc.ini" "Field 6" "Text" "$(FILEASSOC_BOX)"
 		
 			!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioFileAssoc.ini"
 		
@@ -75,6 +76,17 @@
 				Push "notepad.exe,0"
 				call AssociateFile
 			nolua:
+		
+			ReadINIStr $2 "$PLUGINSDIR\ioFileAssoc.ini" "Field 6" "State"
+			IntCmp $2 1 0 nobox
+				Push ".box"
+				Push "LiteStep.box"
+				Push "LSBox configuration file"
+				Push "$1"
+				Push "$1"
+				Push "notepad.exe,0"
+				call AssociateFile
+			nobox:
 		end:
 		
 		; Update all icons
