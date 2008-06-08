@@ -146,22 +146,22 @@
 		IfErrors 0 +3
 			DetailPrint "$whereprofiles\personal could not be deleted"
 			ClearErrors
-	
+
 		RMDir /REBOOTOK "$whereprofiles" ; By not specifying '/r' this dir will only be deleted if it's completely empty 
-	
+
 		IfErrors 0 +3
 			DetailPrint "$whereprofiles could not be deleted"
 			ClearErrors
-	
+
 		IfFileExists "$INSTDIR\Profiles" 0 +2 ; An extra delete is needed if the default profiles dir is used
 			RMDir /REBOOTOK "$INSTDIR\Profiles" 
-	
+
 		RMDir /r /REBOOTOK "$INSTDIR\modules\"
-	
+
 		IfErrors 0 +3
 			DetailPrint "$INSTDIR\modules\ could not be deleted"
-			ClearErrors
-	
+			ClearErrors		
+
 		; Now it's time to kill LS and bring back explorer. However, I can't
 		; just do something like 'ExecShell "open" "explorer.exe"' because
 		; that would make the Add/Remove Programs dialog freeze until
@@ -199,21 +199,19 @@
 			WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $0
 			
 			Sleep 2000 ; Give explorer some time to start
-	
-	
+
+
 		; Now we can continue on with deleting the last LS files
 		continueDeleting:
-		
+
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$whereprofiles\themes"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\NLM"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\LOSI"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\utilities"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
 		!insertmacro UNINSTALL.LOG_END_UNINSTALL
-	    
+
 	    DeleteRegKey HKLM "Software\${PRODUCT_NAME}"
-	
-		SetAutoClose true
 	
 		; This code causes the Add/Remove Program dialog to freeze
 		;FindProcDLL::FindProc "explorer.exe"

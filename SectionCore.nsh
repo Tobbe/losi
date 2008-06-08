@@ -177,9 +177,9 @@
 	
 		; Install the personal files
 		SetOutPath "$whereprofiles\personal"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+		; Don't log these files, they are removed the traditional way
+		;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 		File /r /x ".svn" ".\Personal\personal\*"
-		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 	
 		StrCmp $R9 "LSKilled" 0 wasntRunning
 		    ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep

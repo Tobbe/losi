@@ -4,8 +4,8 @@
 	
 	Section "Theme" SecTheme
     	SetOutPath "$whereprofiles\themes"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+    	; Don't log these files, they are removed the traditional way
+		;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 	    File /r /x ".svn" /x "*-empty.rc" ".\Personal\themes\*"
-	    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 	SectionEnd
 !endif
