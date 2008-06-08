@@ -10,17 +10,6 @@
 -- -----------------------------------------------------------------------------
 require 'winreg'
 
-
-
-
-
-
-
-
-
-
-
-
 -------------------------------------------------------------------------------
 -- ConfirmationDialog
 -------------------------------------------------------------------------------
@@ -73,29 +62,28 @@ function ConfirmationDialog:new(parent, caption, text)
         end)
 
 	o.dialog:Connect(o.NO, wx.wxEVT_COMMAND_BUTTON_CLICKED,
-        function (event)
-            o.retVal = o.NO
-            o.dialog:Close()
-        end)
+		function (event)
+			o.retVal = o.NO
+			o.dialog:Close()
+		end)
 
 	o.dialog:Connect(o.UNDO, wx.wxEVT_COMMAND_BUTTON_CLICKED,
-        function (event)
-            o.retVal = o.UNDO
-            o.dialog:Close()
-        end)
+		function (event)
+			o.retVal = o.UNDO
+			o.dialog:Close()
+		end)
 
-    -- Voilá
-    return o
+	-- Voilá
+	return o
 end
 
 function ConfirmationDialog:resize()
-    local yesW = self.yesBtn:GetSize():GetWidth()
-    local noW = self.noBtn:GetSize():GetWidth()
-    local undoW = self.undoBtn:GetSize():GetWidth()
-    local newWidth = yesW + noW + undoW + 20
-    self.infoText:Wrap(newWidth - 10) -- the -10 is because infoText has a 5px border on all sides
+	local yesW = self.yesBtn:GetSize():GetWidth()
+	local noW = self.noBtn:GetSize():GetWidth()
+	local undoW = self.undoBtn:GetSize():GetWidth()
+	local newWidth = yesW + noW + undoW + 20
+	self.infoText:Wrap(newWidth - 10) -- the -10 is because infoText has a 5px border on all sides
 	self.dialog:SetClientSize(wx.wxSize(newWidth, self.dialog:GetBestSize():GetHeight()))
-    
 end
 
 frame = nil
@@ -113,7 +101,7 @@ writeVals = {}
 writeVals.lmAutoRestartShell = "1"
 writeVals.lmBootShell = [[USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon]]
 writeVals.lmWinlogonShell = "explorer.exe"
-writeVals.cuShell = [[C:\LiteStep\litestep.exe]]
+writeVals.cuShell = [[C:\Program Files\LiteStep\litestep.exe]]
 writeVals.cuDesktopProcess = "1"
 
 function getRegValues()
@@ -175,7 +163,7 @@ function main()
 	local detailsBox = wx.wxTextCtrl(det, wx.wxID_ANY, "", wx.wxDefaultPosition, wx.wxDefaultSize, wx.wxTE_MULTILINE + wx.wxTE_READONLY + wx.wxTE_DONTWRAP)
 
 	local hiddenSizer = wx.wxBoxSizer(wx.wxVERTICAL)
-        hiddenSizer:Add(wx.wxStaticText(det, wx.wxID_ANY, "These values will be set in the registry:"), 0, wx.wxALL, 5)
+		hiddenSizer:Add(wx.wxStaticText(det, wx.wxID_ANY, "These values will be set in the registry:"), 0, wx.wxALL, 5)
 		hiddenSizer:Add(detailsBox, 1, wx.wxALL + wx.wxEXPAND, 5)
 		det:SetSizer(hiddenSizer)
 		hiddenSizer:SetSizeHints(det);
@@ -199,9 +187,7 @@ function main()
 		mainSizer:Add(topSizer, 0)
 		mainSizer:Add(detailsPane, 1, wx.wxGROW + wx.wxALL, 5)
 
-	local function checkDetails()
-
-	end
+	writeVals.cuShell = getLitestepPath()
 
 	frame:Connect(ID_DETAILS, wx.wxEVT_COMMAND_COLLPANE_CHANGED,
 		function (event)
@@ -217,19 +203,19 @@ function main()
 		function (event) frame:Close() end )
 	frame:Connect(wx.wxID_OK, wx.wxEVT_COMMAND_BUTTON_CLICKED,
 		function (event)
-            answer = wx.wxMessageBox("This will set your shell to " .. 
-                                     writeVals.cuShell .. ".\n" ..
-                                     "Are you sure you want to continue?", 
-                                     "SetShell", 
-                                     wx.wxYES_NO + wx.wxICON_QUESTION)
-            
-            if answer == wx.wxYES then
-                updateRegistry()
+			answer = wx.wxMessageBox("This will set your shell to " .. 
+			                         writeVals.cuShell .. ".\n" ..
+			                         "Are you sure you want to continue?", 
+			                         "SetShell", 
+			                         wx.wxYES_NO + wx.wxICON_QUESTION)
 
-                if chkLogoff:IsChecked() then
-                    rebootLogoff()
-                end
-            end
+			if answer == wx.wxYES then
+				updateRegistry()
+
+				if chkLogoff:IsChecked() then
+					rebootLogoff()
+				end
+			end
 		end)
 
     frame:Connect(ID_CHOOSESHELL, wx.wxEVT_COMMAND_RADIOBOX_SELECTED,
@@ -247,8 +233,8 @@ function main()
 	panel:SetSizer(mainSizer)
 	frame:Show(true)
 	frame:SetClientSize(panel:GetBestSize())
-    frame:SetMinSize(frame:GetSize())
-    
+	frame:SetMinSize(frame:GetSize())
+
     function updateDetails()
         detailsBox:SetLabel("")
         detailsBox:AppendText("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\n")
@@ -271,7 +257,7 @@ end
 
 function updateRegistry()
     hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]]
-    hkey:setvalue("AutoRestartShell", writeVals.lmAutoRestartShell)
+    -- hkey:setvalue("AutoRestartShell", writeVals.lmAutoRestartShell)
     hkey:setvalue("Shell", writeVals.lmWinlogonShell)
     
     hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot]]
@@ -298,8 +284,8 @@ if arg ~= nil and #arg > 0 then
         updateRegistry()
         hasChangedShell = true
     end
-    
-    if hasChangedShell then
+
+	if hasChangedShell then
 		-- create the wxFrame window
 		frame = wx.wxFrame(wx.NULL,   -- no parent for toplevel windows
 			wx.wxID_ANY,              -- don't need a wxWindow ID
@@ -307,21 +293,21 @@ if arg ~= nil and #arg > 0 then
 			wx.wxDefaultPosition,     -- let system place the frame
 			wx.wxSize(325, 120),      -- set the size of the frame
 			wx.wxDEFAULT_FRAME_STYLE)-- - wx.wxMAXIMIZE_BOX - wx.wxRESIZE_BORDER) -- use default frame styles
-		
-        local msg = "You have set " .. writeVals.cuShell .. " as your shell, to use it you need to reboot/logout. Do you want to do that now?"
+
+		local msg = "You have set " .. writeVals.cuShell .. " as your shell, to use it you need to reboot/logout. Do you want to do that now?"
 		local confDlg = ConfirmationDialog:new(frame, "Reboot/Logoff", msg)
 		confDlg:resize()
 		confDlg.dialog:ShowModal(true)
 		confDlg.dialog:Destroy()
 		local ans = confDlg.retVal
-		
-        if ans == confDlg.YES then        
-            rebootLogoff()
-        elseif ans == confDlg.UNDO then
-            writeVals.cuShell = readVals.cuShell
-            updateRegistry()
-        end
-    end
+
+		if ans == confDlg.YES then        
+			rebootLogoff()
+		elseif ans == confDlg.UNDO then
+			writeVals.cuShell = readVals.cuShell
+			updateRegistry()
+		end
+	end
 else
-    main()
+	main()
 end
