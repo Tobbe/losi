@@ -7,10 +7,15 @@
 ;Language strings
 
 ;English
+LangString NAME_SecCore ${LANG_ENGLISH} "LiteStep files"
+LangString NAME_SecTheme ${LANG_ENGLISH} "Theme"
+LangString NAME_SecLosi ${LANG_ENGLISH} "LOSI files and utilities"
+LangString NAME_SecFileAssoc ${LANG_ENGLISH} "Associate files"
+LangString NAME_SecConfigEvars ${LANG_ENGLISH} "Configure Evars"
 LangString DESC_SecCore ${LANG_ENGLISH} "The LiteStep files (core files, modules, OTS2). These files are needed if you want to run this as a seperate distro."
 LangString DESC_SecTheme ${LANG_ENGLISH} "The default installer themes."
 LangString DESC_SecLosi ${LANG_ENGLISH} "LOSI icons, utilities and other files."
-LangString DESC_SecFileAssoc ${LANG_ENGLISH} "Associate a few LiteStep specific file types with programs that can open them. You will be able to choose what file types are changed"
+LangString DESC_SecFileAssoc ${LANG_ENGLISH} "Associate a few LiteStep specific file types with programs that can open them. You will be able to choose what file types are changed."
 LangString DESC_SecConfigEvars ${LANG_ENGLISH} "Manually configure the LiteStep Environment Variables (evars)."
 LangString TEXT_IO_TITLE_EVARS ${LANG_ENGLISH} "Evar settings"
 LangString TEXT_IO_EVARS ${LANG_ENGLISH} "Specify the paths to your applications. These paths will be used as shortcuts in themes for LiteStep."
@@ -70,6 +75,11 @@ LangString BAD_INST_PATH ${LANG_ENGLISH} "The specified install path is invalid!
 LangString ABORT_WARNING ${LANG_ENGLISH} "Are you sure you want to quit the $(^Name) setup?"
 
 ;Swedish
+LangString NAME_SecCore ${LANG_SWEDISH} "LiteStepfiler"
+LangString NAME_SecTheme ${LANG_SWEDISH} "Tema"
+LangString NAME_SecLosi ${LANG_SWEDISH} "LOSI-filer och -verktyg"
+LangString NAME_SecFileAssoc ${LANG_SWEDISH} "Associera filer"
+LangString NAME_SecConfigEvars ${LANG_SWEDISH} "Konfigurera miljövariabler"
 LangString DESC_SecCore ${LANG_SWEDISH} "LiteStepfiler (kärnfiler, moduler, OTS2). Dessa filer är nödvändiga om du vill köra det här som en egen distrubition."
 LangString DESC_SecTheme ${LANG_SWEDISH} "Standardteman som medföljer installeraren."
 LangString DESC_SecLosi ${LANG_SWEDISH} "Ikoner och verktygsprogram till LOSI."
@@ -133,6 +143,11 @@ LangString BAD_INST_PATH ${LANG_SWEDISH} "Ogiltig installationssökväg!"
 LangString ABORT_WARNING ${LANG_SWEDISH} "Är du säker på att du vill avbryta installationen av $(^Name)?"
 
 ;French
+LangString NAME_SecCore ${LANG_FRENCH} "LiteStep files"
+LangString NAME_SecTheme ${LANG_FRENCH} "Theme"
+LangString NAME_SecLosi ${LANG_FRENCH} "LOSI files and utilities"
+LangString NAME_SecFileAssoc ${LANG_FRENCH} "Associate files"
+LangString NAME_SecConfigEvars ${LANG_FRENCH} "Configure Evars"
 LangString DESC_SecCore ${LANG_FRENCH} "Fichiers et dossiers essentiels de LiteStep (noyau, modules, OTS2). Ces fichiers sont nécessaires si vous voulez utiliser différentes version de LiteStep."
 LangString DESC_SecTheme ${LANG_FRENCH} "Thème par défaut de la distribution LOSI."
 LangString DESC_SecLosi ${LANG_FRENCH} "Thème d'icones LOSI, utilitaires et miscellanées."
@@ -196,10 +211,15 @@ LangString BAD_INST_PATH ${LANG_FRENCH} "Install path invalid!"
 LangString ABORT_WARNING ${LANG_FRENCH} "Êtes-vous sûr de vouloir quitter l'installation de $(^Name) ?"
 
 ;German
+LangString NAME_SecCore ${LANG_GERMAN} "LiteStep Dateien"
+LangString NAME_SecTheme ${LANG_GERMAN} "Theme"
+LangString NAME_SecLosi ${LANG_GERMAN} "LOSI Dataien und Werkzeuge"
+LangString NAME_SecFileAssoc ${LANG_GERMAN} "Assoziiert Dateitypen"
+LangString NAME_SecConfigEvars ${LANG_GERMAN} "Umgebungsvariablen festlegen"
 LangString DESC_SecCore ${LANG_GERMAN} "LiteStep (Core, Module, OTS2). Diese Dateien werden benötigt damit LiteStep lauffähig ist."
 LangString DESC_SecTheme ${LANG_GERMAN} "Das LOSI Standardtheme"
 LangString DESC_SecLosi ${LANG_GERMAN} "LOSI Icons, Werkzeuge und andere Dateien"
-LangString DESC_SecFileAssoc ${LANG_GERMAN} "Assoziiert spezielle Dateitypen mit LiteStep. Sie werden diese nachfolgend noch auswählen können."
+LangString DESC_SecFileAssoc ${LANG_GERMAN} "Assoziiere spezielle Dateitypen mit LiteStep. Sie werden diese nachfolgend noch auswählen können."
 LangString DESC_SecConfigEvars ${LANG_GERMAN} "Umgebungsvariablen (Evars) manuell festlegen."
 LangString TEXT_IO_TITLE_EVARS ${LANG_GERMAN} "Umgebungsvariablen"
 LangString TEXT_IO_EVARS ${LANG_GERMAN} "Geben Sie die Pfade zu ihren Anwendungen an. Diese Pfade werden in LiteStep Themes für Verknüpfungen verwendet."

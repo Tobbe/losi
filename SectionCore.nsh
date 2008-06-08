@@ -9,7 +9,7 @@
 	!include GetWindowsVersion.nsh
 	!include SectionsInclude.nsh
 	
-	Section "LiteStep files" SecCore
+	Section "$(NAME_SecCore)" SecCore
 		Push "$INSTDIR"
 		Call KillLS
 		Pop $R9

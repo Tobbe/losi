@@ -2,7 +2,7 @@
 !define SECTION_THEME
 	!include SectionsInclude.nsh
 	
-	Section "Theme" SecTheme
+	Section "$(NAME_SecTheme)" SecTheme
     	SetOutPath "$whereprofiles\themes"
     	; Don't log these files, they are removed the traditional way
 		;!insertmacro UNINSTALL.LOG_OPEN_INSTALL

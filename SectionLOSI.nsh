@@ -2,7 +2,7 @@
 !define SECTION_LOSI
 	!include SectionsInclude.nsh
 	
-	Section "LOSI files and utilities" SecLosi
+	Section "$(NAME_SecLosi)" SecLosi
 	    ; Installer related stuff
 		SetOutPath "$INSTDIR\LOSI"
 		!insertmacro UNINSTALL.LOG_OPEN_INSTALL

@@ -120,8 +120,8 @@ ShowUnInstDetails show
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
 !include PageInstFiles.nsh
-!include PageConfigEvars.nsh
-!include PageFileAssoc.nsh
+!include PageAndSectionConfigEvars.nsh
+!include PageAndSectionFileAssoc.nsh
 !include PageFinish.nsh
 !include Uninstaller.nsh
 

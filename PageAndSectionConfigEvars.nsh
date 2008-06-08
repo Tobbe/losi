@@ -23,7 +23,7 @@
 	!include GetExecutablePath.nsh
 	!include Evars.nsh
 
-	Section "Configure Evars" SecConfigEvars
+	Section "$(NAME_SecConfigEvars)" SecConfigEvars
 		StrCpy $configEvars "true"
 	SectionEnd
 

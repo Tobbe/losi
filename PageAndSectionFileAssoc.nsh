@@ -93,7 +93,7 @@
 		Call RefreshShellIcons
 	FunctionEnd
 	
-	Section "Associate files" SecFileAssoc
+	Section "$(NAME_SecFileAssoc)" SecFileAssoc
 		StrCpy $fileAssoc "true"
 	SectionEnd
 !endif
