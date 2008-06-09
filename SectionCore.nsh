@@ -102,6 +102,7 @@
 	    File ".\LS\litestep.exe"
 	    File ".\LS\lsapi.dll"
 	    File ".\LS\readme.txt"
+	    File ".\LS\release_notes.txt"
 	    File ".\LS\zlib1.dll"
 	    File ".\LS\xPaintClass-1.0.dll"
 	    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL

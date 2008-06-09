@@ -214,3 +214,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             (.box files are used by the module LSBox.)
             Fixed this: The checkboxes where you choose what to install aren't 
             localized. The text is hardcoded in English.
+
+2008-06-09: Patches from jugg.
+            The patches does the following:  Adds release_notes.txt to the 
+            installation, removes the "read-only" checkbox from the e-var 
+            browse dialogs and repositions the e-var contents to be evenly 
+            spaced and aligned on both pages.
