@@ -220,3 +220,7 @@ ls.com is down for an unknown period of time I started this changelog instead
             installation, removes the "read-only" checkbox from the e-var 
             browse dialogs and repositions the e-var contents to be evenly 
             spaced and aligned on both pages.
+
+2008-06-10: Made a more even distribution of evar configs over the two pages.
+            There's now seven on the first page and six on the second.  There
+            used to be nine on the first page and four on the second.

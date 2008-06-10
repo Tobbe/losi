@@ -6,12 +6,12 @@ Function WriteEvarsToEdit
     WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 5" "State" $mediaplayer
     WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 6" "State" $gfxviewer
     WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 7" "State" $gfxeditor
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 8" "State" $browser
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 9" "State" $dun
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State" $email
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State" $irc
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State" $ftp
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State" $im
+    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State" $browser
+    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State" $dun
+    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State" $email
+    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State" $irc
+    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 5" "State" $ftp
+    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 6" "State" $im
 FunctionEnd
 
 Function ReadEvarsFromEdit
@@ -22,12 +22,12 @@ Function ReadEvarsFromEdit
     ReadINIStr $mediaplayer "$PLUGINSDIR\ioEvars.ini" "Field 5" "State"
     ReadINIStr $gfxviewer "$PLUGINSDIR\ioEvars.ini" "Field 6" "State"
     ReadINIStr $gfxeditor "$PLUGINSDIR\ioEvars.ini" "Field 7" "State"
-    ReadINIStr $browser "$PLUGINSDIR\ioEvars.ini" "Field 8" "State"
-    ReadINIStr $dun "$PLUGINSDIR\ioEvars.ini" "Field 9" "State"
-    ReadINIStr $email "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State"
-    ReadINIStr $irc "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State"
-    ReadINIStr $ftp "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State"
-    ReadINIStr $im "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State"
+    ReadINIStr $browser "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State"
+    ReadINIStr $dun "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State"
+    ReadINIStr $email "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State"
+    ReadINIStr $irc "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State"
+    ReadINIStr $ftp "$PLUGINSDIR\ioEvars2.ini" "Field 5" "State"
+    ReadINIStr $im "$PLUGINSDIR\ioEvars2.ini" "Field 6" "State"
 FunctionEnd
 
 Function WriteEvars
