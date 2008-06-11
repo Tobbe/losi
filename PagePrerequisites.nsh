@@ -128,8 +128,8 @@
 		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 9" "Text" "$(PRE_REQ_VC8SP1)"
 		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 10" "Text" "$(PRE_REQ_VC9)"
 		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 11" "Text" "$(PRE_REQ_URLTEXT)"
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "Text" "${PRODUCT_WEB_SITE}/prereq.html"		
-		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "State" "${PRODUCT_WEB_SITE}/prereq.html"		
+		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "Text" "${PRODUCT_WEB_SITE}/prereq.html"
+		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "State" "${PRODUCT_WEB_SITE}/prereq.html"
 
 		!insertmacro INSTALLOPTIONS_INITDIALOG "ioPreReq.ini"
 		${If} $R2 == "false"
