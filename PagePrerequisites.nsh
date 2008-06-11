@@ -3,9 +3,9 @@
 	!include ieversion.nsh
 	!include LogicLib.nsh
 	!include WinSxSHasAssembly.nsh
-	
+
 	Page custom ioPreReq
-	
+
 	Function ioPreReq
 		Push $R0
 		Push $R1
@@ -13,7 +13,7 @@
 		Push $R3 ; true if VC8 dlls are installed, false if they aren't
 		Push $R4 ; true if VC8 SP1 dlls are installed, false if they aren't
 		Push $R5 ; true if VC9 dlls are installed
-		
+
 		; Assume everything is OK
 		StrCpy $R2 "true"
 		StrCpy $R3 "true"
@@ -23,7 +23,7 @@
 		; Check for Internet Explorer >= 4
 		Call GetIEVersion
 		Pop $R0
-		
+
 		${If} $R0 < 4
 			StrCpy $R2 "false"
 		${EndIf}
@@ -79,7 +79,7 @@
 				StrCpy $R4 "false"
 			${EndIf}
 		${EndIf}
-		
+
 		; Look for VC9 DLLs
 		Push 'msvcr90.dll'
 		Push 'Microsoft.VC90.CRT,version="9.0.21022.8",type="win32",processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b"'
@@ -130,17 +130,21 @@
 		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 11" "Text" "$(PRE_REQ_URLTEXT)"
 		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "Text" "${PRODUCT_WEB_SITE}/prereq.html"		
 		WriteINIStr "$PLUGINSDIR\ioPreReq.ini" "Field 12" "State" "${PRODUCT_WEB_SITE}/prereq.html"		
-	
-        !insertmacro INSTALLOPTIONS_INITDIALOG "ioPreReq.ini"
-        ${If} $R2 == "false"
-        ${OrIf} $R3 == "false"
-        	GetDlgItem $R1 $HWNDPARENT 1
-        	EnableWindow $R1 0
-        	StrCpy $PreReqOK "false"
-        ${EndIf}
-        !insertmacro INSTALLOPTIONS_SHOW
-        
-        Pop $R1
+
+		!insertmacro INSTALLOPTIONS_INITDIALOG "ioPreReq.ini"
+		${If} $R2 == "false"
+		${OrIf} $R3 == "false"
+			GetDlgItem $R1 $HWNDPARENT 1
+			EnableWindow $R1 0
+			StrCpy $PreReqOK "false"
+		${EndIf}
+		!insertmacro INSTALLOPTIONS_SHOW
+
+		Pop $R5
+		Pop $R4
+		Pop $R3
+		Pop $R2
+		Pop $R1
 		Pop $R0	
 	FunctionEnd
 !endif
