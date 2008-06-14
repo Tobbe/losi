@@ -15,7 +15,7 @@
 		Call DetectPreviousInstall
 		Pop $R0
 		
-		${If} $R0 != "notdetected"
+		${If} $R0 == "detected"
 			WriteINIStr "$PLUGINSDIR\ioPreviousInstall.ini" "Field 1" "Text" "$(PREVINST_TEXT)"
 			WriteINIStr "$PLUGINSDIR\ioPreviousInstall.ini" "Field 2" "Text" "$(PREVINST_CHECKBOX)"
 	
