@@ -136,7 +136,7 @@
 		${OrIf} $R3 == "false"
 			GetDlgItem $R1 $HWNDPARENT 1
 			EnableWindow $R1 0
-			StrCpy $PreReqOK "false"
+			StrCpy $abortWarning "false"
 		${EndIf}
 		!insertmacro INSTALLOPTIONS_SHOW
 

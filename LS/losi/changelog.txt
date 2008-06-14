@@ -232,3 +232,9 @@ ls.com is down for an unknown period of time I started this changelog instead
             themeslist.rc and themeselect.rc.  Now it keeps the users own
             themeslist.rc and themeselect.rc files and only installs the
             InstDef theme.
+            Moved the page where you select the Start menu folder.
+            Changed the variable name used for determining if there should be
+            a warning when canceling the intallation or not.
+            Added a new page that warns the user if he/she is trying to install
+            LiteStep when there already is some version of LiteStep installed
+            to the computer.

@@ -13,7 +13,7 @@ var currentShell
 var hasStartedLS
 var username
 var whereprofiles
-var PreReqOK
+var abortWarning
 var advancedInstall
 
 ;--------------------------------
@@ -65,6 +65,7 @@ ReserveFile "ioEvars.ini"
 ReserveFile "ioEvars2.ini"
 ReserveFile "ioHowLS.ini"
 ReserveFile "ioWhereProfiles.ini"
+ReserveFile "ioPreviousInstall.ini"
 ReserveFile "ioFileAssoc.ini"
 ReserveFile "ioPreReq.ini"
 ReserveFile "test.txt"
@@ -111,15 +112,15 @@ ShowUnInstDetails show
 !include PageLicense.nsh
 !include PagePrerequisites.nsh
 !include PageTypeOfInstall.nsh
-!include PageStartMenu.nsh
+!include PageDirectory.nsh
+!include PagePreviousInstall.nsh
 !include SectionCore.nsh
 !include SectionTheme.nsh
 !include SectionLOSI.nsh
-!include HiddenSectionAdditionalIcons.nsh
-!include PageDirectory.nsh
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
 !include PageInstFiles.nsh
+!include PageAndHiddenSectionStartMenu.nsh
 !include PageAndSectionConfigEvars.nsh
 !include PageAndSectionFileAssoc.nsh
 !include PageFinish.nsh
@@ -131,15 +132,15 @@ ShowUnInstDetails show
 !include "LanguageStrings.nsh"
 
 Function .onInit
-	StrCpy $PreReqOK "true"
-    !ifndef PAGE_WHERE_PROFILES
-        StrCpy $whereprofiles "default"
-	!endif
+	StrCpy $abortWarning "true"
+	StrCpy $advancedInstall "true"
 	
 	UserInfo::GetName
 	Pop $username
 	ClearErrors ; UserInfo might genrate an error, but we don't care
-	
+
+	StrCpy $whereprofiles "$PROGRAMFILES\LiteStep\Profiles\$username"
+
     !insertmacro MUI_LANGDLL_DISPLAY
 	
 	;Always prepare the log within the .onInit function
@@ -147,6 +148,7 @@ Function .onInit
 	
 	;Extract InstallOptions INI Files
 	!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioPreReq.ini"
+	!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioPreviousInstall.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioTypeOfInstall.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioHowLS.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioWhereProfiles.ini"
@@ -161,10 +163,10 @@ Function .onInstSuccess
 FunctionEnd
 
 Function customOnUserAbort
-	StrCmp $PreReqOK "false" NoCancelAbort
-	MessageBox MB_YESNO|MB_ICONEXCLAMATION "$(ABORT_WARNING)" IDYES NoCancelAbort
+	StrCmp $abortWarning "false" NoAbortWarning
+	MessageBox MB_YESNO|MB_ICONEXCLAMATION "$(ABORT_WARNING)" IDYES NoAbortWarning
 		Abort ; causes installer to not quit.
-	NoCancelAbort:
+	NoAbortWarning:
 FunctionEnd
 
 !ifdef WRITE_UNINSTALLER    

@@ -101,7 +101,9 @@
 		ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
 		ExpandEnvStrings $whereprofiles $whereprofiles
 	
-		Delete "$INSTDIR\${PRODUCT_NAME}.url"
+		Delete "$INSTDIR\${PRODUCT_NAME}.url"	
+		Delete "$DESKTOP\Set Explorer as Shell.lnk"
+		Delete "$DESKTOP\Set LiteStep as Shell.lnk"
 		
 		!ifdef PAGE_START_MENU
 			!insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
@@ -110,8 +112,6 @@
 			Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
 			Delete "$SMPROGRAMS\$ICONS_GROUP\Set Explorer as Shell.lnk"
 			Delete "$SMPROGRAMS\$ICONS_GROUP\Set LiteStep as Shell.lnk"
-			Delete "$DESKTOP\Set Explorer as Shell.lnk"
-			Delete "$DESKTOP\Set LiteStep as Shell.lnk"
 		    
 		    RMDir /REBOOTOK "$SMPROGRAMS\$ICONS_GROUP"
 		
