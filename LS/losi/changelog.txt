@@ -228,3 +228,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 2008-06-14: Made the "WhereProfiles" page autodetect where the profiles are on
             the currently installed LiteStep (if there is a currently installed
             LiteStep).
+            Fixed a bug in SectionTheme.  It would overwrite an existing
+            themeslist.rc and themeselect.rc.  Now it keeps the users own
+            themeslist.rc and themeselect.rc files and only installs the
+            InstDef theme.
