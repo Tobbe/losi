@@ -224,3 +224,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 2008-06-10: Made a more even distribution of evar configs over the two pages.
             There's now seven on the first page and six on the second.  There
             used to be nine on the first page and four on the second.
+
+2008-06-14: Made the "WhereProfiles" page autodetect where the profiles are on
+            the currently installed LiteStep (if there is a currently installed
+            LiteStep).
