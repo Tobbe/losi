@@ -238,3 +238,5 @@ ls.com is down for an unknown period of time I started this changelog instead
             Added a new page that warns the user if he/she is trying to install
             LiteStep when there already is some version of LiteStep installed
             to the computer.
+
+2008-06-15: Fixed how SLI-ThemeManager was called from the popup menu.

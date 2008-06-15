@@ -25,7 +25,7 @@
 
 	*Popup "Change themes" Folder
 		*Popup "Install Theme"				!execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe"]
-		*Popup "Refresh List"     			!execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe" "/refresh"]
+		*Popup "Refresh List"     			!execute ['$LiteStepDir$utilities\SLI-ThemeManager.exe' /refresh]
 		*Popup !Separator
 ;		¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 		include "$ThemesDir$themeslist.rc"
