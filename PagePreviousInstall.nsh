@@ -14,7 +14,7 @@
 
 		Call DetectPreviousInstall
 		Pop $R0
-		
+
 		${If} $R0 == "detected"
 			WriteINIStr "$PLUGINSDIR\ioPreviousInstall.ini" "Field 1" "Text" "$(PREVINST_TEXT)"
 			WriteINIStr "$PLUGINSDIR\ioPreviousInstall.ini" "Field 2" "Text" "$(PREVINST_CHECKBOX)"
@@ -62,47 +62,54 @@
 	Function DetectPreviousInstall
 		Push $R0
 		Push $R1
+		Push $R2
+		
+		ReadRegStr $R2 HKCU "Software\LiteStep\Installer" "LiteStepDir"
+		IfErrors 0 +2
+		ReadRegStr $R2 HKLM "Software\LOSI\Installer" "LitestepDir"
+		ClearErrors
 
-		ReadRegStr $R0 HKCU "Software\LiteStep\Installer" "LiteStepDir"
-		IfErrors 0 +3
-		ReadRegStr $R0 HKLM "Software\LOSI\Installer" "LitestepDir"
-		IfErrors PrevInstNotDetected
-
-		${If} $R0 == $INSTDIR
-			Push "upgrade"
+		${If} $R2 == $INSTDIR
+			StrCpy $R0 "upgrade"
 			GoTo PrevInstDetectionEnd
 		${EndIf}
 
 		; remove trailing backslash if there is one
-		StrCpy $R1 $R0 1 -1
+		StrCpy $R1 $R2 1 -1
 		StrCmp $R1 "\" 0 +2
-		StrCpy $R0 $R0 -1
+		StrCpy $R2 $R2 -1
 
-		StrCpy $R0 "$R0\litestep.exe"
-		IfFileExists $R0 PrevInstDetected
+		${If} $R2 == $INSTDIR
+			StrCpy $R0 "upgrade"
+			GoTo PrevInstDetectionEnd
+		${EndIf}
+
+		StrCpy $R2 "$R2\litestep.exe"
+		IfFileExists $R2 PrevInstDetected
 
 		FindProcDLL::FindProc "litestep.exe"
-    	StrCmp $R0 1 PrevInstDetected
+    	StrCmp $R2 1 PrevInstDetected
     	
     	; Check the most common installation directories
     	IfFileExists "C:\LiteStep\litestep.exe" PrevInstDetected
     	IfFileExists "$PROGRAMFILES\LiteStep\litestep.exe" PrevInstDetected
     	
     	; For Win9x
-    	ReadINIStr $R0 "$WINDIR\system.ini" "boot" "shell"
-    	StrCpy $R0 $R0 "" -12 ; Copy the last twelve characters
-    	${If} $R0 == "litestep.exe"
+    	ReadINIStr $R2 "$WINDIR\system.ini" "boot" "shell"
+    	StrCpy $R2 $R2 "" -12 ; Copy the last twelve characters
+    	${If} $R2 == "litestep.exe"
     		GoTo PrevInstDetected
     	${EndIf}
 
-		PrevInstNotDetected:
-			Push "notdetected"
-			GoTo PrevInstDetectionEnd
+		StrCpy $R0 "notdetected"
+		GoTo PrevInstDetectionEnd
+
 		PrevInstDetected:
-			Push "detected"
+			StrCpy $R0 "detected"
 		PrevInstDetectionEnd:
 
+		Pop $R2
 		Pop $R1
-		Pop $R0
+		Exch $R0
 	FunctionEnd
 !endif
