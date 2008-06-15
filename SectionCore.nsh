@@ -81,18 +81,6 @@
 			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
 		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$whereprofiles\personal"
 
-		; OTS2 Theme files
-		IfFileExists "$whereprofiles\themes\themeslist.rc" 0 AddThemeFiles
-			IfFileExists "$whereprofiles\themes\themeselect.rc" SkipThemeFiles
-
-		AddThemeFiles:
-		SetOutPath  "$whereprofiles\themes\"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-		File /oname=themeselect.rc ".\Personal\themes\themeselect-empty.rc"
-		File /oname=themeslist.rc ".\Personal\themes\themeslist-empty.rc"
-		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-		SkipThemeFiles:
-
 		SetOutPath "$INSTDIR"
 		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 		File ".\LS\changes.txt"

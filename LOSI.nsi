@@ -116,6 +116,7 @@ ShowUnInstDetails show
 !include PagePreviousInstall.nsh
 !include SectionCore.nsh
 !include SectionTheme.nsh
+!include HiddenSectionTheme.nsh
 !include SectionLOSI.nsh
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
