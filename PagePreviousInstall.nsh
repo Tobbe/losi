@@ -19,7 +19,7 @@
 			WriteINIStr "$PLUGINSDIR\ioPreviousInstall.ini" "Field 1" "Text" "$(PREVINST_TEXT)"
 			WriteINIStr "$PLUGINSDIR\ioPreviousInstall.ini" "Field 2" "Text" "$(PREVINST_CHECKBOX)"
 	
-			!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_PREVINST)" "$(TEXT_IO_PREVINST)"
+			!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_PREVINST)" ""
 			!insertmacro INSTALLOPTIONS_INITDIALOG "ioPreviousInstall.ini"
 			GetDlgItem $R1 $HWNDPARENT 1
 			EnableWindow $R1 0
