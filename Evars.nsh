@@ -1,35 +1,3 @@
-Function WriteEvarsToEdit
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 1" "State" $filemanager
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 2" "State" $texteditor
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 3" "State" $commandprompt
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 4" "State" $audioplayer
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 5" "State" $mediaplayer
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 6" "State" $gfxviewer
-    WriteINIStr "$PLUGINSDIR\ioEvars.ini" "Field 7" "State" $gfxeditor
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State" $browser
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State" $dun
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State" $email
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State" $irc
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 5" "State" $ftp
-    WriteINIStr "$PLUGINSDIR\ioEvars2.ini" "Field 6" "State" $im
-FunctionEnd
-
-Function ReadEvarsFromEdit
-    ReadINIStr $filemanager "$PLUGINSDIR\ioEvars.ini" "Field 1" "State"
-    ReadINIStr $texteditor "$PLUGINSDIR\ioEvars.ini" "Field 2" "State"
-    ReadINIStr $commandprompt "$PLUGINSDIR\ioEvars.ini" "Field 3" "State"
-    ReadINIStr $audioplayer "$PLUGINSDIR\ioEvars.ini" "Field 4" "State"
-    ReadINIStr $mediaplayer "$PLUGINSDIR\ioEvars.ini" "Field 5" "State"
-    ReadINIStr $gfxviewer "$PLUGINSDIR\ioEvars.ini" "Field 6" "State"
-    ReadINIStr $gfxeditor "$PLUGINSDIR\ioEvars.ini" "Field 7" "State"
-    ReadINIStr $browser "$PLUGINSDIR\ioEvars2.ini" "Field 1" "State"
-    ReadINIStr $dun "$PLUGINSDIR\ioEvars2.ini" "Field 2" "State"
-    ReadINIStr $email "$PLUGINSDIR\ioEvars2.ini" "Field 3" "State"
-    ReadINIStr $irc "$PLUGINSDIR\ioEvars2.ini" "Field 4" "State"
-    ReadINIStr $ftp "$PLUGINSDIR\ioEvars2.ini" "Field 5" "State"
-    ReadINIStr $im "$PLUGINSDIR\ioEvars2.ini" "Field 6" "State"
-FunctionEnd
-
 Function WriteEvars
     ;-----------------------
     ;Check for empty strings and replace them with "..."

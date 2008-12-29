@@ -4,23 +4,31 @@
 
 xPaintClass "needs" Win2000 or newer! :P
 
+
+------------
  Homepage:
 ------------
+
  http://www.ls-universe.info
 
+
+--------------------
  xPaintClass Docs:
 --------------------
+
  http://wwww.xdocs.ls-universe.info
+
 
 -----------------------------------------------------------------------------
  Personal Usage:
 -----------------------------------------------------------------------------
 
-Put xPaintClass-1.0.dll in your Litestep Folder!
+Put xPaintClass-1.0.dll in your LiteStep Folder!
 
 Simply overwrite an eventually existing older version!
 
 If you have another version in your Module Folder, overwrite it with this one too!
+
 
 -----------------------------------------------------------------------------
  Theme Release Usage:
@@ -31,9 +39,50 @@ Otherwise the modules won't load, making your theme unusable!
 
 That's all!
 
+
 -----------------------------------------------------------------------------
  Changes for xPaintClass 
 -----------------------------------------------------------------------------
+
+Major Version 1.0 - Minor Version (0.5) Released on 27-08-2008, Created by Andymon
+
+- Note:    Exported Evar:
+           xPaintClassVersion "1.0.5"
+           Check the existance of this Evar with a script, if you want to use the new features in your theme!!
+
+- Added:   xPaintTexture: 
+           ...PaintingMode .visualstyle
+
+- Added:   xPaintTexture: .visualstyle
+           ...StyleDefintion CLASS Part state
+           
+- Added:   xPaintTooltip:
+           ...TooltipLabel LABELNAME [".move"/".nomove"] [TIMEOUT]
+           
+- Changed: xPaintTooltip:
+           ...TooltipBalloon [TITLE(string)] [ICON(int)] ["TRUE"/"FALSE"]
+
+- Fixed:   GDI-Object and Memory Leak whenever a FontRotation was painted!
+
+- Fixed:   ClearType FontSmoothing wasn't possible under Vista
+
+- Fixed:   MixIntensity 100% bug
+
+- Fixed:   xPaintTooltip:
+           Tooltips didn't hide all the time when the mouse hovered over them.
+           
+- Fixed:   xPaintTooltip:
+           Tooltip initial show timer wasn't resetted when a new tooltip text was used.
+           Now it works as far as it is possible without changing it inside of the modules.
+
+- Fixed:   SDK PaintText:
+           With requested multiline text FontVertAlign wasn't possible.
+
+- Fixed:   SDK xPaintText: 
+           measure(...) function couldn't handle multiline text and messed up font style.
+
+- Fixed:   Some compiler issues with newer compilers.
+           That doesn't mean that there aren't many compiler problems left. :P
 
 Major Version 1.0 - Minor Version (0.4) Released on 19-07-2007, Created by Andymon
 

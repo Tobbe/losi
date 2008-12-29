@@ -109,7 +109,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2007-10-29: Upgradet to the latest version of xPaintClass. According to Andymon
             (the author) it should really only be in $litestepdir$, but since
-            lots of themes get it with NetLoadModule, hence placing it in 
+            lots of themes get it with NetLoadModule, hence placing it in
             $modulesdir$, he thought it would be best if I put it there as well.
             There would be no conflicts.
 
@@ -166,7 +166,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2008-01-16: Added the posibility to not create any start menu icons
 
-2008-01-23: More work as gone in to the "install ls without rebooting the 
+2008-01-23: More work as gone in to the "install ls without rebooting the
             computer" feature. Mostly it's been changes to the finish page
             code.
             I've added zBM's latest french translations.
@@ -189,10 +189,10 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2008-05-29: Got rid of an unnecessary variable. It was confusing to have it.
 
-2008-06-02: I tested LOSI today and it seems the "Slow switching between evar 
+2008-06-02: I tested LOSI today and it seems the "Slow switching between evar
             pages in installer." bug has been solved. I just had to tell NSIS
             to reserve the test.txt file to speed up its extraction.
-            The "No themesdir and themeslist.rc/themeselect.rc created" bug has 
+            The "No themesdir and themeslist.rc/themeselect.rc created" bug has
             also been solved.
             Fixed the file association code. It must have broken somewhere along
             the way.
@@ -200,25 +200,25 @@ ls.com is down for an unknown period of time I started this changelog instead
             Released LOSI-0.2
 
 2008-06-07: Added Web Browser and Image Editor to the top of the popup menu.
-            Added Display Settings and Add/Remove Programs to the System menu 
+            Added Display Settings and Add/Remove Programs to the System menu
             in the popup menu.
             Reduced the number of registry keys changed during installation/
             uninstallation.
 
-2008-06-08: Fixed the bug where the uninstaller would remove too much (it 
+2008-06-08: Fixed the bug where the uninstaller would remove too much (it
             didn't keep the personal files even if you asked it to).
-            I'm also not closing the uninstaller automatically any longer. This 
-            makes it possible for the user to read/copy the log messages if 
+            I'm also not closing the uninstaller automatically any longer. This
+            makes it possible for the user to read/copy the log messages if
             he/she wants to.
             Made it possible to associate .box files with a text editor.
             (.box files are used by the module LSBox.)
-            Fixed this: The checkboxes where you choose what to install aren't 
+            Fixed this: The checkboxes where you choose what to install aren't
             localized. The text is hardcoded in English.
 
 2008-06-09: Patches from jugg.
-            The patches does the following:  Adds release_notes.txt to the 
-            installation, removes the "read-only" checkbox from the e-var 
-            browse dialogs and repositions the e-var contents to be evenly 
+            The patches does the following:  Adds release_notes.txt to the
+            installation, removes the "read-only" checkbox from the e-var
+            browse dialogs and repositions the e-var contents to be evenly
             spaced and aligned on both pages.
 
 2008-06-10: Made a more even distribution of evar configs over the two pages.
@@ -240,3 +240,24 @@ ls.com is down for an unknown period of time I started this changelog instead
             to the computer.
 
 2008-06-15: Fixed how SLI-ThemeManager was called from the popup menu.
+
+2008-09-01: The check for advanced/normal install should only be carried out if
+            the page to select the type of install is included. This is now the
+            case.
+            I've converted the evar pages to use nsDialogs instead of
+            InstallOptions. The reason for this was that I wanted to be able
+            to make the "Browse for file" dialog a little smarter about what
+            directory it started looking in.
+
+2008-09-03: Updated the language strings. Mostly the French ones.
+
+2008-09-15: Updated to xPaintClass 1.0 update 5.
+            Made it possible to compile without support for registering
+            extensions while keeping the uninstaller.
+            Fixed a bug in PageAndSectionConfigEvars.nsh where it wouldn't
+            save changes to evars that were made manually (as apposed to using
+            the Browse button).
+
+2008-09-16: Added SLI-ModuleManager and settingsipc-1.0.0.1.dll (needed by
+            sli-modulemanager).
+            Released LOSI 0.3

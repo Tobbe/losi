@@ -1,6 +1,9 @@
 Function PreAdvanced
+	; Only run this check if the TypeOfInstall page is used
+	!ifdef PAGE_TYPE_OF_INSTALL
 	StrCmp $advancedInstall "true" +2
 	Abort
+	!endif
 FunctionEnd
 
 Function PreDir

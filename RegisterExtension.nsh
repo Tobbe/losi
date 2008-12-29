@@ -1,3 +1,6 @@
+!ifndef ASSOCIATE_FILE_NSH
+!define ASSOCIATE_FILE_NSH
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; AssociateFile
@@ -156,3 +159,5 @@ Function un.DeAssociateFile
 	Pop $3
 	Pop $2
 FunctionEnd
+
+!endif

@@ -3,6 +3,7 @@
 ; FindProcDLL   (don't get the optimized for size version, 
 ; KillProcDLL    I had no luck with that)
 ; ShutDown
+; tSFD
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 
@@ -24,7 +25,7 @@ var advancedInstall
 !include WinMessages.nsh
 
 !define PRODUCT_NAME "LOSI"
-!define PRODUCT_VERSION "0.2"
+!define PRODUCT_VERSION "0.3"
 !define PRODUCT_PUBLISHER "Tobbe"
 !define PRODUCT_WEB_SITE "http://tlundberg.com/LOSI"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\litestep.exe"
@@ -61,8 +62,6 @@ SetCompressor bzip2
 ;Only for solid compression (by default, solid compression is enabled for BZIP2 and LZMA)
 
 ReserveFile "ioTypeOfInstall.ini"
-ReserveFile "ioEvars.ini"
-ReserveFile "ioEvars2.ini"
 ReserveFile "ioHowLS.ini"
 ReserveFile "ioWhereProfiles.ini"
 ReserveFile "ioPreviousInstall.ini"
@@ -120,7 +119,7 @@ ShowUnInstDetails show
 !include SectionLOSI.nsh
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
-!include PageInstFiles.nsh
+!include PageInstFiles.nsh ; This page is needed to execute any Sections
 !include PageAndHiddenSectionStartMenu.nsh
 !include PageAndSectionConfigEvars.nsh
 !include PageAndSectionFileAssoc.nsh
@@ -135,7 +134,7 @@ ShowUnInstDetails show
 Function .onInit
 	StrCpy $abortWarning "true"
 	StrCpy $advancedInstall "true"
-	
+
 	UserInfo::GetName
 	Pop $username
 	ClearErrors ; UserInfo might genrate an error, but we don't care
@@ -153,14 +152,22 @@ Function .onInit
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioTypeOfInstall.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioHowLS.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioWhereProfiles.ini"
-    !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioEvars.ini"
-    !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioEvars2.ini"
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioFileAssoc.ini"
 FunctionEnd
 
 Function .onInstSuccess
 	;Alwasy create/update log within the .onInstSuccess function
 	!insertmacro UNINSTALL.LOG_UPDATE_INSTALL
+FunctionEnd
+
+Function .onGUIEnd
+	!ifdef PAGE_CONFIG_EVARS
+		${EvarNames->Inited} 0 dontDeleteArrays
+			${InputHwnds->Delete}
+			${EvarNames->Delete}
+			${EvarPaths->Delete}
+		dontDeleteArrays:
+	!endif
 FunctionEnd
 
 Function customOnUserAbort

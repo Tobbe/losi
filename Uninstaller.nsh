@@ -2,6 +2,7 @@
 !define WRITE_UNINSTALLER
 	!include uninstShell9x.nsh
 	!include GetWindowsVersion.nsh
+	!include RegisterExtension.nsh
 
 	!insertmacro MUI_UNPAGE_INSTFILES
 	
@@ -31,22 +32,24 @@
 		DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
 		DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
 		
-		; Unregister filetypes
-		Push ".lsz"
-		Push "LiteStep.lsz"
-		call un.DeAssociateFile
-		
-		Push ".rc"
-		Push "LiteStep.rc"
-		call un.DeAssociateFile
-		
-		Push ".mz"
-		Push "LiteStep.mz"
-		call un.DeAssociateFile
-		
-		Push ".lua"
-		Push "LiteStep.lua"
-		call un.DeAssociateFile
+		!ifdef PAGE_FILE_ASSOC
+			; Unregister filetypes
+			Push ".lsz"
+			Push "LiteStep.lsz"
+			call un.DeAssociateFile
+			
+			Push ".rc"
+			Push "LiteStep.rc"
+			call un.DeAssociateFile
+			
+			Push ".mz"
+			Push "LiteStep.mz"
+			call un.DeAssociateFile
+			
+			Push ".lua"
+			Push "LiteStep.lua"
+			call un.DeAssociateFile
+		!endif
 		
 		Call un.GetWindowsVersion
 		Pop $R0
