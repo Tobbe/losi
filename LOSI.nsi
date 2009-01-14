@@ -1,6 +1,6 @@
-; NSIS extensions needed to compile this script that 
+; NSIS extensions needed to compile this script that
 ;    aren't in the default install:
-; FindProcDLL   (don't get the optimized for size version, 
+; FindProcDLL   (don't get the optimized for size version,
 ; KillProcDLL    I had no luck with that)
 ; ShutDown
 ; tSFD
@@ -116,11 +116,11 @@ ShowUnInstDetails show
 !include SectionCore.nsh
 !include SectionTheme.nsh
 !include HiddenSectionTheme.nsh
+!include PageAndHiddenSectionStartMenu.nsh
 !include SectionLOSI.nsh
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
 !include PageInstFiles.nsh ; This page is needed to execute any Sections
-!include PageAndHiddenSectionStartMenu.nsh
 !include PageAndSectionConfigEvars.nsh
 !include PageAndSectionFileAssoc.nsh
 !include PageFinish.nsh
@@ -142,10 +142,10 @@ Function .onInit
 	StrCpy $whereprofiles "$PROGRAMFILES\LiteStep\Profiles\$username"
 
     !insertmacro MUI_LANGDLL_DISPLAY
-	
+
 	;Always prepare the log within the .onInit function
 	!insertmacro UNINSTALL.LOG_PREPARE_INSTALL
-	
+
 	;Extract InstallOptions INI Files
 	!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioPreReq.ini"
 	!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioPreviousInstall.ini"
@@ -177,7 +177,7 @@ Function customOnUserAbort
 	NoAbortWarning:
 FunctionEnd
 
-!ifdef WRITE_UNINSTALLER    
+!ifdef WRITE_UNINSTALLER
 	Function un.onUninstSuccess
 	    HideWindow
 	    MessageBox MB_ICONINFORMATION|MB_OK $(UNINSTALL_SUCCESS)

@@ -28,9 +28,6 @@
 			Call un.KillLS
 		GoTo +2
 			StrCpy $4 "lsWasNotRunning"
-	
-		DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
-		DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
 		
 		!ifdef PAGE_FILE_ASSOC
 			; Unregister filetypes
@@ -215,6 +212,9 @@
 		!insertmacro UNINSTALL.LOG_END_UNINSTALL
 
 	    DeleteRegKey HKLM "Software\${PRODUCT_NAME}"
+	    
+	    DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
+		DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
 	
 		; This code causes the Add/Remove Program dialog to freeze
 		;FindProcDLL::FindProc "explorer.exe"
