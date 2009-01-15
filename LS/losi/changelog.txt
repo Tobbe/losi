@@ -261,3 +261,10 @@ ls.com is down for an unknown period of time I started this changelog instead
 2008-09-16: Added SLI-ModuleManager and settingsipc-1.0.0.1.dll (needed by
             sli-modulemanager).
             Released LOSI 0.3
+
+2009-01-14: Moved my project over to github.com.
+            Fixed a bug where you couldn't change the start menu folder name, 
+            and subsequentially, when you could change the name, the folder 
+            wouldn't get deleted.
+
+2009-01-15: Made all the text fit on the WhereProfiles page.
