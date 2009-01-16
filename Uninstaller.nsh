@@ -3,6 +3,7 @@
 	!include uninstShell9x.nsh
 	!include GetWindowsVersion.nsh
 	!include RegisterExtension.nsh
+	!include unStartExplorer.nsh
 
 	!insertmacro MUI_UNPAGE_INSTFILES
 	
@@ -20,14 +21,71 @@
 	SectionEnd
 	
 	Section Uninstall
+		Call un.GetWindowsVersion
+		Pop $R0
+	
+		${If} $R0 == "9x"
+			Call un.Shell9x
+		${Else}
+			;; Restore all the original values ;;
+			
+			; Make sure the old values are still in the registry. If they aren't and we would run this code
+			; all the registry settings would be deleted, and we don't want that. Use a registry value that
+			; is always defined for the check.
+			
+			ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
+			${IfNot} $0 == ""
+		#		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMBShell"
+		#		StrCmp $0 "" 0 +2
+		#			DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
+		#		WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" $0
+		
+				ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
+				StrCmp $0 "" 0 +3
+					DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
+					GoTo +2
+				WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
+		
+				ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
+				StrCmp $0 "" 0 +3
+					DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+					GoTo +2
+				WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
+		
+				ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell"
+				StrCmp $0 "" 0 +3
+					DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+					GoTo +2
+				WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
+			
+				; Refresh window's ini files cache
+				WriteINIStr "system.ini" "" "" ""
+			${EndIf}
+		${EndIf}
+		
 		FindProcDLL::FindProc "litestep.exe"
 		Sleep 50
-		StrCmp $R0 1 +1 +6
+		${If} $R0 == 1
 			StrCpy $4 "lsWasRunning"
 			Push "$INSTDIR"
 			Call un.KillLS
-		GoTo +2
+		${Else}
 			StrCpy $4 "lsWasNotRunning"
+		${EndIf}
+		
+		; It shouldn't be possible for ls to run at this point, but I have had some
+		; weird errors, so I'm going to kill it one more time just to be sure
+		KillProcDLL::KillProc "litestep.exe"
+		
+		; Now it's time to kill LS and bring back explorer.
+		
+		; We only have to do all of this if Litestep was running in the first
+		; place
+		${If} $4 == "lsWasRunning"
+			DetailPrint "Will now try to start explorer"
+			Call un.StartExplorer
+			DetailPrint "Continue uninstallation"
+		${EndIf}
 		
 		!ifdef PAGE_FILE_ASSOC
 			; Unregister filetypes
@@ -47,55 +105,6 @@
 			Push "LiteStep.lua"
 			call un.DeAssociateFile
 		!endif
-		
-		Call un.GetWindowsVersion
-		Pop $R0
-	
-		StrCmp $R0 "9x" un9xShell
-	
-		;; Restore all the original values ;;
-		
-		; Make sure the old values are still in the registry. If they aren't and we would run this code
-		; all the registry settings would be deleted, and we don't want that. Use a registry value that
-		; is always defined for the check.
-		
-		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
-		StrCmp $0 "" removefiles
-	#		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMBShell"
-	#		StrCmp $0 "" 0 +2
-	#			DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell"
-	#		WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" $0
-	
-			ReadRegDWORD $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUDesktopProcess"
-			StrCmp $0 "" 0 +3
-				DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess"
-				GoTo +2
-			WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" $0
-	
-			ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "LMShell"
-			StrCmp $0 "" 0 +3
-				DeleteRegValue HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
-				GoTo +2
-			WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
-	
-			ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer\Uninstaller" "CUShell"
-			StrCmp $0 "" 0 +3
-				DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
-				GoTo +2
-			WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell" $0
-		
-			; Refresh window's ini files cashe
-			WriteINIStr "system.ini" "" "" ""
-	
-			GoTo removefiles
-	
-		un9xShell:
-		Call un.Shell9x
-	
-		removefiles:
-		; It shouldn't be possible for ls to run at this point, but I have had some
-		; weird errors, so I'm going to kill it one more time just to be sure
-		KillProcDLL::KillProc "litestep.exe"
 	
 		;; Get regstrings to know where some of the stuff are
 		ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
@@ -127,6 +136,17 @@
 		
 		Delete "$DESKTOP\Set Explorer as Shell.lnk"
 		Delete "$DESKTOP\Set LiteStep as Shell.lnk"
+		
+		
+		; Time to check if explorer has started. If it hasn't we need to try 
+		; to make it start
+		FindProcDLL::FindProc "explorer.exe"
+		Sleep 50
+		${If} $R0 != 1
+			; Explorer still isn't running, try to start it again.
+			DetailPrint "Trying to start explorer again"
+			Call un.StartExplorer
+		${EndIf}
 	
 	
 		; Clear all old errors so I can use the error checking for
@@ -160,50 +180,13 @@
 
 		IfErrors 0 +3
 			DetailPrint "$INSTDIR\modules\ could not be deleted"
-			ClearErrors		
+			ClearErrors
 
-		; Now it's time to kill LS and bring back explorer. However, I can't
-		; just do something like 'ExecShell "open" "explorer.exe"' because
-		; that would make the Add/Remove Programs dialog freeze until
-		; explorer was killed. It has this check that makes it wait for every
-		; subprocess of the installer to quit before you can interact with it
-		; again. So the way I make it work now is by using window's built in
-		; feature to restart the shell whenever it's unexpectedly killed.
+	    DeleteRegKey HKLM "Software\${PRODUCT_NAME}"
+	    
+	    DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
+		DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
 		
-		; We only have to do all of this if Litestep was running in the first
-		; place
-		StrCmp $4 "lsWasRunning" +1 continueDeleting
-			; This whole trick wont work if there are any explorer windows open
-	       	KillProcDLL::KillProc "explorer.exe"
-	       	Sleep 500
-	
-			; Make sure the "restart shell" feature is turned on. (Back up the
-			; old value first)
-			ReadRegDWORD $0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
-			WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 1
-	
-			; Make LS the shell
-			FileOpen $1 "$INSTDIR\step.rc" w
-			FileWrite $1 "LSSetAsShell"
-			FileClose $1
-	
-			; Start Litestep as a "real" shell (LSSetAsShell forces LS to call SetShellWindow)
-			Exec "$INSTDIR\litestep.exe"
-			Sleep 2000 ; Give LS two seconds to start
-	
-			; Kill Litestep. This should make explorer start
-			Push $INSTDIR
-			Call un.KillLS
-	
-			; Change back the value of "AutoRestartShell"
-			WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $0
-			
-			Sleep 2000 ; Give explorer some time to start
-
-
-		; Now we can continue on with deleting the last LS files
-		continueDeleting:
-
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$whereprofiles\themes"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\NLM"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\LOSI"
@@ -211,11 +194,23 @@
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
 		!insertmacro UNINSTALL.LOG_END_UNINSTALL
 
-	    DeleteRegKey HKLM "Software\${PRODUCT_NAME}"
-	    
-	    DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
-		DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-	
+		; Time to check if explorer has started for the last time. Now
+		; we *really* have to make sure it starts
+		FindProcDLL::FindProc "explorer.exe"
+		Sleep 50
+		${If} $R0 != 1
+			DetailPrint ""
+			DetailPrint ""
+			DetailPrint ""
+			DetailPrint ""
+			DetailPrint ""
+			DetailPrint "It seems explorer has a hard time starting."
+			DetailPrint "This is the last try to make it start."
+			DetailPrint ""
+			DetailPrint "Let explorer start. Then it's going to be killed"
+			Call un.StartExplorerByKillingExplorer
+		${EndIf}
+
 		; This code causes the Add/Remove Program dialog to freeze
 		;FindProcDLL::FindProc "explorer.exe"
 		;IntCmp $R0 1 +2 ; return code 1 means "Process was found"

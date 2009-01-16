@@ -1,3 +1,6 @@
+!ifndef KILL_FUNCTIONS_NSH
+!define KILL_FUNCTIONS_NSH
+
 ; Kill litestep if found
 Function KillLS
     Pop $R1
@@ -47,3 +50,22 @@ Function un.KillLS ; For the uninstaller
         		MessageBox MB_OK $(MB_FOUND_LS_UNINST)
     lsnotfound:
 FunctionEnd
+
+Function un.KillExplorer ; For the uninstaller
+	Pop $R1
+	FindProcDLL::FindProc "explorer.exe"
+    ${If} $R0 == 1
+        Sleep 50
+		KillProcDLL::KillProc "explorer.exe"
+		Sleep 2000
+		FindProcDLL::FindProc "explorer.exe"
+		Sleep 50
+    	${If} $R0 == 1
+    	    Sleep 50
+        	KillProcDLL::KillProc "explorer.exe"
+        	Sleep 50
+        ${EndIf}
+    ${EndIf}
+FunctionEnd
+
+!endif
