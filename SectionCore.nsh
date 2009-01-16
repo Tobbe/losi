@@ -10,9 +10,11 @@
 	!include SectionsInclude.nsh
 
 	Section "$(NAME_SecCore)" SecCore
-		Push "$INSTDIR"
-		Call KillLS
-		Pop $R9
+		${If} ${FileExists} "$INSTDIR\litestep.exe"
+			Push "$INSTDIR"
+			Call KillLS
+			Pop $R9
+		${EndIf}
 
 		SetOutPath "$SYSDIR"
 		SetOverwrite off
