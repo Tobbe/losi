@@ -272,3 +272,6 @@ ls.com is down for an unknown period of time I started this changelog instead
 2009-01-16: When uninstalling LOSI Explorer should start as the shell instead
             of LiteStep. This wasn't always the case however. The code for this
             is much more robust now and hopefully this doesn't happen again.
+            The Finish page had code that almost always would set the
+            AutoRestartShell registry value to 0. Now it correctly restores
+            the value to what the user had before running the installer.

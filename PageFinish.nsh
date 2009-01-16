@@ -21,7 +21,7 @@ doneSettingUp:
 FunctionEnd
 
 Function FinishRun
-    ReadRegDWORD $R0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
+    ReadRegDWORD $R7 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 0
 
 	; Always kill LS
@@ -34,7 +34,7 @@ Function FinishRun
 		Sleep 2000
 execLS:
 	ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
-	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R0
+	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R7
 FunctionEnd
 
 !define MUI_PAGE_CUSTOMFUNCTION_PRE SetupFinishPage
