@@ -268,3 +268,7 @@ ls.com is down for an unknown period of time I started this changelog instead
             wouldn't get deleted.
 
 2009-01-15: Made all the text fit on the WhereProfiles page.
+
+2009-01-16: When uninstalling LOSI Explorer should start as the shell instead
+            of LiteStep. This wasn't always the case however. The code for this
+            is much more robust now and hopefully this doesn't happen again.

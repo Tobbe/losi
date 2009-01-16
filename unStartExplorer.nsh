@@ -51,6 +51,8 @@ Function un.StartExplorer
 	${EndIf}
 
 	; Change back the value of "AutoRestartShell"
+	; It's important Windows has started its shell recovery before we change 
+	; this back to it's previous value (if that value happened to be 0).
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $0
 FunctionEnd
 
@@ -93,6 +95,8 @@ Function un.StartExplorerByKillingExplorer
 	${EndWhile}
 	
 	; Change back the value of "AutoRestartShell"
+	; It's important Windows has started its shell recovery before we change 
+	; this back to it's previous value (if that value happened to be 0).
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $0
 FunctionEnd
 	
