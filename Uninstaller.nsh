@@ -82,8 +82,10 @@
 		; We only have to do all of this if Litestep was running in the first
 		; place
 		${If} $4 == "lsWasRunning"
-			DetailPrint "Will now try to start explorer"
+			DetailPrint "Will now try to start explorer, this will take a few seconds."
+			SetDetailsPrint none
 			Call un.StartExplorer
+			SetDetailsPrint both
 			DetailPrint "Continue uninstallation"
 		${EndIf}
 		
