@@ -23,7 +23,15 @@
 		WriteINIStr "$PLUGINSDIR\ioHowLS.ini" "Field 3" "Text" "$(INSTALL_CU)"
 		WriteINIStr "$PLUGINSDIR\ioHowLS.ini" "Field 4" "Text" "$(INSTALL_NOSHELL)"
 		
-		!insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioHowLS.ini"
+		!insertmacro MUI_INSTALLOPTIONS_INITDIALOG "ioHowLS.ini"
+		Pop $R0 ;HWND (handle) of dialog
+		Push "$PLUGINSDIR\ioHowLS.ini" ;Page .ini file where the field can be found.
+		Push "$R0" ;Page handle you got when reserving the page.
+		Push "3"   ;Field number to set focus.
+		Call SetFocus
+
+		!insertmacro MUI_INSTALLOPTIONS_SHOW
+		
 		end:
 	FunctionEnd
 !endif
