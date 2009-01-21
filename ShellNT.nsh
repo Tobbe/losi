@@ -2,7 +2,7 @@
 # To do all this without rebooting or even logging off, this is what needs to be done:
 #   Change the Shell value in IniFileMappings, something like this:
 #       WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" "USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
-#   Refresh window's ini files cashe, something like this:
+#   Refresh Windows' ini files cache, something like this:
 #       WritePrivateProfileString(NULL, NULL, NULL, "system.ini") [C code]
 #       WriteINIStr "system.ini"     <-- might work
 #   Change to the new shell, something like this:
@@ -31,23 +31,26 @@ Function setShellNT
     WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer" "DesktopProcess" 1
 
     ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 2" "State" ;Field 2 is All Users
-    IntCmp $0 1 +3 0 0
+	ReadINIStr $1 "$PLUGINSDIR\ioHowLS.ini" "Field 3" "State" ;Field 3 is Current User
 
-	ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 3" "State" ;Field 3 is Current User
-    IntCmp $0 1 +2 end
+	${If} $0 == 1
+	${OrIf} $1 == 1
+		${If} $0 == 1
+			; All users
 
-	; Set shell folders to all users - only admins can do this
-	SetShellVarContext all
+			; Set shell folders to all users - only admins can do this
+			SetShellVarContext all
+		${Else}
+			; Current User
 
-    ; -- Set as shell -- ;
-    
-    ; Tell Windows there might be a shell setting in HKCU
-    WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" "USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
-    
-    ; Refresh window's ini files cashe
-    WriteINIStr "system.ini" "" "" ""
-    
-    ; Change to the new shell
-    WriteINIStr "system.ini" "boot" "shell" "$INSTDIR\litestep.exe"
-end:
+			; Tell Windows there might be a shell setting in HKCU
+			WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" "USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+
+			; Refresh window's ini files cashe
+			WriteINIStr "system.ini" "" "" ""
+		${EndIf}
+
+		; Change to the new shell
+		WriteINIStr "system.ini" "boot" "shell" "$INSTDIR\litestep.exe"
+	${EndIf}
 FunctionEnd

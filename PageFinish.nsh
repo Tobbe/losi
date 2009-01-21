@@ -16,6 +16,8 @@ Function SetupFinishPage
 		GoTo doneSettingUp
 	; ELSE IF ($hasStartedLS == TRUE)
 	StrCmp $hasStartedLS "true" 0 doneSettingUp
+		; Remove the "Run LiteStep" checkbox. LiteStep is already running.
+		; The box is not checked, so the "FinishRun" function will not run.
  		WriteINIStr "$PLUGINSDIR\ioSpecial.ini" "Settings" "NumFields" "3"
 doneSettingUp:
 FunctionEnd
@@ -23,16 +25,17 @@ FunctionEnd
 Function FinishRun
     ReadRegDWORD $R7 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 0
-
-	; Always kill LS
-	Push "$INSTDIR"
-	Call KillLS
 	
-	; IF ($currentShell != litestep.exe)
-	StrCmp $currentShell "litestep.exe" execLS
+	MessageBox MB_OK $currentShell
+	
+	${If} $currentShell == "litestep.exe"
+		Push "$INSTDIR"
+		Call KillLS
+	${Else}
 		KillProcDLL::KillProc $currentShell
 		Sleep 2000
-execLS:
+	${EndIf}
+
 	ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R7
 FunctionEnd

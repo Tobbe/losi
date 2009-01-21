@@ -103,7 +103,10 @@
 		File ".\LS\NLM\*"
 		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
+		; Get the current shell
 		ReadIniStr $0 "system.ini" "boot" "shell"
+
+		; Strip the path, so we keep only the .exe name
 		${ExePath} $0 $0
 		${RIndexOf} $R0 $0 '\' ; Macro expands to 4 lines
 		; IF
@@ -125,22 +128,17 @@
 			StrCpy $currentShell "explorer.exe"
 
 		ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
-		IntCmp $R0 1 doneSetShell ;If we're not setting LS as the shell, we're jumping down
-		                          ;to doneSetShell
-
+		${If} $R0 != 1
 			; Check whether we're installing on a 9x or NT based system
 			Call GetWindowsVersion
 			Pop $R0
 
-			StrCmp $R0 "9x" 0 setNTShell
+			${If} $R0 == "9x"
 				Call setShell9x
-				GoTo doneSetShell
-
-			setNTShell:
-			;If we get to this point we're not installing on a 9x based machine
-			Call setShellNT
-
-		doneSetShell:
+			${Else}
+				Call setShellNT
+			${EndIf}
+		${EndIf}
 		Pop $0
 
 		CreateShortCut "$DESKTOP\Set Explorer as Shell.lnk" '"$INSTDIR\utilities\wxlua.exe"' '"$INSTDIR\utilities\LOSS.lua" explorer' "$INSTDIR\losi\SetShellExplorer.ico"
