@@ -278,3 +278,6 @@ ls.com is down for an unknown period of time I started this changelog instead
             Added a check to see if there is a litestep.exe file in the dir
             we're installing to. If there isn't there's no need to kill any
             running litestep.exe when extracting files.
+
+2009-01-21: Made the "install for all users" option set the shell in HKLM
+            instead of the registry as it used to.
