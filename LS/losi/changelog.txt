@@ -281,3 +281,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2009-01-21: Made the "install for all users" option set the shell in HKLM
             instead of the registry as it used to.
+
+2009-01-24: I have updated the build requirements listed in LOSI.nsi and gotten
+            rid of the dependency on the tSFD plugin since its functionality
+            is now included in the nsDialogs plugin.

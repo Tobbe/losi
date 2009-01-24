@@ -3,7 +3,7 @@
 ; FindProcDLL   (don't get the optimized for size version,
 ; KillProcDLL    I had no luck with that)
 ; ShutDown
-; tSFD
+; NSISArray     (And the header that comes with it)
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 

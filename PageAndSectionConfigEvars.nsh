@@ -225,7 +225,7 @@
 			${EndIf}
 		${EndIf}
 
-		tSFD::SelectFileDialog /NOUNLOAD open $R2 "*.exe|*.exe"
+		nsDialogs::SelectFileDialog /NOUNLOAD open $R2 "*.exe|*.exe"
 		Pop $R2
 		${If} $R2 != ""
 			SendMessage $R0 ${WM_SETTEXT} 0 STR:$R2
