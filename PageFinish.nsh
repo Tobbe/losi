@@ -26,8 +26,6 @@ Function FinishRun
     ReadRegDWORD $R7 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell"
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" 0
 	
-	MessageBox MB_OK $currentShell
-	
 	${If} $currentShell == "litestep.exe"
 		Push "$INSTDIR"
 		Call KillLS
