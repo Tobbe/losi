@@ -30,57 +30,58 @@
 		SetOutPath "$INSTDIR"
 
 		Push $0
+		Push $1
 		ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "State" ;Field 4 is Documents and Settings
-		IntCmp $0 1 +3 0 0
-		ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "State" ;Field 3 is LSDir\Profiles
-		IntCmp $0 1 profiles noprofiles
+		ReadINIStr $1 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "State" ;Field 3 is LSDir\Profiles
+		
+		${If} $0 == 1
+			; Install to Documents and Settings
+			StrCpy $whereprofiles "$APPDATA\LiteStep"
+			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+			File ".\LS\step-das\step.rc" ;das = Documents and Settings :p
+			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+		${ElseIf} $1 == 1
+			; Install to LSDir\Profiles
+			UserInfo::GetName
+			Pop $username
+			${If} $username == ""
+				; If we get here it means no username was found, probably due to installing on 9x when not logged in
+				MessageBox MB_OK $(MB_NO_USER)
+				
+				; Don't install any profiles
+				StrCpy $0 0
+				StrCpy $1 0
+			${EndIf}
+	
+			StrCpy $whereprofiles "$INSTDIR\Profiles\$username"
+			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+			File ".\LS\step-lsdir\step.rc"
+			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+		${EndIf}
+		
+		${If} $0 == 0
+		${AndIf} $1 == 0
+			; Don't install any profiles
+			StrCpy $whereprofiles "$INSTDIR"
+			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+			File ".\LS\step-none\step.rc"
+			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+		${EndIf}
 
-		; Install to Documents and Settings
-		StrCpy $whereprofiles "$APPDATA\LiteStep"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-		File ".\LS\step-das\step.rc" ;das = Documents and Settings :p
-		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-		GoTo reg
-
-		; Install to LSDir\Profiles
-		profiles:
-		UserInfo::GetName
-		Pop $username
-		StrCmp $username "" +1 profilesok
-
-		; If we get here it means no username was found, probably due to installing on 9x when not logged in
-		MessageBox MB_OK $(MB_NO_USER)
-		GoTo noprofiles
-
-		profilesok:
-		StrCpy $whereprofiles "$INSTDIR\Profiles\$username"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-		File ".\LS\step-lsdir\step.rc"
-		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-		GoTo reg
-
-		; Don't install any profiles
-		noprofiles:
-		StrCpy $whereprofiles "$INSTDIR"
-		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-		File ".\LS\step-none\step.rc"
-		!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
-
-		reg:
+		Pop $1
 		Pop $0
 
 		;; Store a few paths in the registry
 		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "LitestepDir" $INSTDIR
-		; IF
-		StrCmp $whereprofiles "$INSTDIR\Profiles\$username" 0 +3
+
+		${If} $whereprofiles == "$INSTDIR\Profiles\$username"
 			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "$INSTDIR\Profiles\%USERNAME%"
-			GoTo +5
-		; ELSE IF
-		StrCmp $whereprofiles "$APPDATA\LiteStep" 0 +3
+		${ElseIf} $whereprofiles == "$APPDATA\LiteStep"
 			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "%APPDATA%\Litestep"
-			GoTo +2
-		; ELSE
+		${Else}
 			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
+		${EndIf}
+
 		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$whereprofiles\personal"
 
 		SetOutPath "$INSTDIR"
@@ -109,23 +110,23 @@
 		; Strip the path, so we keep only the .exe name
 		${ExePath} $0 $0
 		${RIndexOf} $R0 $0 '\' ; Macro expands to 4 lines
-		; IF
-		IntCmp $R0 -1 0 +3 +3
+		
+		${If} $R0 == -1
 			StrCpy $currentShell $0
-			GoTo +5
-		; ELSE
+		${Else}
 			StrLen $R1 $0
 			IntOp $R0 $R1 - $R0
 			IntOp $R0 $R0 + 1
 			StrCpy $currentShell $0 "" $R0
+		${EndIf}
 	
-		; IF
-		StrCmp $currentShell "" 0 +2
+		${If} $currentShell == ""
 			ReadRegStr $currentShell HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
+		${EndIf}
 	
-		; IF
-		StrCmp $currentShell "" 0 +2
+		${If} $currentShell == ""
 			StrCpy $currentShell "explorer.exe"
+		${EndIf}
 
 		ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
 		${If} $R0 != 1
@@ -160,9 +161,9 @@
 		;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 		File /r /x ".svn" ".\Personal\personal\*"
 	
-		StrCmp $R9 "LSKilled" 0 wasntRunning
+		${If} $R9 == "LSKilled"
 			ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
 			StrCpy $hasStartedLS "true"
-		wasntRunning:
+		${EndIf}
 	SectionEnd
 !endif
