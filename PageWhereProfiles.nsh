@@ -1,7 +1,7 @@
 !ifndef PAGE_WHERE_PROFILES
 !define PAGE_WHERE_PROFILES
 	!include SetFocus.nsh
-	!include GetWindowsVersion.nsh
+	!include WinVer.nsh
 	!include LogicLib.nsh
 
 	Page custom ioWhereProfiles
@@ -48,15 +48,13 @@
 		WriteINIStr "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "Text" "$(PROFILES_LSPROFILES)"
 		WriteINIStr "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "Text" "$(PROFILES_DAS)"
 
-		Call GetWindowsVersion
-		StrCmp $R0 "9x" modifyFor9x display
+		${IfNot} ${AtLeastWin2000}
+			; Remove the "Documents and Settings" profiles option when 
+			; installing on anything older than Win2000
+			WriteINIStr "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "Type" "Label"
+			WriteINIStr "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "Text" ""
+		${EndIf}
 
-		modifyFor9x:
-		;Remove the "Documents and Settings" profiles option when installing on 9x
-		WriteINIStr "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "Type" "Label"
-		WriteINIStr "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "Text" ""
-
-		display:
 		!insertmacro MUI_INSTALLOPTIONS_INITDIALOG "ioWhereProfiles.ini"
 		Pop $R0 ;HWND (handle) of dialog
 		Push "$PLUGINSDIR\ioWhereProfiles.ini" ;Page .ini file where the field can be found.
