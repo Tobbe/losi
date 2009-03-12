@@ -33,7 +33,7 @@
 		Push $1
 		ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "State" ;Field 4 is Documents and Settings
 		ReadINIStr $1 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "State" ;Field 3 is LSDir\Profiles
-		
+
 		${If} $0 == 1
 			; Install to Documents and Settings
 			StrCpy $whereprofiles "$APPDATA\LiteStep"
@@ -47,18 +47,18 @@
 			${If} $username == ""
 				; If we get here it means no username was found, probably due to installing on 9x when not logged in
 				MessageBox MB_OK $(MB_NO_USER)
-				
+
 				; Don't install any profiles
 				StrCpy $0 0
 				StrCpy $1 0
 			${EndIf}
-	
+
 			StrCpy $whereprofiles "$INSTDIR\Profiles\$username"
 			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 			File ".\LS\step-lsdir\step.rc"
 			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 		${EndIf}
-		
+
 		${If} $0 == 0
 		${AndIf} $1 == 0
 			; Don't install any profiles
@@ -119,11 +119,11 @@
 			IntOp $R0 $R0 + 1
 			StrCpy $currentShell $0 "" $R0
 		${EndIf}
-	
+
 		${If} $currentShell == ""
 			ReadRegStr $currentShell HKLM "Software\Microsoft\Windows NT\CurrentVersion\Winlogon" "Shell"
 		${EndIf}
-	
+
 		${If} $currentShell == ""
 			StrCpy $currentShell "explorer.exe"
 		${EndIf}
@@ -160,7 +160,7 @@
 		; Don't log these files, they are removed the traditional way
 		;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 		File /r /x ".svn" ".\Personal\personal\*"
-	
+
 		${If} $R9 == "LSKilled"
 			ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
 			StrCpy $hasStartedLS "true"
