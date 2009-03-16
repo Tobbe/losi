@@ -40,6 +40,12 @@ Function setShellNT
 
 			; Set shell folders to all users - only admins can do this
 			SetShellVarContext all
+
+			; Make sure the shell redirecion value is SYS: (the default)
+			WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot" "Shell" "SYS:Microsoft\Windows NT\CurrentVersion\Winlogon"
+
+			; Refresh window's ini files cashe
+			WriteINIStr "system.ini" "" "" ""
 		${Else}
 			; Current User
 
