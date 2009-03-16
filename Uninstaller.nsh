@@ -2,8 +2,11 @@
 !define WRITE_UNINSTALLER
 	!include uninstShell9x.nsh
 	!include GetWindowsVersion.nsh
-	!include RegisterExtension.nsh
 	!include unStartExplorer.nsh
+	
+	!ifdef PAGE_FILE_ASSOC
+		!include RegisterExtension.nsh
+	!endif
 
 	!insertmacro MUI_UNPAGE_INSTFILES
 	

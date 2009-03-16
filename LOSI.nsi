@@ -107,22 +107,22 @@ ShowUnInstDetails show
 ; Here you include the pages and sections you want in the installer.
 ; If you don't want one of the pages/sections just remove/comment that line.
 
-!include PageWelcome.nsh
-!include PageLicense.nsh
-!include PagePrerequisites.nsh
-!include PageTypeOfInstall.nsh
-!include PageDirectory.nsh
-!include PagePreviousInstall.nsh
+;!include PageWelcome.nsh
+;!include PageLicense.nsh
+;!include PagePrerequisites.nsh
+;!include PageTypeOfInstall.nsh
+;!include PageDirectory.nsh
+;!include PagePreviousInstall.nsh
 !include SectionCore.nsh
 !include SectionTheme.nsh
 !include HiddenSectionTheme.nsh
-!include PageAndHiddenSectionStartMenu.nsh
+;!include PageAndHiddenSectionStartMenu.nsh
 !include SectionLOSI.nsh
 !include PageHowLS.nsh
 !include PageWhereProfiles.nsh
 !include PageInstFiles.nsh ; This page is needed to execute any Sections
-!include PageAndSectionConfigEvars.nsh
-!include PageAndSectionFileAssoc.nsh
+;!include PageAndSectionConfigEvars.nsh
+;!include PageAndSectionFileAssoc.nsh
 !include PageFinish.nsh
 !include Uninstaller.nsh
 
@@ -214,6 +214,5 @@ FunctionEnd
 	!endif
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
-!include LongPath.nsh
 !include PreFunctions.nsh
 !include Kill.nsh

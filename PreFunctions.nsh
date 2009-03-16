@@ -6,6 +6,10 @@ Function PreAdvanced
 	!endif
 FunctionEnd
 
+!ifdef PAGE_DIRECTORY
+
+!include LongPath.nsh
+
 Function PreDir
 	Push $R0
 	Push $R1
@@ -16,3 +20,5 @@ Function PreDir
     	GoTo +2
 		StrCpy $INSTDIR "$R0\"
 FunctionEnd
+
+!endif
