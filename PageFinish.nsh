@@ -35,6 +35,16 @@ Function FinishRun
 	${EndIf}
 
 	ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep
+
+	; Wait for LiteStep to start
+	StrCpy $0 "0"
+	Sleep 100
+	FindProcDLL::FindProc "litestep.exe"
+	Pop $1
+	IntOp $0 $0 + 1
+	StrCmp $0 50 +2
+	StrCmp $1 1 +1 -5
+
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" "AutoRestartShell" $R7
 FunctionEnd
 
