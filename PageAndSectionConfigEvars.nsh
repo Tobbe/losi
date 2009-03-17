@@ -17,7 +17,7 @@
 
 	var tmp
 	
-	var configEvars
+	var evars_skipArrayInit
 
 	!include GetInQuotes.nsh
 	!include IndexOf.nsh
@@ -33,6 +33,7 @@
 	${ArrayFunc} WriteList
 	${ArrayFunc} Read
 	${ArrayFunc} Inited
+	${ArrayFunc} Debug
 	
 	${Array} EvarPaths 13 ${NSIS_MAX_STRLEN}
 	${ArrayFunc} WriteList
@@ -44,7 +45,6 @@
 	${ArrayFunc} Write
 
 	Section "$(NAME_SecConfigEvars)" SecConfigEvars
-		StrCpy $configEvars "true"
 	SectionEnd
 
 	Page custom ioEvars saveToArray1
@@ -56,6 +56,9 @@
 		${For} $R0 0 6
 	    	${InputHwnds->Read} $R1 $R0
 			System::Call "user32::SendMessage(i $R1, i ${WM_GETTEXT}, i ${NSIS_MAX_STRLEN}, t .R2)"
+			${If} $R2 == ""
+				StrCpy $R2 "..."
+			${EndIf}
 	    	${EvarPaths->Write} $R0 $R2
 	    ${Next}
 	FunctionEnd
@@ -66,52 +69,57 @@
 		${For} $R0 7 12
 	    	${InputHwnds->Read} $R1 $R0
 			System::Call "user32::SendMessage(i $R1, i ${WM_GETTEXT}, i ${NSIS_MAX_STRLEN}, t .R2)"
+			${If} $R2 == ""
+				StrCpy $R2 "..."
+			${EndIf}
 	    	${EvarPaths->Write} $R0 $R2
 	    ${Next}
+	    
+	    StrCpy $evars_skipArrayInit "true"
 	FunctionEnd
 	
 	Function ioEvars
-		${EvarNames->Init}
-		${EvarPaths->Init}
-		${InputHwnds->Init}
-
-		; The function below is smart about only doing
-		; this if the evar variables aren't already
-		; populated.
-		; By having this function call before the
-		; $configEvars check the evars will always get
-		; good values
+		; The function below is smart about only doing this if the evar 
+		; variables aren't already populated.
+		; By having this function call before the ${SectionIsSelected} check 
+		; the evars will always get good values
 		Call PopulateEvarVariables
 	
-		${If} $configEvars == "true"
-			${EvarNames->WriteList} '"File Manager:" \
-			                         "Text Editor:" \
-			                         "Command Prompt:" \
-			                         "Audio Player:" \
-			                         "Media Player:" \
-			                         "Graphics Viewer:" \ 
-			                         "Graphics Editor:" \
-			                         "Browser:" \
-			                         "Dial-up Networking:" \
-			                         "E-Mail Client:" \
-			                         "IRC Client:" \
-			                         "FTP:" \
-			                         "Instant Messaging:"'
-		
-			${EvarPaths->WriteList} '"$filemanager" \
-			                         "$texteditor" \
-			                         "$commandprompt" \
-			                         "$audioplayer" \
-			                         "$mediaplayer" \
-			                         "$gfxviewer" \ 
-			                         "$gfxeditor" \
-			                         "$browser" \
-			                         "$dun" \
-			                         "$email" \
-			                         "$irc" \
-			                         "$ftp" \
-			                         "$im"'
+		${If} ${SectionIsSelected} ${SecConfigEvars}
+			${If} $evars_skipArrayInit != "true"
+				${EvarNames->Init}
+				${EvarPaths->Init}
+				${InputHwnds->Init}
 
+				${EvarNames->WriteList} '"File Manager:" \
+				                         "Text Editor:" \
+				                         "Command Prompt:" \
+				                         "Audio Player:" \
+				                         "Media Player:" \
+				                         "Graphics Viewer:" \ 
+				                         "Graphics Editor:" \
+				                         "Browser:" \
+				                         "Dial-up Networking:" \
+				                         "E-Mail Client:" \
+				                         "IRC Client:" \
+				                         "FTP:" \
+				                         "Instant Messaging:"'
+	
+				${EvarPaths->WriteList} '"$filemanager" \
+				                         "$texteditor" \
+				                         "$commandprompt" \
+				                         "$audioplayer" \
+				                         "$mediaplayer" \
+				                         "$gfxviewer" \ 
+				                         "$gfxeditor" \
+				                         "$browser" \
+				                         "$dun" \
+				                         "$email" \
+				                         "$irc" \
+				                         "$ftp" \
+				                         "$im"'
+
+			${EndIf}
 	        ;Call WriteEvarsToEdit
 	        
 	        nsDialogs::Create /NOUNLOAD 1018
@@ -123,6 +131,10 @@
 	        	
 	        	${EvarNames->Read} $R7 $R0
 	        	${EvarPaths->Read} $R6 $R0
+	        	
+	        	${If} $R6 == ""
+	        		StrCpy $R6 "..."
+	        	${EndIf}
 	        	
 	        	${NSD_CreateLabel} 0 $R8u 96 12u $R7
 	        	
@@ -149,7 +161,7 @@
 	FunctionEnd
 	
 	Function ioEvars2
-	    ${If} $configEvars == "true"
+	    ${If} ${SectionIsSelected} ${SecConfigEvars}
 	    	nsDialogs::Create /NOUNLOAD 1018
 			Pop $R0
 
@@ -160,6 +172,10 @@
 	        	
 	        	${EvarNames->Read} $R7 $R0
 	        	${EvarPaths->Read} $R6 $R0
+	        	
+	        	${If} $R6 == ""
+	        		StrCpy $R6 "..."
+	        	${EndIf}
 	        	
 	        	${NSD_CreateLabel} 0 $R8u 96 12u $R7
 	        	
