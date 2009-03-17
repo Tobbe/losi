@@ -8,6 +8,7 @@
 	!include ShellNT.nsh
 	!include GetWindowsVersion.nsh
 	!include SectionsInclude.nsh
+	!include EnumLoginUsers.nsh
 
 	Section "$(NAME_SecCore)" SecCore
 		${If} ${FileExists} "$INSTDIR\litestep.exe"
@@ -15,6 +16,8 @@
 			Call KillLS
 			Pop $R9
 		${EndIf}
+
+		${ArrayErrorStyle} MsgBox
 
 		SetOutPath "$SYSDIR"
 		SetOverwrite off
@@ -29,23 +32,63 @@
 		SetOverwrite on
 		SetOutPath "$INSTDIR"
 
+		${EnumLoginUsersArray->Init}
+
+		ReadINIStr $0 "$PLUGINSDIR\ioHowLS.ini" "Field 2" "State" ;Field 2 is All Users
+		${If} $0 == 1
+			; Installing for all users
+			${EnumLoginUsers}
+		${Else}
+			UserInfo::GetName
+			Pop $username
+			${EnumLoginUsersArray->Shift} "$username"
+		${EndIf}
+
 		Push $0
 		Push $1
+		Push $2
+		Push $3
+		Push $4
+		Push $5
+		Push $6
+
+		${whereprofilesarray->Clear}
+
 		ReadINIStr $0 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 4" "State" ;Field 4 is Documents and Settings
 		ReadINIStr $1 "$PLUGINSDIR\ioWhereProfiles.ini" "Field 3" "State" ;Field 3 is LSDir\Profiles
 
 		${If} $0 == 1
 			; Install to Documents and Settings
-			StrCpy $whereprofiles "$APPDATA\LiteStep"
+
+			${RIndexOf} $2 $PROFILE '\'
+			StrCpy $2 $PROFILE -$2
+
+			${RIndexOf} $3 $APPDATA '\'
+			StrCpy $3 $APPDATA "" -$3
+
+			${EnumLoginUsersArray->SizeOf} $4 $4 $4 ; Only the last is needed
+			IntOp $4 $4 - 1
+
+			${For} $5 0 $4 ; $5 from 0 to size-1
+				${EnumLoginUsersArray->Read} $6 $5
+
+				; Will append something like 
+				; C:\Documents and Settings\<username>\Application Data\LiteStep
+				; on to the array
+				${whereprofilesarray->Shift} "$2\$6$3\LiteStep"
+			${Next}
+
 			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 			File ".\LS\step-das\step.rc" ;das = Documents and Settings :p
 			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 		${ElseIf} $1 == 1
 			; Install to LSDir\Profiles
+
 			UserInfo::GetName
 			Pop $username
 			${If} $username == ""
-				; If we get here it means no username was found, probably due to installing on 9x when not logged in
+				; If we get here it means no username was found, probably due
+				; to installing on 9x when not logged in
 				MessageBox MB_OK $(MB_NO_USER)
 
 				; Don't install any profiles
@@ -53,7 +96,17 @@
 				StrCpy $1 0
 			${EndIf}
 
-			StrCpy $whereprofiles "$INSTDIR\Profiles\$username"
+			${EnumLoginUsersArray->SizeOf} $2 $2 $2
+			IntOp $2 $2 - 1
+
+			${For} $3 0 $2 ; $3 from 0 to size-1
+				${EnumLoginUsersArray->Read} $4 $3
+
+				; Will append something like
+				; C:\Program Files\LOSI\Profiles\<username> on to the array
+				${whereprofilesarray->Shift} "$INSTDIR\Profiles\$4"
+			${Next}
+
 			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 			File ".\LS\step-lsdir\step.rc"
 			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
@@ -62,27 +115,36 @@
 		${If} $0 == 0
 		${AndIf} $1 == 0
 			; Don't install any profiles
-			StrCpy $whereprofiles "$INSTDIR"
+
+			${whereprofilesarray->Shift} "$INSTDIR"
 			!insertmacro UNINSTALL.LOG_OPEN_INSTALL
 			File ".\LS\step-none\step.rc"
 			!insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 		${EndIf}
 
+		Pop $6
+		Pop $5
+		Pop $4
+		Pop $3
+		Pop $2
 		Pop $1
 		Pop $0
 
 		;; Store a few paths in the registry
 		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "LitestepDir" $INSTDIR
 
-		${If} $whereprofiles == "$INSTDIR\Profiles\$username"
-			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "$INSTDIR\Profiles\%USERNAME%"
-		${ElseIf} $whereprofiles == "$APPDATA\LiteStep"
-			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "%APPDATA%\Litestep"
-		${Else}
-			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" $whereprofiles
-		${EndIf}
+		${whereprofilesarray->Read} $0 0
 
-		WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$whereprofiles\personal"
+		${If} $0 == "$INSTDIR\Profiles\$username"
+			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "$INSTDIR\Profiles\%USERNAME%"
+			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$INSTDIR\Profiles\%USERNAME%\personal"
+		${ElseIf} $0 == "$APPDATA\LiteStep"
+			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "%APPDATA%\LiteStep"
+			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "%APPDATA%\LiteStep\personal"
+		${Else}
+			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir" "$0"
+			WriteRegStr HKLM "Software\${PRODUCT_NAME}\Installer" "PersonalDir" "$0\personal"
+		${EndIf}
 
 		SetOutPath "$INSTDIR"
 		!insertmacro UNINSTALL.LOG_OPEN_INSTALL
@@ -156,10 +218,18 @@
 		call backupPersonal
 
 		; Install the personal files
-		SetOutPath "$whereprofiles\personal"
-		; Don't log these files, they are removed the traditional way
-		;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
-		File /r /x ".svn" ".\Personal\personal\*"
+
+		${whereprofilesarray->SizeOf} $1 $2 $0
+		IntOp $0 $0 - 1
+
+		${For} $1 0 $0 ; $1 from 0 to size-1
+			${whereprofilesarray->Read} $2 $1
+
+			SetOutPath "$2\personal"
+			; Don't log these files, they are removed the traditional way
+			;!insertmacro UNINSTALL.LOG_OPEN_INSTALL
+			File /r /x ".svn" ".\Personal\personal\*"
+		${Next}
 
 		${If} $R9 == "LSKilled"
 			ExecShell open "$INSTDIR\litestep.exe" ;Launch LiteStep

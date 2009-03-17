@@ -217,7 +217,8 @@ Function WriteEvars
     ;-----------------------
     ;Open the file, write the data, close the file
     ClearErrors
-    FileOpen $tmp $whereprofiles\personal\evars.rc w
+    ${whereprofilesarray->Read} $tmp 0
+    FileOpen $tmp "$tmp\personal\evars.rc" w
     IfErrors error
 
 	FileWrite $tmp ';------------------------------------------------------------------------------$\r$\n'

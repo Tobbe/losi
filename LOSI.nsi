@@ -4,6 +4,7 @@
 ; KillProcDLL    I had no luck with that)
 ; ShutDown
 ; NSISArray     (And the header that comes with it)
+; UserMgr
 ; You will also need the include header "Advanced Uninstall Log NSIS Header"
 ;   Make sure you get the modified version that has support for localization
 
@@ -13,7 +14,7 @@
 var currentShell
 var hasStartedLS
 var username
-var whereprofiles
+var langWhereProfiles
 var abortWarning
 var advancedInstall
 
@@ -42,6 +43,27 @@ SetCompressor bzip2
 !define UNINSTALLOG_LOCALIZE
 !include AdvUninstLog.nsh
 !insertmacro UNATTENDED_UNINSTALL ;Keep all files we didn't install without asking
+
+;--------------------------------
+; NSISArray
+!include NSISArray.nsh
+${Array} whereprofilesarray 5 ${NSIS_MAX_STRLEN}
+${ArrayFunc} Read
+${ArrayFunc} Write
+${ArrayFunc} Shift
+${ArrayFunc} SizeOf
+${ArrayFunc} Clear
+${ArrayFunc} Debug
+
+${Array} un.whereprofilesarray 5 ${NSIS_MAX_STRLEN}
+${ArrayFunc} Read
+${ArrayFunc} Write
+${ArrayFunc} Shift
+${ArrayFunc} SizeOf
+${ArrayFunc} Clear
+${ArrayFunc} Debug
+
+
 
 ;--------------------------------
 ;MUI Settings
@@ -139,9 +161,11 @@ Function .onInit
 	Pop $username
 	ClearErrors ; UserInfo might genrate an error, but we don't care
 
-	StrCpy $whereprofiles "$PROGRAMFILES\LiteStep\Profiles\$username"
+	; Set a default profiles directory
+	${whereprofilesarray->Init}
+	${whereprofilesarray->Shift} "$PROGRAMFILES\LiteStep\Profiles\$username"
 
-    !insertmacro MUI_LANGDLL_DISPLAY
+	!insertmacro MUI_LANGDLL_DISPLAY
 
 	;Always prepare the log within the .onInit function
 	!insertmacro UNINSTALL.LOG_PREPARE_INSTALL
@@ -162,11 +186,12 @@ FunctionEnd
 
 Function .onGUIEnd
 	!ifdef PAGE_CONFIG_EVARS
-		${EvarNames->Inited} 0 dontDeleteArrays
+		${EvarNames->Inited} 0 dontDeleteEvarArrays
 			${InputHwnds->Delete}
 			${EvarNames->Delete}
 			${EvarPaths->Delete}
-		dontDeleteArrays:
+		dontDeleteEvarArrays:
+		${whereprofilesarray->Delete}
 	!endif
 FunctionEnd
 

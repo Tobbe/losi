@@ -3,6 +3,7 @@
 	!include uninstShell9x.nsh
 	!include GetWindowsVersion.nsh
 	!include unStartExplorer.nsh
+	!include IndexOf.nsh
 	
 	!ifdef PAGE_FILE_ASSOC
 		!include RegisterExtension.nsh
@@ -111,10 +112,6 @@
 			call un.DeAssociateFile
 		!endif
 	
-		;; Get regstrings to know where some of the stuff are
-		ReadRegStr $whereprofiles HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
-		ExpandEnvStrings $whereprofiles $whereprofiles
-	
 		Delete "$INSTDIR\${PRODUCT_NAME}.url"	
 		Delete "$DESKTOP\Set Explorer as Shell.lnk"
 		Delete "$DESKTOP\Set LiteStep as Shell.lnk"
@@ -152,31 +149,99 @@
 			DetailPrint "Trying to start explorer again"
 			Call un.StartExplorer
 		${EndIf}
-	
-	
+
+
+		;; Get regstrings to know where some of the stuff are
+		ReadRegStr $0 HKLM "Software\${PRODUCT_NAME}\Installer" "ProfilesDir"
+
+		${ArrayErrorStyle} MsgBox
+
+		${un.whereprofilesarray->Init}
+
+		${un.EnumLoginUsers}
+
+		${un.RIndexOf} $1 $PROFILE '\'
+		StrCpy $1 $PROFILE -$1
+		StrLen $2 $1
+		StrCpy $2 $0 $2
+		StrLen $3 "$INSTDIR\Profiles\"
+		StrCpy $3 $0 $3
+
+		${If} $0 == "%APPDATA%\LiteStep"
+			; Documents and Settings
+
+			${un.RIndexOf} $3 $APPDATA '\'
+			StrCpy $3 $APPDATA "" -$3
+
+			${un.EnumLoginUsersArray->SizeOf} $4 $4 $4
+			IntOp $4 $4 - 1
+
+			${For} $5 0 $4 ; $5 from 0 to size-1
+				${un.EnumLoginUsersArray->Read} $6 $5
+
+				; Will append something like
+				; C:\Documents and Settings\<username>\Application Data\LiteStep
+				; on to the array
+				${un.whereprofilesarray->Shift} "$1\$6$3\LiteStep"
+			${Next}
+		${ElseIf} $3 == "$INSTDIR\Profiles\"
+			${un.EnumLoginUsersArray->SizeOf} $2 $2 $2
+			IntOp $2 $2 - 1
+
+			${For} $3 0 $2 ; $3 from 0 to size-1
+				${un.EnumLoginUsersArray->Read} $4 $3
+
+				; Will append something like
+				; C:\Program Files\LOSI\Profiles\<username> on to the array
+				${un.whereprofilesarray->Shift} "$INSTDIR\Profiles\$4"
+			${Next}
+		${Else}
+			${un.whereprofilesarray->Shift} "$INSTDIR"
+		${EndIf}
+
 		; Clear all old errors so I can use the error checking for
 		; checking that all files are deleted
 		ClearErrors
-	
+
+		StrCpy $0 "keep_themes"
+		StrCpy $1 "keep_personal"
+
 		MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_THEMES) IDNO +2
-		RMDir /r /REBOOTOK "$whereprofiles\themes"
-	
-		IfErrors 0 +3
-			DetailPrint "$whereprofiles\themes could not be deleted"
-			ClearErrors
-	
+			StrCpy $0 "delete_themes"
+
 		MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(UNINSTALL_PERSONAL) IDNO +2
-		RMDir /r /REBOOTOK "$whereprofiles\personal\"
-	
-		IfErrors 0 +3
-			DetailPrint "$whereprofiles\personal could not be deleted"
-			ClearErrors
+			StrCpy $1 "delete_personal"
 
-		RMDir /REBOOTOK "$whereprofiles" ; By not specifying '/r' this dir will only be deleted if it's completely empty 
+		${un.whereprofilesarray->SizeOf} $2 $2 $2
+		IntOp $2 $2 - 1
 
-		IfErrors 0 +3
-			DetailPrint "$whereprofiles could not be deleted"
-			ClearErrors
+		${For} $3 0 $2 ; $3 from 0 to size-1
+			${un.whereprofilesarray->Read} $4 $3
+
+			${If} $0 == "delete_themes"
+				RMDir /r /REBOOTOK "$4\themes"
+
+				${If} ${Errors}
+					DetailPrint "$4\themes could not be deleted"
+					ClearErrors
+				${EndIf}
+			${EndIf}
+
+			${If} $1 == "delete_personal"
+				RMDir /r /REBOOTOK "$4\personal\"
+
+				${If} ${Errors}
+					DetailPrint "$4\personal could not be deleted"
+					ClearErrors
+				${EndIf}
+			${EndIf}
+
+			RMDir /REBOOTOK "$4" ; By not specifying '/r' this dir will only be deleted if it's completely empty 
+
+			IfErrors 0 +3
+				DetailPrint "$4 could not be deleted"
+				ClearErrors
+		${Next}
 
 		IfFileExists "$INSTDIR\Profiles" 0 +2 ; An extra delete is needed if the default profiles dir is used
 			RMDir /REBOOTOK "$INSTDIR\Profiles" 
@@ -192,7 +257,15 @@
 	    DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
 		DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
 		
-		!insertmacro UNINSTALL.LOG_UNINSTALL "$whereprofiles\themes"
+		${un.whereprofilesarray->SizeOf} $1 $1 $0
+		IntOp $0 $0 - 1
+
+		${For} $1 0 $0 ; $1 from 0 to size-1
+			${un.whereprofilesarray->Read} $2 $1
+
+			!insertmacro UNINSTALL.LOG_UNINSTALL "$2\themes"
+		${Next}
+
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\NLM"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\LOSI"
 		!insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR\utilities"
