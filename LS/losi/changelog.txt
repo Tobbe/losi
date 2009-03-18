@@ -285,3 +285,26 @@ ls.com is down for an unknown period of time I started this changelog instead
 2009-01-24: I have updated the build requirements listed in LOSI.nsi and gotten
             rid of the dependency on the tSFD plugin since its functionality
             is now included in the nsDialogs plugin.
+
+2009-03-11: Completely switched to LogicLib for SectionCore.nsh.
+
+2009-03-12: Switched to the offical WinVer header in PageWhereProfiles instead 
+            of my modified GetWindowsVersion.
+
+2009-03-16: Got rid of compilation warnings when not compiling all sections. 
+            (Used for debugging.)
+            Added a delay to let LiteStep start before re-enabling 
+            AutoRestartShell in the registry. This was needed to prevent a 
+            second version of LiteStep from spawning.
+            Don't assume the IniFileMapping Shell value has it's default value.
+            Always set it.
+
+2009-03-17: Fixed a bunch of bugs/issues I found when enabling NSISArray error
+            message boxes in my evar functions.
+            Made the wait for LiteStep to start on the finish page actually
+            work.
+            All users on the computer should now get their own copy of the
+            themes folder and personal files.
+            Updated to LiteStep 0.24.8 Final.
+
+2009-03-18: Got rid of nbi-studios as a NLM site. Added ls-themes.org instead.
