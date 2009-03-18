@@ -16,7 +16,7 @@ include                 "$ThemesDir$themeselect.rc"
 include                 "$ThemeDir$config\_compatibility_patch.rc"
 
 LoadModule              "$LiteStepDir$NLM\NetLoadModule2.dll"
-*NetLoadModuleSite      "http://www.modules.nbi-studio.com/"
+*NetLoadModuleSite      "http://www.ls-themes.org/modules/download/"
 *NetLoadModuleSite      "http://modules.shellfront.org/"
 *NetLoadModuleSite      "http://www.modules.ls-universe.info/modules/"
 NetLoadModulePath       "$ModulesDir$"
