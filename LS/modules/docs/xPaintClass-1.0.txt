@@ -44,6 +44,36 @@ That's all!
  Changes for xPaintClass 
 -----------------------------------------------------------------------------
 
+Major Version 1.0 - Minor Version (0.6) Released on 01-01-2009, Created by Andymon, Tobbe
+
+- Note:    Exported Evar:
+           xPaintClassVersion "1.0.6"
+           Check the existance of this Evar with a script, if you want to use the new features in your theme!!
+
+- Added:   xPaintTexture: PaintingMode .image (and .animation)
+           ImageMode .stretch_FILTER
+           ImageMode .tile-horizontal_FILTER
+           ImageMode .tile-vertical_FILTER 
+           FILTER is the name of the scaling filter e.g. box -> ".stretch_box"
+
+- Added:   xPaintTexture: PaintingMode .icon
+           IconMode .stretch
+           IconMode .stretch_FILTER 
+           FILTER is the name of the scaling filter e.g. box -> ".stretch_box"
+
+- Added:   xPaintIcon:
+           IconMode .stretch
+           IconMode .stretch_FILTER 
+           FILTER is the name of the scaling filter e.g. box -> ".stretch_box"
+
+- Added:   by Tobbe
+           GradientType ".pipecross"
+           GradientType ".elliptic"
+           GradientType ".rectangle"
+           GradientType ".pyramid"
+
+- Fixed:   GDI-Leak with ShapeType
+
 Major Version 1.0 - Minor Version (0.5) Released on 27-08-2008, Created by Andymon
 
 - Note:    Exported Evar:

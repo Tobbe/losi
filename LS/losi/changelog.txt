@@ -308,3 +308,5 @@ ls.com is down for an unknown period of time I started this changelog instead
             Updated to LiteStep 0.24.8 Final.
 
 2009-03-18: Got rid of nbi-studios as a NLM site. Added ls-themes.org instead.
+            Updated to xPaintClass-1.0 Update 6.
+
