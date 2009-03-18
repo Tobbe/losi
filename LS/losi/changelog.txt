@@ -1,4 +1,4 @@
-Originaly I used the commit log at dev.litestep.com as my changelog, but since
+Originally I used the commit log at dev.litestep.com as my changelog, but since
 ls.com is down for an unknown period of time I started this changelog instead
 
 2007-01-05: Fixed a misspelling in LanguageStrings.nsh
@@ -15,13 +15,13 @@ ls.com is down for an unknown period of time I started this changelog instead
             choose what pages to include in the installer. This makes testing
             of a specific page much easier. I also added a new file for the
             same reason, Pages.nsh
-            Added a descriptive text to the finnishpage telling the user why
+            Added a descriptive text to the finish page telling the user why
             he/she needs to reboot/logoff.
 
 2007-01-20: Added a check to stop litestep.exe from starting if the user didn't
             want to set LS as the shell.
             Moved this changelog to the losi directory.
-            Fixed the internet adress to LOSI in the .url file.
+            Fixed the Internet address to LOSI in the .url file.
             The ioHowLS page now displays the username the user would be
             installing to if (s)he choose to install LS for the current user
             only.
@@ -54,7 +54,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 2007-03-03: Began work on a page where you can choose between a "Normal
             Install" and an "Advanced Install"
 
-2007-07-14: Made the evar configuration during install remeber your
+2007-07-14: Made the evar configuration during install remember your
             choices when going back and forth between the two evar
             configuration pages. Thanks to jc for finding and fixing
             this bug.
@@ -97,7 +97,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2007-10-19: The "Add/Remove Programs" dialog from the control panel froze when
             uninstalling LS. I finally managed to fix this today. The trick was
-            to make windows start explorer on its own when I shut down Litestep.
+            to make windows start explorer on its own when I shut down LiteStep.
 
 2007-10-27: Cleaned up Evars.nsh and added some more comments to LOSI.nsi just
             to tidy it up a bit before commiting everything to the repository.
@@ -107,7 +107,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2007-10-28: Upgraded from jKey-0.37 to jKey-0.39
 
-2007-10-29: Upgradet to the latest version of xPaintClass. According to Andymon
+2007-10-29: Upgraded to the latest version of xPaintClass. According to Andymon
             (the author) it should really only be in $litestepdir$, but since
             lots of themes get it with NetLoadModule, hence placing it in
             $modulesdir$, he thought it would be best if I put it there as well.
@@ -123,7 +123,7 @@ ls.com is down for an unknown period of time I started this changelog instead
             accomplish this. But I had to make a few modifications to make it
             localized.
 
-2007-11-29: Fixed the uninstalling. It uses the log created duing install.
+2007-11-29: Fixed the uninstalling. It uses the log created during install.
             This means LOSI will not remove files it shouldn't remove. It
             also means LOSI finally cleans up after itself.
             The bug where LOSI would throw a "The memory could not be read"
@@ -156,20 +156,20 @@ ls.com is down for an unknown period of time I started this changelog instead
             Thanks to Andymon for telling me to do it :)
             Released LOSI 0.0.9.2
 
-2008-01-14: Added code to remove the need to reboot the coputer. I still have
+2008-01-14: Added code to remove the need to reboot the computer. I still have
             to fix the logic that decides whether or not to start LS at the
             end of the installation though.
             Fixed a bug where you couldn't double click a .lsz file to install
-            it if the path to that file hade spaces in it.
+            it if the path to that file had spaces in it.
             Removed the extra !recycle at the end of the line that refreshed
             the themes list in the popup.
 
-2008-01-16: Added the posibility to not create any start menu icons
+2008-01-16: Added the possibility to not create any start menu icons
 
 2008-01-23: More work as gone in to the "install ls without rebooting the
             computer" feature. Mostly it's been changes to the finish page
             code.
-            I've added zBM's latest french translations.
+            I've added zBM's latest French translations.
             The bug regarding registry paths and usernames that Andymon found
             has been fixed. It might affect installations to "Documents and
             Settings" as well, I have to investigate that further.
@@ -225,7 +225,7 @@ ls.com is down for an unknown period of time I started this changelog instead
             There's now seven on the first page and six on the second.  There
             used to be nine on the first page and four on the second.
 
-2008-06-14: Made the "WhereProfiles" page autodetect where the profiles are on
+2008-06-14: Made the "WhereProfiles" page auto-detect where the profiles are on
             the currently installed LiteStep (if there is a currently installed
             LiteStep).
             Fixed a bug in SectionTheme.  It would overwrite an existing
@@ -234,7 +234,7 @@ ls.com is down for an unknown period of time I started this changelog instead
             InstDef theme.
             Moved the page where you select the Start menu folder.
             Changed the variable name used for determining if there should be
-            a warning when canceling the intallation or not.
+            a warning when canceling the installation or not.
             Added a new page that warns the user if he/she is trying to install
             LiteStep when there already is some version of LiteStep installed
             to the computer.
@@ -264,7 +264,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 
 2009-01-14: Moved my project over to github.com.
             Fixed a bug where you couldn't change the start menu folder name, 
-            and subsequentially, when you could change the name, the folder 
+            and consequentially, when you could change the name, the folder 
             wouldn't get deleted.
 
 2009-01-15: Made all the text fit on the WhereProfiles page.
