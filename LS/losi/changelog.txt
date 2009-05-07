@@ -310,3 +310,7 @@ ls.com is down for an unknown period of time I started this changelog instead
 2009-03-18: Got rid of nbi-studios as a NLM site. Added ls-themes.org instead.
             Updated to xPaintClass-1.0 Update 6.
             Released LOSI 0.4
+
+2009-05-07: Fixed a bug that prevented SLI ThemeManager from working as it
+            should.
+            Released LOSI 0.4.5
