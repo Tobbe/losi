@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+	<title>LOSI - Litestep Open Source Installer</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<link rel="stylesheet" href="global.css" title="style sheet" type="text/css">
+
+	<style type="text/css">
+		ul {
+			/*list-style: none;*/
+		}
+
+		li.normal, span.normal, li.normal a {
+			color: #ec9000;
+		}
+
+		li.critical, span.critical, li.critical a {
+			color: #f00;
+		}
+
+		li.todo, span.todo, li.todo a {
+			/*color: #000acc;*/
+			color: #000;
+		}
+
+		h1.depricated {
+			padding-top: 5em;
+		}
+	</style>
+
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="ie6-hack.css" title="IE-only style sheet" type="text/css">
+	<![endif]-->
+	<!--[if IE 7]>
+		<link rel="stylesheet" href="ie7-hack.css" title="IE-only style sheet" type="text/css">
+	<![endif]-->
+</head>
+<body>
+	<div id="head">
+		<img src="losiheader.png" alt="losi header">
+	</div>
+
+	<div id="container">
+		<div id="nav">
+			<ul>
+				<li><a href="index.html">Main</a></li>
+				<li><a href="ss.html">Screenshots</a></li>
+				<li><a href="whatdo.html">What <em>you</em> can do</a></li>
+				<li><a href="downloads.html">Downloads</a></li>
+				<li><a href="bugs.html">Bugs and ToDo</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</div>
+
+		<div id="main">
+			<h1>Moved</h1>
+			<p>I have started using LightHouse for issue tracking.</p>
+			<p>Please go to <a href="http://losi.lighthouseapp.com/projects/23511-losi/">http://losi.lighthouseapp.com/projects/23511-losi/</a> for the latest status on these and newer bugs.</p>
+			<p>Not all of these bugs have been moved over to LightHouse yet.</p>
+
+			<h1 class="depricated">Known bugs and stuff I have to do</h1>
+
+			<h2>Todo for future releases</h2>
+			<ul>
+				<li class="todo">Maybe $texteditor$ should be used when associating files. It needs some investigation to make sure it works in all possible cases and that there aren't any weird side effects. Fall back on the program that is registered to handle .txt files if $texteditor$ doesn't point to a valid .exe</li>
+				<li class="todo">Investigate how well LOSI works on win9x. Is a special "9x theme" needed?</li>
+				<li class="todo">Do something regarding the need to !recycle after updating evars. At the very least, tell the user it needs to be done. Maybe automaticly running !reload.</li>
+				<li class="todo">Make sure there are no other instances of the installer running. http://nsis.sourceforge.net/Allow_only_one_installer_instance</li>
+				<li class="todo">New page with settings for which files to keep when overwriting an old install. Also option to backup old personal files (this is just a messagebox right now). The default should be to back up all files and to not keep any old files.</li>
+				<li class="todo">When backing up old files, move all the old files to the backup directory, and then install the new files. So if the user had created any files in the personal\ folder himself, these should be backed up and they should not exist in the new personal\ folder.  (I.e. move the files instead of copying them.) [fractal.design]</li>
+				<li class="todo">Append date/time to the backup folder when backing up old personal files during the install. [fractal.design]</li>
+				<li class="todo">Include GS in the standard install and make use of it in InstDef</li>
+				<li class="todo">GUI for editing hotkeys.</li>
+				<li class="todo">GUI for editing popup menu.</li>
+				<li class="todo">Some kind of LS control panel that groups all the utils.</li>
+				<li class="todo">Add support for custom shells in SetShell.</li>
+				<li class="todo">Add the ability to install fonts and wallpapers (user should be able to turn this feature off) (theme.ini).</li>
+				<li class="todo">Update InstDef to latest clickonic version. Make some pretty gradients using xPaintClass. Add some kind of time display.</li>
+			</ul>
+
+			<h2>Low priority</h2>
+			<ul>
+				<li class="todo">Support for silent install. This will have to wait untill I feel LOSI is more or less done.</li>
+				<li class="todo">A "portable" install option for installing to USB sticks and the like. This will also have to wait.</li>
+				<li class="todo">Add a theme packager.</li>
+				<li class="todo">Make it possible to choose the default theme that the ThemeSwitcher returns to.</li>
+			</ul>
+
+			<p>Meaning of the colors: <span class="normal">This is a normal bug</span>, <span class="critical">This is a severe bug</span>,
+				<span class="todo">This is something I'm thinking about adding</span></p>
+		</div>
+	</div>
+
+	<div id="footer">
+		Page written and maintained by Tobbe Lundberg
+	</div>
+</body>
+</html>
