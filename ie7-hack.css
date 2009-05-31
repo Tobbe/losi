@@ -1,0 +1,12 @@
+#main {
+	height: 1%;
+	margin-left: -1px;
+}
+
+#nav {
+	margin-right: -1px;
+}
+
+#nav li {
+	border-right: 1px solid #444;
+}
