@@ -2,10 +2,11 @@
 -- Name:        LOSS.lua
 -- Purpose:     Litestep Open-source Shell Switcher
 -- Author:      Tobbe Lundberg / Darrin C Roenfanz (the-golem)
--- Modified by:
+-- Modified by: Darrin C Roenfanz
 -- Created:     27/07/2007
+--Modified on: 20/11/2011
 -- RCS-ID:
--- Copyright:   (c) 2007 Tobbe Lundberg. All rights reserved.
+-- Copyright:   (c) 2007-2011 Tobbe Lundberg/Darrin C Roenfanz. All rights reserved.
 -- Licence:     wxWidgets licence
 -- -----------------------------------------------------------------------------
 require 'winreg'
@@ -73,7 +74,7 @@ function ConfirmationDialog:new(parent, caption, text)
 			o.dialog:Close()
 		end)
 
-	-- Voilá
+	-- VoilÃ¡
 	return o
 end
 
@@ -86,56 +87,118 @@ function ConfirmationDialog:resize()
 	self.dialog:SetClientSize(wx.wxSize(newWidth, self.dialog:GetBestSize():GetHeight()))
 end
 
+
 frame = nil
 ID_CHOOSESHELL = 1001
 ID_LOGOFF = 1002
 ID_DETAILS = 1003
-readVals = {}
-readVals.lmAutoRestartShell = ""
-readVals.lmBootShell = ""
-readVals.lmWinlogonShell = ""
-readVals.cuShell = ""
-readVals.cuDesktopProcess = ""
-
-writeVals = {}
-writeVals.lmAutoRestartShell = "1"
-writeVals.lmBootShell = [[USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon]]
-writeVals.lmWinlogonShell = "explorer.exe"
-writeVals.cuShell = [[C:\Program Files\LiteStep\litestep.exe]]
-writeVals.cuDesktopProcess = "1"
-
-function getRegValues()
-    hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]]
-    readVals.lmAutoRestartShell = tostring(hkey:getvalue("AutoRestartShell"))
-    readVals.lmWinlogonShell = tostring(hkey:getvalue("Shell"))
+readVals = {
+    ["lmAutoRestartShell"] = "",
+    ["lmBootShell"] = "",
+    ["lmWinLogonShell"] = "",
+    ["cuWinLogonShell"] = "",
+    ["cuDesktopProcess"] = "",
+    ["cuBrowseNewProcess"] = ""
+}
+constRegKeys = {
+    ["cuWinLogonKey"] = [[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]],
+    ["lmWinLogonKey"] = [[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]],    
+    ["lmIniFileMap"] = [[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot]],
+    ["cuSeperateExplorerKey"] = [[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]]
+}
+wxRegKey key(wxRegKey::HKLM, [[Software\Microsoft\Windows NT\CurrentVersion\Winlogon]]);
+writeVals = {
+    ["lmAutoRestartShell"] = "1",
+    ["lmBootShell"] = [[USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon]],
+    ["lmWinLogonShell"] = "explorer.exe",
+    ["cuWinLogonShell"] = [[C:\Program Files\LiteStep\litestep.exe]],
+    ["cuDesktopProcess"] = "1",
+    ["cuBrowseNewProcess"] = "yes"
+}
+function readRegistry()
+    hkey = winreg.openkey(constRegKeys["lmWinLogonKey"])
+        readVals.lmAutoRestartShell = tostring(hkey:getvalue("AutoRestartShell"))
+        readVals.lmWinLogonShell = tostring(hkey:getvalue("Shell"))
     
-    hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot]]
-    readVals.lmBootShell = tostring(hkey:getvalue("Shell"))
+    hkey = winreg.openkey(constRegKeys["lmIniFileMap"])
+        readVals.lmBootShell = tostring(hkey:getvalue("Shell"))
     
-    hkey = winreg.openkey[[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]]
-    readVals.cuShell = tostring(hkey:getvalue("Shell"))
+    hkey = winreg.openkey(constRegKeys["cuWinLogonKey"])
+        readVals.cuWinLogonShell = tostring(hkey:getvalue("Shell"))
     
-    hkey = winreg.openkey[[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]]
-    readVals.cuDesktopProcess = tostring(hkey:getvalue("DesktopProcess"))
+    hkey = winreg.openkey(constRegKeys["cuSeperateExplorerKey"])
+        readVals.cuDesktopProcess = tostring(hkey:getvalue("DesktopProcess"))
+        readVals.cuBrowseNewProcess = tostring(hkey:getvalue("BrowseNewProcess"))
 end
 
-function getLitestepPath()
+function updateRegistry()
+    hkey = winreg.openkey(constRegKeys["lmWinLogonKey"])
+    hkey:setvalue("Shell", writeVals.lmWinLogonShell)
+    
+    hkey = winreg.openkey(constRegKeys["cuWinLogonKey"])
+    hkey:setvalue("Shell", writeVals.cuWinLogonShell)
+
+    hkey = winreg.openkey(constRegKeys["cuSeperateExplorerKey"])
+    hkey:setvalue("DesktopProcess", writeVals.cuDesktopProcess)
+    hkey:setvalue("BrowseNewProcess", writeVals.cuBrowseNewProcess)
+end
+
+function getLitestepExecPath()
     hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\LOSI\Installer]]
     skey = hkey:getstrval("LitestepDir") .. "\\litestep.exe"
     return skey
 end
 
-function rebootLogoff()
+function logoff()
+    wx.wxExecute(getLitestepExecPath() .. " !logoff")
+    --[[
     if writeVals.lmBootShell ~= readVals.lmBootShell then
-        --wx.wxMessageBox("yo")
-        wx.wxExecute("shutdown -r -t 0")
-        -- C:\WINDOWS\RUNDLL.EXE user.exe,exitwindowsexec
+        wx.wxShutdown(wx.wxSHUTDOWN_REBOOT)
     else
-        -- io.popen("shutdown -l -t 0")
-        wx.wxExecute("shutdown -l -t 0")
-        -- io.popen[["C:\WINDOWS\RUNDLL.EXE" shell32.dll,SHExitWindowsEx 0]]
-        -- os.execute[["C:\WINDOWS\RUNDLL.EXE" shell32.dll,SHExitWindowsEx 0]]
+        wx.wxExecute(getLitestepExecPath() .. " !logoff")
     end
+    --]]
+end
+
+function setShell(shell)
+    if string.lower(shell) == "litestep" then
+        writeVals.cuWinLogonShell = getLitestepExecPath()
+        writeVals.cuDesktopProcess = "1"
+        writeVals.cuBrowseNewProcess = "yes"
+    elseif string.lower(shell) == "explorer" then
+        writeVals.cuWinLogonShell = "explorer.exe"
+        
+        writeVals.cuDesktopProcess = "0"
+        writeVals.cuBrowseNewProcess = "no"
+    end
+end    
+
+function processCommandLine(hasChangedShell)
+	if hasChangedShell then
+		-- create the wxFrame window
+		frame = wx.wxFrame(wx.NULL,   -- no parent for toplevel windows
+			wx.wxID_ANY,              -- don't need a wxWindow ID
+			"LOSS: LiteStep Open-Source Shell Switcher",     -- caption on the frame
+			wx.wxDefaultPosition,     -- let system place the frame
+			wx.wxSize(325, 120),      -- set the size of the frame
+			wx.wxDEFAULT_FRAME_STYLE) -- - wx.wxMAXIMIZE_BOX - wx.wxRESIZE_BORDER)
+                                      -- use default frame styles
+
+		local msg = "You have set \"" .. writeVals.cuWinLogonShell .. "\" as your shell,"
+                  .."to use it you need to logout. Do you want to do that now?"
+		local confDlg = ConfirmationDialog:new(frame, "Logoff", msg)
+		confDlg:resize()
+		confDlg.dialog:ShowModal(true)
+		confDlg.dialog:Destroy()
+		local ans = confDlg.retVal
+
+		if ans == confDlg.YES then
+			logoff()
+		elseif ans == confDlg.UNDO then
+			writeVals.cuWinLogonShell = readVals.cuWinLogonShell
+			updateRegistry()
+		end
+	end
 end
 
 function main()
@@ -153,18 +216,22 @@ function main()
 		choices:Add("Litestep")
 		choices:Add("Explorer")
 
-	local rdbShells = wx.wxRadioBox(panel, ID_CHOOSESHELL, "Choose Your Shell",	wx.wxDefaultPosition, wx.wxDefaultSize, choices, 0)
-	local chkLogoff = wx.wxCheckBox(panel, ID_LOGOFF, "Logoff/(Reboot)")
+	local rdbShells = wx.wxRadioBox(panel, ID_CHOOSESHELL, "Choose Your Shell",
+                      wx.wxDefaultPosition, wx.wxDefaultSize, choices, 0)
+	local chkLogoff = wx.wxCheckBox(panel, ID_LOGOFF, "Logoff")
 	local quitButton = wx.wxButton(panel, wx.wxID_EXIT, "Cancel")
 	local okButton = wx.wxButton(panel, wx.wxID_OK, "Apply")
 
 	local detailsPane = wx.wxCollapsiblePane(panel, ID_DETAILS, "Details")
 	local det = detailsPane:GetPane()
-	local detailsBox = wx.wxTextCtrl(det, wx.wxID_ANY, "", wx.wxDefaultPosition, wx.wxDefaultSize, wx.wxTE_MULTILINE + wx.wxTE_READONLY + wx.wxTE_DONTWRAP)
+	local detailsBox = wx.wxTextCtrl(det, wx.wxID_ANY, "", wx.wxDefaultPosition,
+                       wx.wxDefaultSize, wx.wxTE_MULTILINE + wx.wxTE_READONLY + wx.wxTE_DONTWRAP)
 
 	local hiddenSizer = wx.wxBoxSizer(wx.wxVERTICAL)
-		hiddenSizer:Add(wx.wxStaticText(det, wx.wxID_ANY, "These values will be set in the registry:"), 0, wx.wxALL, 5)
+		hiddenSizer:Add(wx.wxStaticText(det, wx.wxID_ANY,
+                        "These values will be set in the registry:"), 0, wx.wxALL, 5)
 		hiddenSizer:Add(detailsBox, 1, wx.wxALL + wx.wxEXPAND, 5)
+        
 		det:SetSizer(hiddenSizer)
 		hiddenSizer:SetSizeHints(det);
 
@@ -187,7 +254,7 @@ function main()
 		mainSizer:Add(topSizer, 0)
 		mainSizer:Add(detailsPane, 1, wx.wxGROW + wx.wxALL, 5)
 
-	writeVals.cuShell = getLitestepPath()
+	writeVals.cuWinLogonShell = getLitestepExecPath()
 
 	frame:Connect(ID_DETAILS, wx.wxEVT_COMMAND_COLLPANE_CHANGED,
 		function (event)
@@ -203,29 +270,24 @@ function main()
 		function (event) frame:Close() end )
 	frame:Connect(wx.wxID_OK, wx.wxEVT_COMMAND_BUTTON_CLICKED,
 		function (event)
-			answer = wx.wxMessageBox("This will set your shell to " .. 
-			                         writeVals.cuShell .. ".\n" ..
-			                         "Are you sure you want to continue?", 
-			                         "SetShell", 
-			                         wx.wxYES_NO + wx.wxICON_QUESTION)
-
-			if answer == wx.wxYES then
-				updateRegistry()
-
-				if chkLogoff:IsChecked() then
-					rebootLogoff()
-				end
-			end
+            hkeyIniFileMap = winreg.openkey(constRegKeys["lmIniFileMap"])
+            
+            answer = wx.wxMessageBox("This will set your shell to " .. 
+                                     writeVals.cuWinLogonShell .. ".\n" ..
+                                     "Are you sure you want to continue?", 
+                                     "SetShell", 
+                                     wx.wxYES_NO + wx.wxICON_QUESTION)
+            if answer == wx.wxYES then            
+                updateRegistry()
+                if chkLogoff:IsChecked() then
+                    logoff()
+                end
+            end
 		end)
 
     frame:Connect(ID_CHOOSESHELL, wx.wxEVT_COMMAND_RADIOBOX_SELECTED,
         function (event)
-            if rdbShells:GetStringSelection() == "Litestep" then
-                writeVals.cuShell = getLitestepPath()
-            else
-                writeVals.cuShell = "explorer.exe"
-            end
-            
+            setShell(rdbShells:GetStringSelection())
             updateDetails()
         end)
 
@@ -237,77 +299,36 @@ function main()
 
     function updateDetails()
         detailsBox:SetLabel("")
-        detailsBox:AppendText("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\n")
-        detailsBox:AppendText("    New value: Shell = " .. writeVals.lmWinlogonShell .. "\n")
-        detailsBox:AppendText("    Old value: Shell = " .. readVals.lmWinlogonShell .. "\n\n")
-        detailsBox:AppendText([[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot]] .. "\n")
-        detailsBox:AppendText("    New value: Shell = " .. writeVals.lmBootShell .. "\n")
-        detailsBox:AppendText("    Old value: Shell = " .. readVals.lmBootShell .. "\n\n")
-        detailsBox:AppendText([[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]] .. "\n")
-        detailsBox:AppendText("    New value: AutoRestartShell = " .. writeVals.lmAutoRestartShell .. "\n")
-        detailsBox:AppendText("    Old value: AutoRestartShell = " .. readVals.lmAutoRestartShell .. "\n\n")
-        detailsBox:AppendText([[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]] .. "\n")
-        detailsBox:AppendText("    New value: Shell = " .. writeVals.cuShell .. "\n")
-        detailsBox:AppendText("    Old value: Shell = " .. readVals.cuShell .. "\n\n")
-        detailsBox:AppendText([[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]] .. "\n")
-        detailsBox:AppendText("    New value: DesktopProcess = " .. writeVals.cuDesktopProcess .. "\n")
-        detailsBox:AppendText("    Old value: DesktopProcess = " .. readVals.cuDesktopProcess)
+            detailsBox:AppendText(constRegKeys["cuWinLogonKey"] .. "\n")
+            detailsBox:AppendText("    New value: Shell = " .. writeVals.cuWinLogonShell .. "\n")
+            detailsBox:AppendText("    Old value: Shell = " .. readVals.cuWinLogonShell .. "\n\n")
+
+            --[[ Deprecated: New versions of LOSI will now set only HKCU
+                detailsBox:AppendText( constRegKeys["lmWinLogonKey"] .."\n")
+                detailsBox:AppendText("    New value: Shell = " .. writeVals.lmWinLogonShell .. "\n")
+                detailsBox:AppendText("    Old value: Shell = " .. readVals.lmWinLogonShell .. "\n\n")
+            
+                We never changed these to begin with.
+                detailsBox:AppendText(constRegKeys["lmWinLogonKey"] .. "\n")
+                detailsBox:AppendText("    New value: AutoRestartShell = " .. writeVals.lmAutoRestartShell .. "\n")
+                detailsBox:AppendText("    Old value: AutoRestartShell = " .. readVals.lmAutoRestartShell .. "\n\n")
+            --]]
+            
+            detailsBox:AppendText(constRegKeys["cuSeperateExplorerKey"] .. "\n")
+            detailsBox:AppendText("    New value: DesktopProcess = " .. writeVals.cuDesktopProcess .. "\n")
+            detailsBox:AppendText("    Old value: DesktopProcess = " .. readVals.cuDesktopProcess .. "\n\n")
+            
+            detailsBox:AppendText(constRegKeys["cuSeperateExplorerKey"] .. "\n")
+            detailsBox:AppendText("    New value: BrowseNewProcess = " .. writeVals.cuBrowseNewProcess .. "\n")
+            detailsBox:AppendText("    Old value: BrowseNewProcess = " .. readVals.cuBrowseNewProcess )
     end
 end
 
-function updateRegistry()
-    hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]]
-    -- hkey:setvalue("AutoRestartShell", writeVals.lmAutoRestartShell)
-    hkey:setvalue("Shell", writeVals.lmWinlogonShell)
-    
-    hkey = winreg.openkey[[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot]]
-    hkey:setvalue("Shell", writeVals.lmBootShell)
-    
-    hkey = winreg.openkey[[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]]
-    hkey:setvalue("Shell", writeVals.cuShell)
-    
-    hkey = winreg.openkey[[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]]
-    hkey:setvalue("DesktopProcess", writeVals.cuDesktopProcess)
-end
-
-getRegValues()
+readRegistry()
 if arg ~= nil and #arg > 0 then
-    local hasChangedShell = false
-    if string.lower(arg[1]) == "litestep" then
-        -- Set LiteStep as the shell
-        writeVals.cuShell = getLitestepPath()
-        updateRegistry()
-        hasChangedShell = true
-    elseif string.lower(arg[1]) == "explorer" then
-        -- Set Explorer as the shell
-        writeVals.cuShell = "explorer.exe"
-        updateRegistry()
-        hasChangedShell = true
-    end
-
-	if hasChangedShell then
-		-- create the wxFrame window
-		frame = wx.wxFrame(wx.NULL,   -- no parent for toplevel windows
-			wx.wxID_ANY,              -- don't need a wxWindow ID
-			"LOSS - Litestep Open-source Shell Switcher",     -- caption on the frame
-			wx.wxDefaultPosition,     -- let system place the frame
-			wx.wxSize(325, 120),      -- set the size of the frame
-			wx.wxDEFAULT_FRAME_STYLE)-- - wx.wxMAXIMIZE_BOX - wx.wxRESIZE_BORDER) -- use default frame styles
-
-		local msg = "You have set " .. writeVals.cuShell .. " as your shell, to use it you need to reboot/logout. Do you want to do that now?"
-		local confDlg = ConfirmationDialog:new(frame, "Reboot/Logoff", msg)
-		confDlg:resize()
-		confDlg.dialog:ShowModal(true)
-		confDlg.dialog:Destroy()
-		local ans = confDlg.retVal
-
-		if ans == confDlg.YES then        
-			rebootLogoff()
-		elseif ans == confDlg.UNDO then
-			writeVals.cuShell = readVals.cuShell
-			updateRegistry()
-		end
-	end
+    setShell(arg[1])
+    updateRegistry()
+    processCommandLine(true)
 else
 	main()
 end
