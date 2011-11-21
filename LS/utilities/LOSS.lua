@@ -106,7 +106,6 @@ constRegKeys = {
     ["lmIniFileMap"] = [[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot]],
     ["cuSeperateExplorerKey"] = [[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]]
 }
-wxRegKey key(wxRegKey::HKLM, [[Software\Microsoft\Windows NT\CurrentVersion\Winlogon]]);
 writeVals = {
     ["lmAutoRestartShell"] = "1",
     ["lmBootShell"] = [[USR:Software\Microsoft\Windows NT\CurrentVersion\Winlogon]],
