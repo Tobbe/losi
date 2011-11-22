@@ -6,6 +6,10 @@
 	Page custom ioHowLS
 	
 	Function ioHowLS
+		; The HowLS page should only be shown if SectionCore is selected.
+		${IfNot} ${SectionIsSelected} ${SecCore}
+			Abort
+		${EndIf}
 		StrCmp $advancedInstall "true" 0 end
 
 		; This option should not be visible on 9x based systems
