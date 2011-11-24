@@ -25,12 +25,7 @@
 	SectionEnd
 	
 	Section Uninstall
-		Call un.GetWindowsVersion
-		Pop $R0
-	
-		${If} $R0 == "9x"
-			Call un.Shell9x
-		${Else}
+		${If} $[IsNT}
 			;; Restore all the original values ;;
 			
 			; Make sure the old values are still in the registry. If they aren't and we would run this code
@@ -65,6 +60,8 @@
 				; Refresh window's ini files cache
 				WriteINIStr "system.ini" "" "" ""
 			${EndIf}
+		${Else}
+			Call un.Shell9x
 		${EndIf}
 		
 		FindProcDLL::FindProc "litestep.exe"

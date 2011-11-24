@@ -7,6 +7,11 @@
 	Page custom ioWhereProfiles
 
 	Function ioWhereProfiles
+		; The WhereProfiles page should only be shown if SectionCore (OTS2 Files) is selected.
+		${IfNot} ${SectionIsSelected} ${SecCore}
+			Abort
+		${EndIf}
+
 		Push $R0
 		Push $R1
 

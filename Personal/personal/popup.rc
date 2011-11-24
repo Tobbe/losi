@@ -9,25 +9,25 @@
 *Popup "Web browser"                        "$browser$"
 *Popup "Image Editor"                       "$gfxeditor$"
 *Popup !Separator
-;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;------------------------------------------------------------------------------
 
 *Popup "Litestep" Folder
 	*Popup "Litestep folder"                !execute ["$FileManager$" /e,"$LiteStepDir$"]
 	*Popup "Themes folder"                  !execute ["$FileManager$" /e,"$ThemesDir$"]
 	*Popup !Separator
-;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;   ------------------------------------------------------------------------------
 	*Popup "About"                          !About
 	*Popup "Recycle"                        !Recycle
 ;   *Popup "Reload"                         !Reload
 	*Popup "Quit"                           !execute ["$FileManager$" /e,"$LiteStepDir$"][!Quit]
 	*Popup !Separator
-;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;   ------------------------------------------------------------------------------
 
 	*Popup "Change themes" Folder
 		*Popup "Install Theme"              !execute ["$LiteStepDir$utilities\SLI-ThemeManager.exe"]
-		*Popup "Refresh List"               !execute ['$LiteStepDir$utilities\SLI-ThemeManager.exe' /refresh]
+		*Popup "Refresh List"               !execute ['$LiteStepDir$utilities\SLI-ThemeManager.exe' /refreshsilent][!recycle]
 		*Popup !Separator
-;       ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;       ------------------------------------------------------------------------------
 		include "$ThemesDir$themeslist.rc"
 	*Popup ~Folder
 
@@ -43,7 +43,7 @@
 		*Popup "theme.rc"                   !execute ["$TxtEditor$" "$ThemeDir$theme.rc"]
 ;       *Popup "modules.ini"                !execute ["$TxtEditor$" "$LitestepDir$modules.ini"]
 		*Popup !Separator
-;       ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;       ------------------------------------------------------------------------------
 		*Popup "Personal files" !PopupFolder:"$PersonalDir$"
 	*Popup ~Folder
 
@@ -71,11 +71,11 @@ ENDIF
 	*Popup "My Computer"                    !PopupMyComputer
 	*Popup "Control Panel"                  !PopupControlPanel
 	*Popup !Separator
-;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;   ------------------------------------------------------------------------------
 	*Popup "Desktop Settings"               !execute [control.exe desk.cpl]
 	*Popup "Add/Remove programs"            !execute [control.exe appwiz.cpl]
 	*Popup !Separator
-;   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;   ------------------------------------------------------------------------------
 	*Popup "Run..."                         !Run
 	*Popup "Recycle bin"                    !execute ["$FileManager$" "$bitbucket$"]
 	IF Win9x
@@ -97,7 +97,7 @@ ENDIF
 ;*Popup  "Recent Files"                     !PopupRecentDocuments
 
 *Popup !Separator
-;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;------------------------------------------------------------------------------
 *Popup "Logoff"                             !LogOff
 IF WinXP
 *Popup "Switch User"                        !SwitchUser

@@ -193,13 +193,10 @@
 		ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
 		${If} $R0 != 1
 			; Check whether we're installing on a 9x or NT based system
-			Call GetWindowsVersion
-			Pop $R0
-
-			${If} $R0 == "9x"
-				Call setShell9x
-			${Else}
+			${If} ${IsNT}
 				Call setShellNT
+			${Else}
+				Call setShell9x
 			${EndIf}
 		${EndIf}
 		Pop $0
