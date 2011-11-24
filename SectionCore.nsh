@@ -6,7 +6,7 @@
 	!include BackupPersonal.nsh
 	!include Shell9x.nsh
 	!include ShellNT.nsh
-	!include GetWindowsVersion.nsh
+	!include WinVer.nsh
 	!include SectionsInclude.nsh
 	!include EnumLoginUsers.nsh
 
@@ -193,10 +193,7 @@
 		ReadINIStr $R0 "$PLUGINSDIR\ioHowLS.ini" "Field 4" "State" ;Field 4 is Don't set shell
 		${If} $R0 != 1
 			; Check whether we're installing on a 9x or NT based system
-			Call GetWindowsVersion
-			Pop $R0
-
-			${If} $R0 == "9x"
+			${IfNot} ${IsNT}
 				Call setShell9x
 			${Else}
 				Call setShellNT

@@ -1,7 +1,7 @@
 ; How to install LS (for all users, or just for the current user)
 !ifndef PAGE_HOW_LS
 !define PAGE_HOW_LS
-	!include GetWindowsVersion.nsh
+	!include WinVer.nsh
 
 	Page custom ioHowLS
 	
@@ -10,10 +10,9 @@
 
 		; This option should not be visible on 9x based systems
 		; Check weather we're installing on a 9x or NT based system
-		Call GetWindowsVersion
-		Pop $R0
-		
-		StrCmp $R0 "9x" end
+		${IfNot} ${IsNT}
+			Abort
+		${EndIf}
 		
 		;If we get to this point we're not installing on a 9x based machine
 		!insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_HOWLS)" "$(TEXT_IO_HOWLS)"

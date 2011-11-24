@@ -1,7 +1,7 @@
 !ifndef WRITE_UNINSTALLER
 !define WRITE_UNINSTALLER
 	!include uninstShell9x.nsh
-	!include GetWindowsVersion.nsh
+	!include WinVer.nsh
 	!include unStartExplorer.nsh
 	!include IndexOf.nsh
 	
@@ -25,10 +25,7 @@
 	SectionEnd
 	
 	Section Uninstall
-		Call un.GetWindowsVersion
-		Pop $R0
-	
-		${If} $R0 == "9x"
+		${IfNot} ${IsNT}
 			Call un.Shell9x
 		${Else}
 			;; Restore all the original values ;;
