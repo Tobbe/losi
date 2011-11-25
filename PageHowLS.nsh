@@ -6,6 +6,9 @@
 	Page custom ioHowLS
 	
 	Function ioHowLS
+		${IfNot} ${SectionIsSelected} ${SecCore}
+			Abort
+		${EndIf}
 		StrCmp $advancedInstall "true" 0 end
 
 		; This option should not be visible on 9x based systems
