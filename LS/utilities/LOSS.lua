@@ -126,13 +126,14 @@ function getLitestepPath()
 end
 
 function rebootLogoff()
+    local ls = getLitestepPath()
     if writeVals.lmBootShell ~= readVals.lmBootShell then
         --wx.wxMessageBox("yo")
-        wx.wxExecute("shutdown -r -t 0")
+        wx.wxExecute(ls .. " !restart")
         -- C:\WINDOWS\RUNDLL.EXE user.exe,exitwindowsexec
     else
         -- io.popen("shutdown -l -t 0")
-        wx.wxExecute("shutdown -l -t 0")
+        wx.wxExecute(ls .. " !logoff")
         -- io.popen[["C:\WINDOWS\RUNDLL.EXE" shell32.dll,SHExitWindowsEx 0]]
         -- os.execute[["C:\WINDOWS\RUNDLL.EXE" shell32.dll,SHExitWindowsEx 0]]
     end
