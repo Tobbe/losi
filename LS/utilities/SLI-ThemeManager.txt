@@ -26,4 +26,3 @@
  Open the last Tab in SLI-ThemeManager for more details.
  
  
-  
